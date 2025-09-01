@@ -1,1 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Wise Goose Games</title>
+    <meta name="description" content="Get in touch with Wise Goose Games. We'd love to hear from you about our games, press inquiries, or general questions.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo-link">
+                <img src="images/logo.png" alt="Wise Goose Games Logo" class="logo">
+                <h1>Wise Goose Games</h1>
+            </a>
+            <nav>
+                <a href="index.html">Home</a>
+                <a href="games.html">Our Games</a>
+                <a href="contact.html" class="active">Contact</a>
+            </nav>
+        </div>
+    </header>
 
+    <main class="container">
+        <h2>Get in Touch</h2>
+        <p class="contact-intro">
+            Whether you have questions about our games, press inquiries, business opportunities, or just want to say hello, we'd love to hear from you. We read every message and respond as quickly as possible.
+        </p>
+        
+        <form action="#" method="POST" class="contact-form" onsubmit="handleFormSubmit(event)">
+            <label for="name">Name *</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" required>
+            
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject">
+            
+            <label for="message">Message *</label>
+            <textarea id="message" name="message" rows="6" required placeholder="Tell us how we can help..."></textarea>
+            
+            <button type="submit" class="cta-button">Send Message</button>
+        </form>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Wise Goose Games. All rights reserved.</p>
+            <div>
+                <a href="privacy.html">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
