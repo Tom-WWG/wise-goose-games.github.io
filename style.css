@@ -404,6 +404,22 @@ p {
     margin-left: 20px;
 }
 
+.content-page ol {
+    margin-left: 20px;
+}
+
+.content-page ol a {
+    font-weight: normal;
+}
+
+.content-page h4 {
+    font-size: 1.2em;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
 .privacy-section {
     margin-bottom: 30px;
 }
