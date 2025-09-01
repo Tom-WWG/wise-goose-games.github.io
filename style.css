@@ -1,1 +1,504 @@
+/* --- Basic Setup & Variables --- */
+:root {
+    --bg-color: #FDFCF8;
+    --text-color: #2c2c2c;
+    --accent-color: #E87A2E;
+    --accent-hover: #D06C28;
+    --light-gray: #f8f9fa;
+    --border-color: #e1e5e9;
+    --font-family: 'Montserrat', sans-serif;
+}
 
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- Header & Navigation --- */
+header {
+    padding: 20px 0;
+    border-bottom: 2px solid var(--border-color);
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.logo-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: var(--text-color);
+    transition: transform 0.2s ease;
+}
+
+.logo-link:hover {
+    transform: scale(1.02);
+}
+
+.logo {
+    height: 50px;
+    width: 50px;
+    margin-right: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+h1 {
+    font-size: 1.6em;
+    margin: 0;
+    font-weight: 700;
+}
+
+nav {
+    display: flex;
+    gap: 0;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 12px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+nav a:hover {
+    background-color: var(--light-gray);
+    color: var(--accent-color);
+}
+
+nav a.active {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* --- Main Content --- */
+main {
+    flex-grow: 1;
+    padding: 40px 0;
+}
+
+h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+h3 {
+    font-size: 1.5em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+p {
+    line-height: 1.7;
+    margin-bottom: 16px;
+}
+
+/* --- Hero Section --- */
+.hero {
+    text-align: center;
+    padding: 60px 0 80px 0;
+    background: linear-gradient(135deg, var(--bg-color) 0%, #f8f9fa 100%);
+    border-radius: 12px;
+    margin: 20px 0;
+}
+
+.hero h2 {
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, var(--text-color) 0%, var(--accent-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero p {
+    max-width: 600px;
+    margin: 20px auto 40px auto;
+    font-size: 1.2em;
+    color: #555;
+}
+
+.philosophy-section {
+    max-width: 800px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+.page-intro {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.contact-intro {
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 40px auto;
+    font-size: 1.1em;
+    color: #555;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: var(--accent-color);
+    color: white;
+    padding: 16px 32px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1em;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: none;
+    font-family: var(--font-family);
+    box-shadow: 0 4px 12px rgba(232, 122, 46, 0.3);
+}
+
+.cta-button:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(232, 122, 46, 0.4);
+}
+
+.cta-button.disabled {
+    background-color: #aaa;
+    pointer-events: none;
+    box-shadow: none;
+}
+
+/* --- Games Page --- */
+.game-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.game-card {
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.game-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    border-color: var(--accent-color);
+}
+
+.game-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.game-card-content {
+    padding: 24px;
+    text-align: center;
+}
+
+.game-card h3 {
+    margin: 0 0 8px 0;
+    font-size: 1.3em;
+}
+
+.game-card .status {
+    font-size: 0.9em;
+    color: #666;
+    margin: 0 0 16px 0;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.game-card p {
+    margin-bottom: 20px;
+    color: #555;
+}
+
+/* --- Coming Soon Section --- */
+.coming-soon-section {
+    margin: 40px 0;
+}
+
+.coming-soon-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+.coming-soon-icon {
+    margin-bottom: 20px;
+}
+
+.coming-soon-card h3 {
+    color: var(--accent-color);
+    margin-bottom: 20px;
+}
+
+.coming-soon-card h4 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.development-focus {
+    background-color: var(--light-gray);
+    padding: 25px;
+    border-radius: 8px;
+    margin: 30px 0;
+    text-align: left;
+}
+
+.development-focus ul {
+    margin: 15px 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.development-focus li {
+    padding: 8px 0;
+    padding-left: 25px;
+    position: relative;
+}
+
+.development-focus li:before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: var(--accent-color);
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.timeline-note {
+    background: linear-gradient(135deg, var(--accent-color), var(--accent-hover));
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 30px 0;
+    font-weight: 600;
+}
+
+.future-vision {
+    max-width: 800px;
+    margin: 60px auto 0 auto;
+    text-align: center;
+    padding: 30px;
+    background: linear-gradient(135deg, var(--bg-color) 0%, #f8f9fa 100%);
+    border-radius: 12px;
+}
+
+.future-vision h3 {
+    color: var(--accent-color);
+    margin-bottom: 20px;
+}
+
+.future-vision p {
+    font-size: 1.1em;
+    color: #555;
+    line-height: 1.8;
+}
+
+/* --- Contact & Content Pages --- */
+.contact-form {
+    max-width: 600px;
+    margin: 40px auto 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    border: 2px solid var(--border-color);
+}
+
+.contact-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-family: var(--font-family);
+    font-size: 1em;
+    transition: border-color 0.2s ease;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.content-page {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    border: 2px solid var(--border-color);
+}
+
+.content-page a {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.content-page a:hover {
+    text-decoration: underline;
+}
+
+.content-page ul {
+    margin-left: 20px;
+}
+
+.privacy-section {
+    margin-bottom: 30px;
+}
+
+.last-updated {
+    background-color: var(--light-gray);
+    padding: 15px;
+    border-radius: 8px;
+    font-style: italic;
+    margin-bottom: 30px;
+}
+
+/* --- Footer --- */
+footer {
+    background-color: #2c2c2c;
+    color: white;
+    padding: 30px 0;
+    margin-top: 60px;
+}
+
+footer .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9em;
+}
+
+footer a {
+    color: #ccc;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+footer a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+/* --- Responsive Design --- */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    h1 { 
+        font-size: 1.3em; 
+    }
+
+    h2 {
+        font-size: 2em;
+    }
+
+    header .container {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    nav a { 
+        padding: 10px 15px;
+        font-size: 0.9em;
+    }
+    
+    .hero {
+        padding: 40px 20px 60px 20px;
+        margin: 10px 0;
+    }
+
+    .hero h2 {
+        font-size: 2em;
+    }
+
+    .hero p {
+        font-size: 1.1em;
+    }
+
+    .contact-form,
+    .content-page {
+        padding: 30px 20px;
+    }
+
+    .game-list {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    footer .container {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
