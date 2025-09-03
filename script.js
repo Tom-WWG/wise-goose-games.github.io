@@ -1,3 +1,8 @@
+// debug testing section -----
+function animateOnScroll() {
+    return; // Do nothing
+}
+// --------------------------
 // Contact form handler
 function handleFormSubmit(event) {
     event.preventDefault();
