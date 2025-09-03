@@ -1,8 +1,3 @@
-// debug testing section -----
-function animateOnScroll() {
-    return; // Do nothing
-}
-// --------------------------
 // Contact form handler
 function handleFormSubmit(event) {
     event.preventDefault();
@@ -110,4 +105,4 @@ function animateOnScroll() {
 }
 
 // Initialize animations when DOM is loaded
-document.addEventListener('DOMContentLoaded', animateOnScroll);
+// document.addEventListener('DOMContentLoaded', animateOnScroll);
