@@ -1,21 +1,17 @@
-// Contact form handler
 function handleFormSubmit(event) {
     event.preventDefault();
     
-    // Get form data
     const formData = new FormData(event.target);
     const name = formData.get('name');
     const email = formData.get('email');
     const subject = formData.get('subject');
     const message = formData.get('message');
     
-    // Simple validation
     if (!name || !email || !message) {
         alert('Please fill in all required fields.');
         return;
     }
     
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         alert('Please enter a valid email address.');
@@ -29,7 +25,6 @@ function handleFormSubmit(event) {
     submitButton.textContent = 'Sending...';
     submitButton.disabled = true;
     
-    // Simulate network delay
     setTimeout(() => {
         alert('Thank you for your message! We\'ll get back to you soon.\n\n(This is a demo - in production, this would send to your actual email service)');
         event.target.reset(); // Clear the form
@@ -38,7 +33,6 @@ function handleFormSubmit(event) {
     }, 1500);
 }
 
-// Add smooth scrolling for internal links
 document.addEventListener('click', (event) => {
     if (event.target.matches('a[href^="#"]')) {
         event.preventDefault();
@@ -52,7 +46,6 @@ document.addEventListener('click', (event) => {
     }
 });
 
-// Add loading animation for images
 document.addEventListener('DOMContentLoaded', () => {
     const images = document.querySelectorAll('img');
     images.forEach(img => {
@@ -66,7 +59,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Add active navigation state management
 document.addEventListener('DOMContentLoaded', () => {
     const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('nav a');
@@ -81,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Add a simple animation for cards on scroll
 function animateOnScroll() {
     const cards = document.querySelectorAll('.game-card, .contact-form, .content-page');
     const observer = new IntersectionObserver((entries) => {
@@ -104,5 +95,11 @@ function animateOnScroll() {
     });
 }
 
-// Initialize animations when DOM is loaded
-// document.addEventListener('DOMContentLoaded', animateOnScroll);
+document.addEventListener('DOMContentLoaded', () => {
+    const currentPage = window.location.pathname;
+    const shouldAnimate = currentPage.includes('games') || currentPage.includes('contact') || currentPage === '/' || currentPage.includes('index');
+    
+    if (shouldAnimate) {
+        animateOnScroll();
+    }
+});
