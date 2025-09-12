@@ -1,38 +1,3 @@
-function handleFormSubmit(event) {
-    event.preventDefault();
-    
-    const formData = new FormData(event.target);
-    const name = formData.get('name');
-    const email = formData.get('email');
-    const subject = formData.get('subject');
-    const message = formData.get('message');
-    
-    if (!name || !email || !message) {
-        alert('Please fill in all required fields.');
-        return;
-    }
-    
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        alert('Please enter a valid email address.');
-        return;
-    }
-    
-    // Simulate form submission
-    const submitButton = event.target.querySelector('button[type="submit"]');
-    const originalText = submitButton.textContent;
-    
-    submitButton.textContent = 'Sending...';
-    submitButton.disabled = true;
-    
-    setTimeout(() => {
-        alert('Thank you for your message! We\'ll get back to you soon.\n\n(This is a demo - in production, this would send to your actual email service)');
-        event.target.reset(); // Clear the form
-        submitButton.textContent = originalText;
-        submitButton.disabled = false;
-    }, 1500);
-}
-
 document.addEventListener('click', (event) => {
     if (event.target.matches('a[href^="#"]')) {
         event.preventDefault();
