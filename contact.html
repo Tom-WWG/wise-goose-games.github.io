@@ -14,7 +14,7 @@
     <header>
         <div class="container">
             <a href="index.html" class="logo-link">
-                <img src="logo_512x512.png" alt="Wise Goose Games Logo" class="logo">
+                <img src="images/logo.png" alt="Wise Goose Games Logo" class="logo">
                 <h1>Wise Goose Games</h1>
             </a>
             <nav>
@@ -31,19 +31,20 @@
             Whether you have questions about our games, press inquiries, business opportunities, or just want to say hello, we'd love to hear from you. We read every message and respond as quickly as possible.
         </p>
         
-        <form action="#" method="POST" class="contact-form" onsubmit="handleFormSubmit(event)">
+    <form action="https://formspree.io/f/mwpnzqvw" method="POST" class="contact-form">            
             <label for="name">Name *</label>
             <input type="text" id="name" name="name" required>
             
             <label for="email">Email Address *</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="_replyto" required>
             
             <label for="subject">Subject</label>
             <input type="text" id="subject" name="subject">
             
             <label for="message">Message *</label>
             <textarea id="message" name="message" rows="6" required placeholder="Tell us how we can help..."></textarea>
-            
+
+            <input type="text" name="_gotcha" style="display:none" />
             <button type="submit" class="cta-button">Send Message</button>
         </form>
     </main>
