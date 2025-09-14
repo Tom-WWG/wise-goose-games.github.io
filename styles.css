@@ -32,7 +32,7 @@ body {
 
 /* --- Header & Navigation --- */
 header {
-    padding: 20px 0;
+    padding: 15px 0;
     border-bottom: 2px solid var(--border-color);
     background-color: white;
     position: sticky;
@@ -54,12 +54,26 @@ header .container {
     text-decoration: none;
     color: var(--text-color);
     transition: transform 0.2s ease;
+    gap: 12px;
 }
 
 .logo-link:hover {
     transform: scale(1.02);
 }
 
+.logo-goose {
+    height: 60px;
+    width: auto;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.logo-text {
+    height: 60px;
+    width: auto;
+}
+
+/* Legacy logo class - remove after all pages updated */
 .logo {
     height: 50px;
     width: 50px;
