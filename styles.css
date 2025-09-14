@@ -32,7 +32,7 @@ body {
 
 /* --- Header & Navigation --- */
 header {
-    padding: 15px 0;
+    padding: 10px 0;
     border-bottom: 2px solid var(--border-color);
     background-color: white;
     position: sticky;
@@ -46,6 +46,8 @@ header .container {
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
+    padding-left: 50px; 
+    padding-right: 20px;
 }
 
 .logo-link {
@@ -54,7 +56,7 @@ header .container {
     text-decoration: none;
     color: var(--text-color);
     transition: transform 0.2s ease;
-    gap: 12px;
+    gap: 25px;
 }
 
 .logo-link:hover {
@@ -62,24 +64,13 @@ header .container {
 }
 
 .logo-goose {
-    height: 60px;
+    height: 50px;
     width: auto;
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 .logo-text {
-    height: 60px;
+    height: 40px;
     width: auto;
-}
-
-/* Legacy logo class - remove after all pages updated */
-.logo {
-    height: 50px;
-    width: 50px;
-    margin-right: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
 
 h1 {
