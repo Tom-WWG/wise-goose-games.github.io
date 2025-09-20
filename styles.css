@@ -629,22 +629,21 @@ footer a:hover {
         background-color: #1f1f1f;
         border-color: #333;
     }
+}
+/* --- Text Logo Theme Switching --- */
+.logo-text-light {
+    display: block;
+}
 
-    /* --- Logo Theme Switching --- */
-    .logo-text-light {
-        display: block;
-    }
+.logo-text-dark {
+    display: none;
+}
 
-    .logo-text-dark {
-        display: none;
-    }
+[data-theme="dark"] .logo-text-light {
+    display: none;
+}
 
-    [data-theme="dark"] .logo-text-light {
-        display: none;
-    }
-
-    [data-theme="dark"] .logo-text-dark {
-        display: block;
-    }
+[data-theme="dark"] .logo-text-dark {
+    display: block;
 }
 
