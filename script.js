@@ -68,3 +68,15 @@ document.addEventListener('DOMContentLoaded', () => {
         animateOnScroll();
     }
 });
+
+// Auto dark mode based on system preference
+document.addEventListener('DOMContentLoaded', () => {
+    // Set initial theme based on system preference
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
+    
+    // Listen for system preference changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+    });
+});
