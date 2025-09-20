@@ -523,3 +523,128 @@ footer a:hover {
         text-align: center;
     }
 }
+
+/* --- Dark Mode Theme Variables --- */
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --accent-color: #E87A2E;
+    --accent-hover: #D06C28;
+    --light-gray: #2a2a2a;
+    --border-color: #404040;
+}
+
+/* --- Dark Mode Specific Overrides --- */
+[data-theme="dark"] header {
+    background-color: #0f0f0f;
+    border-bottom-color: #333;
+}
+
+[data-theme="dark"] footer {
+    background-color: #0f0f0f;
+}
+
+[data-theme="dark"] .content-page,
+[data-theme="dark"] .contact-form {
+    background-color: #1f1f1f;
+    border-color: #333;
+}
+
+[data-theme="dark"] .hero {
+    background: linear-gradient(135deg, var(--bg-color) 0%, #2a2a2a 100%);
+}
+
+[data-theme="dark"] .coming-soon-card {
+    background-color: #1f1f1f;
+    border-color: #333;
+}
+
+[data-theme="dark"] .development-focus {
+    background-color: #2a2a2a;
+}
+
+[data-theme="dark"] .future-vision {
+    background: linear-gradient(135deg, var(--bg-color) 0%, #2a2a2a 100%);
+}
+
+[data-theme="dark"] .game-card {
+    background-color: #1f1f1f;
+    border-color: #333;
+}
+
+[data-theme="dark"] .last-updated {
+    background-color: #2a2a2a;
+}
+
+[data-theme="dark"] .contact-form input,
+[data-theme="dark"] .contact-form textarea {
+    background-color: #2a2a2a;
+    border-color: #404040;
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .contact-form input:focus,
+[data-theme="dark"] .contact-form textarea:focus {
+    border-color: var(--accent-color);
+}
+
+/* --- Theme Toggle Button Styles --- */
+.theme-toggle {
+    background: none;
+    border: 2px solid var(--border-color);
+    color: var(--text-color);
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s ease;
+    margin-left: 15px;
+}
+
+.theme-toggle:hover {
+    background-color: var(--light-gray);
+    border-color: var(--accent-color);
+}
+
+/* --- Auto Dark Mode Detection --- */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #1a1a1a;
+        --text-color: #e0e0e0;
+        --light-gray: #2a2a2a;
+        --border-color: #404040;
+    }
+    
+    header {
+        background-color: #0f0f0f;
+        border-bottom-color: #333;
+    }
+    
+    footer {
+        background-color: #0f0f0f;
+    }
+    
+    .content-page,
+    .contact-form {
+        background-color: #1f1f1f;
+        border-color: #333;
+    }
+
+    /* --- Logo Theme Switching --- */
+    .logo-text-light {
+        display: block;
+    }
+
+    .logo-text-dark {
+        display: none;
+    }
+
+    [data-theme="dark"] .logo-text-light {
+        display: none;
+    }
+
+    [data-theme="dark"] .logo-text-dark {
+        display: block;
+    }
+}
+
