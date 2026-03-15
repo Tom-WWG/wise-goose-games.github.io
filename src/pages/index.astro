@@ -1,6 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getSEO, getOrganizationSchema } from '../utils/seo';
+import { games } from '../data/games';
+import Hero from '../components/Hero.tsx';
+import FeaturedGame from '../components/FeaturedGame.tsx';
+import Philosophy from '../components/Philosophy.tsx';
+import Studio from '../components/Studio.astro';
+
+const game = games[0];
 
 const seo = getSEO({
   title: 'Wise Goose Games — Thoughtfully Crafted Games',
@@ -11,8 +18,8 @@ const seo = getSEO({
 ---
 
 <BaseLayout {...seo}>
-  <main>
-    <h1>Wise Goose Games</h1>
-    <p>Site rebuild in progress.</p>
-  </main>
+  <Hero client:load steamUrl={game.platforms.steam.url} headerImage={game.steamAssets.header!} />
+  <FeaturedGame client:visible game={game} />
+  <Philosophy client:visible />
+  <Studio />
 </BaseLayout>
