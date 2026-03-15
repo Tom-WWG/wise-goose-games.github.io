@@ -1,0 +1,68 @@
+---
+import type { Game } from '../data/games';
+
+interface Props {
+  game: Game;
+}
+
+const { game } = Astro.props;
+
+const firstPlatformUrl = Object.values(game.platforms)[0]?.url ?? '#';
+const ctaText = game.status === 'released' ? 'Play Now' : 'Wishlist';
+const statusColors: Record<string, string> = {
+  released: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+  'coming-soon': 'bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400',
+  announced: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400',
+};
+const statusLabel: Record<string, string> = {
+  released: 'Released',
+  'coming-soon': 'Coming Soon',
+  announced: 'Announced',
+};
+---
+
+<article class="rounded-2xl bg-surface border border-border overflow-hidden hover:-translate-y-1 transition-transform">
+  <!-- Header art -->
+  {game.steamAssets.header && (
+    <img
+      src={game.steamAssets.header}
+      alt={`${game.title} header art`}
+      class="aspect-video object-cover w-full"
+    />
+  )}
+
+  <!-- Content -->
+  <div class="p-6 flex flex-col gap-4">
+    <!-- Title & tagline -->
+    <div>
+      <h3 class="font-semibold text-xl">{game.title}</h3>
+      <p class="text-text/70 text-sm mt-1">{game.tagline}</p>
+    </div>
+
+    <!-- Status badge & platforms -->
+    <div class="flex items-center justify-between flex-wrap gap-2">
+      <span class={`inline-block text-xs font-medium px-2.5 py-1 rounded-full ${statusColors[game.status] ?? 'bg-gray-100 text-gray-800'}`}>
+        {statusLabel[game.status] ?? game.status}
+      </span>
+
+      <!-- Platform labels -->
+      <div class="flex items-center gap-1.5 flex-wrap">
+        {Object.keys(game.platforms).map((platform) => (
+          <span class="text-xs text-text/60 border border-border rounded px-1.5 py-0.5 capitalize">
+            {platform === 'ios' ? 'iOS' : platform.charAt(0).toUpperCase() + platform.slice(1)}
+          </span>
+        ))}
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <a
+      href={firstPlatformUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="mt-auto inline-block text-center text-sm font-semibold px-4 py-2 rounded-xl bg-accent text-white hover:opacity-90 transition-opacity"
+    >
+      {ctaText}
+    </a>
+  </div>
+</article>
