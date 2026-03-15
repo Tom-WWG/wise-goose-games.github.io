@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import GameDetail from '../../components/GameDetail.tsx';
+import { getVisibleGames, getGameBySlug } from '../../data/games';
+import { getSEO, getVideoGameSchema } from '../../utils/seo';
+
+export function getStaticPaths() {
+  const games = getVisibleGames();
+  return games.map((game) => ({
+    params: { slug: game.id },
+    props: { game },
+  }));
+}
+
+const { game } = Astro.props;
+
+const seo = getSEO({
+  title: `${game.title} — Wise Goose Games`,
+  description: game.shortDescription,
+  canonicalPath: `/games/${game.id}`,
+  ogImage: game.steamAssets.header,
+  structuredData: getVideoGameSchema(game),
+});
+---
+
+<BaseLayout {...seo}>
+  <main>
+    <GameDetail client:visible game={game} />
+  </main>
+</BaseLayout>
