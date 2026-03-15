@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSEO, getOrganizationSchema } from '../utils/seo';
+
+const seo = getSEO({
+  title: 'Wise Goose Games — Thoughtfully Crafted Games',
+  description: 'Wise Goose Games LLC is a two-person independent game studio based in California, committed to creating thoughtfully designed interactive experiences that respect players\' intelligence.',
+  canonicalPath: '/',
+  structuredData: getOrganizationSchema(),
+});
+---
+
+<BaseLayout {...seo}>
+  <main>
+    <h1>Wise Goose Games</h1>
+    <p>Site rebuild in progress.</p>
+  </main>
+</BaseLayout>
