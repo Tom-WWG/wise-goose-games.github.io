@@ -1,0 +1,6 @@
+---
+// src/components/Navbar.astro
+import NavbarClient from './NavbarClient.tsx';
+---
+
+<NavbarClient client:load currentPath={Astro.url.pathname} />
