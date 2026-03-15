@@ -1,0 +1,154 @@
+/* src/styles/global.css */
+
+/* ===== Light Mode (default) ===== */
+:root {
+  --bg-color: #FDFCF8;
+  --text-color: #2C2C2C;
+  --accent-color: #E87A2E;
+  --accent-hover: #D06C28;
+  --light-gray: #F0F0F0;
+  --border-color: #E0E0E0;
+  --surface-color: #FFFFFF;
+  --deep-dark: #2C2C2C;
+}
+
+/* ===== Dark Mode ===== */
+[data-theme="dark"] {
+  --bg-color: #1C1612;
+  --text-color: #E0E0E0;
+  --accent-color: #E87A2E;
+  --accent-hover: #D06C28;
+  --light-gray: #2D2621;
+  --border-color: #3A342E;
+  --surface-color: #24201C;
+  --deep-dark: #0F0D0A;
+}
+
+/* ===== Base Reset ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* ===== Noise Overlay ===== */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ===== Logo Theme Switching ===== */
+.logo-text-light {
+  display: block;
+}
+.logo-text-dark {
+  display: none;
+}
+[data-theme="dark"] .logo-text-light {
+  display: none;
+}
+[data-theme="dark"] .logo-text-dark {
+  display: block;
+}
+
+/* ===== Button Base ===== */
+.btn-accent {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: var(--accent-color);
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              box-shadow 0.3s ease;
+  box-shadow: 0 4px 12px rgba(232, 122, 46, 0.3);
+  z-index: 1;
+}
+
+.btn-accent:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(232, 122, 46, 0.4);
+}
+
+.btn-accent .bg-slide {
+  position: absolute;
+  inset: 0;
+  background-color: var(--accent-hover);
+  transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: -1;
+}
+
+.btn-accent:hover .bg-slide {
+  transform: translateX(0);
+}
+
+/* ===== Link Hover ===== */
+a {
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+a:hover {
+  transform: translateY(-1px);
+}
+
+/* ===== Focus Rings (Accessibility) ===== */
+:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+/* ===== Status Dot Animation ===== */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #22c55e;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
