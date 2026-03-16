@@ -4,8 +4,6 @@ import { getSEO, getOrganizationSchema } from '../utils/seo';
 import { games } from '../data/games';
 import Hero from '../components/Hero.tsx';
 import FeaturedGame from '../components/FeaturedGame.tsx';
-import Philosophy from '../components/Philosophy.tsx';
-import Studio from '../components/Studio.astro';
 
 const game = games[0];
 
@@ -18,8 +16,13 @@ const seo = getSEO({
 ---
 
 <BaseLayout {...seo}>
-  <Hero client:load steamUrl={game.platforms.steam.url} headerImage={game.steamAssets.header!} />
+  <Hero client:load steamUrl={game.platforms.steam.url} headerImage="/pp-assets/screenshot-1.png" />
   <FeaturedGame client:visible game={game} />
-  <Philosophy client:visible />
-  <Studio />
+
+  <!-- Studio one-liner -->
+  <section class="py-12 md:py-16 px-6 text-center">
+    <p class="font-body text-text/60 text-base max-w-lg mx-auto">
+      Two-person indie studio in California. Hand-crafted puzzles, no filler.
+    </p>
+  </section>
 </BaseLayout>

@@ -36,9 +36,19 @@ const {
 
   <!-- Anti-FOUC: set theme before paint -->
   <script is:inline>
-    const t = localStorage.getItem('theme') ??
-      (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', t);
+    (function() {
+      var t = localStorage.getItem('theme') ||
+        (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+  <!-- Re-apply theme after ViewTransitions swap (before new page paints) -->
+  <script is:inline>
+    document.addEventListener('astro:after-swap', function() {
+      var t = localStorage.getItem('theme') ||
+        (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', t);
+    });
   </script>
 
   <title>{title}</title>

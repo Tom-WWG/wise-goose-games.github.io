@@ -25,6 +25,6 @@ const seo = getSEO({
 
 <BaseLayout {...seo}>
   <main>
-    <GameDetail client:visible game={game} />
+    <GameDetail client:load game={game} />
   </main>
 </BaseLayout>

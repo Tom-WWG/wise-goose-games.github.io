@@ -74,9 +74,11 @@ export const games: Game[] = [
     },
     trailer: "https://www.youtube.com/watch?v=V5bOVQK9jYY",
     steamAssets: {
-      header: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4085150/35be42a71be64497d146ec2414d59b9fbda3e327/header.jpg",
+      header: "/pp-assets/MainCapsuleDesignV3_Cyan.png",
       screenshots: [
-        "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4085150/17ec48cf7992c758ecaffe19d802a1ff95f6acdd/ss_17ec48cf7992c758ecaffe19d802a1ff95f6acdd.1920x1080.jpg",
+        "/pp-assets/screenshot-1.png",
+        "/pp-assets/screenshot-4.png",
+        "/pp-assets/screenshot-7.png",
       ],
     },
     pressKit: "https://drive.google.com/drive/folders/1xcCn678Z3cP55w8ZprwVwsJbbOwFWfJq",

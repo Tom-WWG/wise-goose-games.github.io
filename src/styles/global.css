@@ -142,6 +142,11 @@ a:hover {
   animation: pulse-dot 2s ease-in-out infinite;
 }
 
+/* ===== Safe Area (notched devices) ===== */
+.safe-area-pb {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
 /* ===== Reduced Motion ===== */
 @media (prefers-reduced-motion: reduce) {
   *,
