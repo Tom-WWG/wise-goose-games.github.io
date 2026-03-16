@@ -37,17 +37,15 @@ const {
   <!-- Anti-FOUC: set theme before paint -->
   <script is:inline>
     (function() {
-      var t = localStorage.getItem('theme') ||
-        (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', t);
+      var ct = localStorage.getItem('color-theme') || 'brutalist-dark';
+      document.documentElement.setAttribute('data-color-theme', ct);
     })();
   </script>
-  <!-- Re-apply theme after ViewTransitions swap (before new page paints) -->
+  <!-- Re-apply theme after ViewTransitions swap -->
   <script is:inline>
     document.addEventListener('astro:after-swap', function() {
-      var t = localStorage.getItem('theme') ||
-        (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', t);
+      var ct = localStorage.getItem('color-theme') || 'brutalist-dark';
+      document.documentElement.setAttribute('data-color-theme', ct);
     });
   </script>
 
