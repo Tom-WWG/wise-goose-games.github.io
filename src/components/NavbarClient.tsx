@@ -39,7 +39,7 @@ export default function NavbarClient({ currentPath }: Props) {
           className="hidden sm:inline font-body font-bold text-sm tracking-wide"
           style={{ color: 'var(--text-primary)', letterSpacing: '0.5px' }}
         >
-          WISE GOOSE
+          WISE GOOSE GAMES
         </span>
       </a>
 
@@ -49,7 +49,7 @@ export default function NavbarClient({ currentPath }: Props) {
           <a
             key={link.href}
             href={link.href}
-            className="font-body font-semibold text-[11px] tracking-wider transition-colors hover:text-[var(--text-primary)]"
+            className="font-body font-semibold text-[13px] tracking-wider transition-colors hover:text-[var(--text-primary)]"
             style={{
               color: currentPath === link.href
                 ? 'var(--text-primary)'

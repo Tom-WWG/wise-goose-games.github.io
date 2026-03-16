@@ -21,7 +21,7 @@ const statusLabel: Record<string, string> = {
 };
 ---
 
-<article class="rounded-2xl bg-surface border border-border overflow-hidden hover:-translate-y-1 transition-transform">
+<article class="bg-surface border border-border overflow-hidden hover:-translate-y-1 transition-transform">
   <!-- Header art -->
   {game.steamAssets.header && (
     <img
@@ -41,14 +41,14 @@ const statusLabel: Record<string, string> = {
 
     <!-- Status badge & platforms -->
     <div class="flex items-center justify-between flex-wrap gap-2">
-      <span class={`inline-block text-xs font-medium px-2.5 py-1 rounded-full ${statusColors[game.status] ?? 'bg-gray-100 text-gray-800'}`}>
+      <span class={`inline-block text-xs font-medium px-2.5 py-1 ${statusColors[game.status] ?? 'bg-gray-100 text-gray-800'}`}>
         {statusLabel[game.status] ?? game.status}
       </span>
 
       <!-- Platform labels -->
       <div class="flex items-center gap-1.5 flex-wrap">
         {Object.keys(game.platforms).map((platform) => (
-          <span class="text-xs text-text/60 border border-border rounded px-1.5 py-0.5 capitalize">
+          <span class="text-xs text-text/60 border border-border px-1.5 py-0.5 capitalize">
             {platform === 'ios' ? 'iOS' : platform.charAt(0).toUpperCase() + platform.slice(1)}
           </span>
         ))}
@@ -60,7 +60,7 @@ const statusLabel: Record<string, string> = {
       href={firstPlatformUrl}
       target="_blank"
       rel="noopener noreferrer"
-      class="mt-auto inline-block text-center text-sm font-semibold px-4 py-2 rounded-xl bg-accent text-white hover:opacity-90 transition-opacity"
+      class="btn-primary mt-auto inline-block text-center"
     >
       {ctaText}
     </a>
