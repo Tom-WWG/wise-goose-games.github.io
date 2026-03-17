@@ -1,7 +1,6 @@
 // src/components/NavbarClient.tsx
 import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
-import ThemeSwitcher from './ThemeSwitcher';
 
 interface Props {
   currentPath: string;
@@ -31,8 +30,10 @@ export default function NavbarClient({ currentPath }: Props) {
       {/* Logo */}
       <a href="/" className="flex items-center gap-2">
         <img
-          src="/WWG_Goose_Header_280px.png"
+          src="/WWG_Goose_Face.svg"
           alt="Wise Goose Games"
+          width={32}
+          height={32}
           className="h-7 w-auto"
         />
         <span
@@ -60,7 +61,6 @@ export default function NavbarClient({ currentPath }: Props) {
             {link.label}
           </a>
         ))}
-        <ThemeSwitcher />
       </div>
 
       {/* Mobile hamburger */}
@@ -93,9 +93,6 @@ export default function NavbarClient({ currentPath }: Props) {
               {link.label}
             </a>
           ))}
-          <div className="px-4 py-3">
-            <ThemeSwitcher />
-          </div>
         </div>
       )}
     </nav>

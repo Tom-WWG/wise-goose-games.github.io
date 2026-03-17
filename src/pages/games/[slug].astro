@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GameDetail from '../../components/GameDetail.tsx';
-import { getVisibleGames, getGameBySlug } from '../../data/games';
-import { getSEO, getVideoGameSchema } from '../../utils/seo';
+import { getVisibleGames } from '../../data/games';
+import { getSEO, getVideoGameSchema, getBreadcrumbSchema } from '../../utils/seo';
 
 export function getStaticPaths() {
   const games = getVisibleGames();
@@ -19,7 +19,14 @@ const seo = getSEO({
   description: game.shortDescription,
   canonicalPath: `/games/${game.id}`,
   ogImage: game.steamAssets.header,
-  structuredData: getVideoGameSchema(game),
+  structuredData: [
+    getVideoGameSchema(game),
+    getBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Games', path: '/games/' },
+      { name: game.title, path: `/games/${game.id}/` },
+    ]),
+  ],
 });
 ---
 

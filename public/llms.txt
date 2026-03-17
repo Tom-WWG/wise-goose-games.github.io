@@ -1,0 +1,28 @@
+# Wise Goose Games
+
+> Two-person independent game studio based in California, creating thoughtfully designed puzzle games that respect players' intelligence.
+
+## Pathways & Poltergeists
+
+> A spatial puzzle game where players build pathways from polyomino pieces to guide ghost friends home. 83 hand-crafted puzzles across 7 mechanical zones. Looks cozy. Plays hard.
+
+- Genre: Spatial Puzzle
+- Price: $9.99 USD
+- Release Date: February 27, 2026
+- Platforms: Steam (Windows & macOS), iOS, Android
+- Languages: 16 supported including Japanese and Korean
+- Players: Single-player
+
+### Key Mechanics
+
+Players rotate and place 3D polyomino pathway pieces onto a grid to construct routes. Ghosts automatically pathfind along connected tiles once a valid path exists. Seven mechanical zones introduce new systems: basic pathing, obstacles, waypoints, teleporters, switches/gates, multi-ghost coordination, and combined systems.
+
+### Links
+
+- [Homepage](https://wisegoosegames.com/)
+- [Pathways & Poltergeists](https://wisegoosegames.com/games/pathways-poltergeists/)
+- [Steam Store Page](https://store.steampowered.com/app/4085150/Pathways__Poltergeists/)
+- [App Store](https://apps.apple.com/us/app/pathways-poltergeists/id6752310915)
+- [Google Play](https://play.google.com/store/apps/details?id=com.wgg.PathwaysAndPoltergeists)
+- [Press Kit](https://drive.google.com/drive/folders/1xcCn678Z3cP55w8ZprwVwsJbbOwFWfJq)
+- [Contact](https://wisegoosegames.com/contact/)

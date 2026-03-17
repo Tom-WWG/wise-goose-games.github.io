@@ -1,9 +1,10 @@
 // src/components/Hero.tsx
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { Gamepad2, Apple } from 'lucide-react';
+
 import type { Game } from '../data/games';
 import TrailerModal from './TrailerModal';
+import StoreBadges from './StoreBadges';
 
 function extractYouTubeId(url: string): string | null {
   const match = url.match(/[?&]v=([^&#]+)/) ?? url.match(/youtu\.be\/([^?&#]+)/);
@@ -20,8 +21,7 @@ export default function Hero({ game, headerImage }: Props) {
   const [showTrailer, setShowTrailer] = useState(false);
   const videoId = game.trailer ? extractYouTubeId(game.trailer) : null;
 
-  const steamPlatform = game.platforms['steam'];
-  const iosPlatform = game.platforms['ios'];
+
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -55,65 +55,77 @@ export default function Hero({ game, headerImage }: Props) {
       <section
         ref={containerRef}
         data-hero
-        className="relative flex items-center justify-center overflow-hidden"
-        style={{ height: '100dvh' }}
+        className="relative flex flex-col overflow-hidden"
       >
-        {/* Background key art */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${headerImage})` }}
-        />
-        {/* Gradient overlay */}
+        {/* Background — solid base */}
         <div
           className="absolute inset-0"
-          style={{
-            background: `linear-gradient(transparent 0%, var(--bg-primary) 100%)`,
-          }}
+          style={{ backgroundColor: 'var(--bg-primary)' }}
         />
 
-        {/* Play button — centered */}
-        {videoId && (
-          <button
-            data-animate="play"
-            onClick={() => setShowTrailer(true)}
-            className="relative z-10 flex flex-col items-center gap-2 group cursor-pointer"
-            aria-label="Watch trailer"
-          >
-            <div
-              className="w-[72px] h-[72px] flex items-center justify-center transition-colors"
-              style={{
-                border: '2px solid rgba(255,255,255,0.7)',
-                backgroundColor: 'rgba(0,0,0,0.4)',
-              }}
+        {/* Image wrapper — mobile: in-flow at natural aspect ratio; desktop: absolute fill via CSS */}
+        <div
+          data-hero-image
+        >
+          {/* Capsule art — responsive <img> for LCP + SEO */}
+          <img
+            src={headerImage}
+            srcSet={`${headerImage.replace('.webp', '-640w.webp')} 640w, ${headerImage.replace('.webp', '-1232w.webp')} 1232w, ${headerImage.replace('.webp', '-2464w.webp')} 2464w, ${headerImage.replace('.webp', '-3696w.webp')} 3696w`}
+            sizes="100vw"
+            alt={`${game.title} — ${game.tagline}`}
+            width={3696}
+            height={1727}
+            fetchPriority="high"
+            decoding="async"
+            className="absolute inset-0 w-full h-full object-contain"
+          />
+          {/* Gradient — desktop only (image is not full-screen on mobile) */}
+          <div
+            className="hero-gradient absolute inset-0"
+            style={{
+              background: `linear-gradient(transparent 40%, var(--bg-primary) 100%)`,
+            }}
+          />
+          {/* Play button — centered over the image on both breakpoints */}
+          {videoId && (
+            <button
+              data-animate="play"
+              onClick={() => setShowTrailer(true)}
+              className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 group cursor-pointer"
+              aria-label="Watch trailer"
             >
               <div
+                className="w-[72px] h-[72px] flex items-center justify-center transition-colors"
                 style={{
-                  width: 0,
-                  height: 0,
-                  borderLeft: '20px solid white',
-                  borderTop: '12px solid transparent',
-                  borderBottom: '12px solid transparent',
-                  marginLeft: '4px',
+                  border: '2px solid rgba(255,255,255,0.7)',
+                  backgroundColor: 'rgba(0,0,0,0.4)',
                 }}
-              />
-            </div>
-            <span className="text-[10px] font-body font-semibold tracking-[2px] text-white/70 uppercase">
-              WATCH TRAILER
-            </span>
-          </button>
-        )}
+              >
+                <div
+                  style={{
+                    width: 0,
+                    height: 0,
+                    borderLeft: '20px solid white',
+                    borderTop: '12px solid transparent',
+                    borderBottom: '12px solid transparent',
+                    marginLeft: '4px',
+                  }}
+                />
+              </div>
+              <span className="text-[10px] font-body font-semibold tracking-[2px] text-white/70 uppercase">
+                WATCH TRAILER
+              </span>
+            </button>
+          )}
+        </div>
 
-        {/* Bottom title bar */}
+        {/* Info bar — mobile: flows below image with solid bg; desktop: absolute bottom overlay via CSS */}
         <div
           data-animate="bar"
-          className="absolute bottom-0 left-0 right-0 z-10 px-6 md:px-8 pb-6"
-          style={{
-            background: `linear-gradient(transparent, var(--bg-primary))`,
-            paddingTop: '80px',
-          }}
+          className="hero-bar z-10 px-6 md:px-8 pb-6"
         >
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
-            <div>
+            <div className="hero-title-block">
               <h1
                 className="font-body font-bold text-[22px] md:text-[26px]"
                 style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}
@@ -127,38 +139,7 @@ export default function Hero({ game, headerImage }: Props) {
                 {game.tagline}
               </p>
             </div>
-            <div className="flex items-center gap-2 flex-wrap">
-              {game.price && (
-                <span
-                  className="font-body font-semibold text-[12px] mr-2"
-                  style={{ color: 'var(--text-muted)' }}
-                >
-                  {game.price}
-                </span>
-              )}
-              {steamPlatform && (
-                <a
-                  href={steamPlatform.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-primary flex items-center gap-2"
-                >
-                  <Gamepad2 size={14} />
-                  WISHLIST ON STEAM
-                </a>
-              )}
-              {iosPlatform && (
-                <a
-                  href={iosPlatform.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-secondary flex items-center gap-2"
-                >
-                  <Apple size={14} />
-                  APP STORE
-                </a>
-              )}
-            </div>
+            <StoreBadges game={game} utmContent="hero_cta" showPrice />
           </div>
         </div>
       </section>

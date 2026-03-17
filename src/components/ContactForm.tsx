@@ -101,7 +101,7 @@ export default function ContactForm() {
 
   if (formState === 'success') {
     return (
-      <div className="rounded-2xl bg-surface border border-border p-8 md:p-10 max-w-xl mx-auto">
+      <div className="bg-surface border border-border p-8 md:p-10 max-w-xl mx-auto">
         <p className="text-green-500 font-semibold text-lg text-center">
           Message sent! We'll get back to you soon.
         </p>
@@ -110,9 +110,9 @@ export default function ContactForm() {
   }
 
   return (
-    <div className="rounded-2xl bg-surface border border-border p-8 md:p-10 max-w-xl mx-auto">
+    <div className="bg-surface border border-border p-8 md:p-10 max-w-xl mx-auto">
       {formState === 'error' && (
-        <div className="mb-6 rounded-lg border border-red-500/40 bg-red-500/10 px-4 py-3 text-red-400 text-sm">
+        <div className="mb-6 border border-red-500/40 bg-red-500/10 px-4 py-3 text-red-400 text-sm">
           {errorMessage}
         </div>
       )}
@@ -144,7 +144,7 @@ export default function ContactForm() {
             onBlur={handleBlur}
             disabled={isDisabled}
             required
-            className="w-full rounded-lg border border-border bg-surface px-4 py-3 focus:border-accent focus:outline-none disabled:opacity-50"
+            className="w-full border border-border bg-surface px-4 py-3 focus:border-accent focus:outline-none disabled:opacity-50"
           />
           {fieldErrors.name && (
             <p className="mt-1 text-sm text-red-400">{fieldErrors.name}</p>
@@ -165,7 +165,7 @@ export default function ContactForm() {
             onBlur={handleBlur}
             disabled={isDisabled}
             required
-            className="w-full rounded-lg border border-border bg-surface px-4 py-3 focus:border-accent focus:outline-none disabled:opacity-50"
+            className="w-full border border-border bg-surface px-4 py-3 focus:border-accent focus:outline-none disabled:opacity-50"
           />
           {fieldErrors.email && (
             <p className="mt-1 text-sm text-red-400">{fieldErrors.email}</p>
@@ -184,7 +184,7 @@ export default function ContactForm() {
             value={values.subject}
             onChange={handleChange}
             disabled={isDisabled}
-            className="w-full rounded-lg border border-border bg-surface px-4 py-3 focus:border-accent focus:outline-none disabled:opacity-50"
+            className="w-full border border-border bg-surface px-4 py-3 focus:border-accent focus:outline-none disabled:opacity-50"
           />
         </div>
 
@@ -202,7 +202,7 @@ export default function ContactForm() {
             disabled={isDisabled}
             required
             rows={5}
-            className="w-full rounded-lg border border-border bg-surface px-4 py-3 focus:border-accent focus:outline-none disabled:opacity-50 resize-y"
+            className="w-full border border-border bg-surface px-4 py-3 focus:border-accent focus:outline-none disabled:opacity-50 resize-y"
           />
           {fieldErrors.message && (
             <p className="mt-1 text-sm text-red-400">{fieldErrors.message}</p>
@@ -212,7 +212,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={isDisabled}
-          className="btn-accent w-full flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
+          className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           {formState === 'submitting' ? (
             <>

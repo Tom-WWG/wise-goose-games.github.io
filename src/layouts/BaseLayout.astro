@@ -13,7 +13,8 @@ interface Props {
   ogUrl: string;
   ogImage: string;
   twitterCard: string;
-  structuredData?: Record<string, unknown>;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
 }
 
 const {
@@ -25,6 +26,7 @@ const {
   ogImage,
   twitterCard,
   structuredData,
+  noindex = false,
 } = Astro.props;
 ---
 
@@ -52,6 +54,7 @@ const {
   <title>{title}</title>
   <meta name="description" content={description} />
   <meta name="author" content="Wise Goose Games" />
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
 
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
@@ -71,18 +74,33 @@ const {
   <meta property="og:image" content={ogImage} />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content={twitterCard} />
-  <meta property="twitter:url" content={ogUrl} />
-  <meta property="twitter:title" content={title} />
-  <meta property="twitter:description" content={description} />
-  <meta property="twitter:image" content={ogImage} />
+  <meta name="twitter:card" content={twitterCard} />
+  <meta name="twitter:url" content={ogUrl} />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Cormorant+Garamond:ital,wght@1,400;1,600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <!-- Font preloads (self-hosted, eliminates render-blocking external CSS) -->
+  <link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/cormorant-garamond-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
 
-  <!-- GA4 -->
+  <!-- Structured Data -->
+  {structuredData && !Array.isArray(structuredData) && (
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  )}
+  {structuredData && Array.isArray(structuredData) && structuredData.map((sd) => (
+    <script type="application/ld+json" set:html={JSON.stringify(sd)} />
+  ))}
+
+  <slot name="head" />
+  <ViewTransitions />
+</head>
+<body>
+  <Navbar />
+  <slot />
+  <Footer />
+
+  <!-- GA4 (moved to end of body to avoid blocking LCP) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-VN624MYNHY" is:inline></script>
   <script is:inline>
     window.dataLayer = window.dataLayer || [];
@@ -90,18 +108,6 @@ const {
     gtag('js', new Date());
     gtag('config', 'G-VN624MYNHY');
   </script>
-
-  <!-- Structured Data -->
-  {structuredData && (
-    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
-  )}
-
-  <ViewTransitions />
-</head>
-<body>
-  <Navbar />
-  <slot />
-  <Footer />
 
   <!-- GA4 page view on View Transitions navigation -->
   <script is:inline>
@@ -112,6 +118,39 @@ const {
         });
       }
     });
+  </script>
+
+  <!-- Page entrance animations -->
+  <script>
+    import gsap from 'gsap';
+
+    function runEntranceAnimations() {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const els = document.querySelectorAll('[data-enter]');
+
+      if (prefersReducedMotion || els.length === 0) {
+        els.forEach(el => {
+          (el as HTMLElement).style.opacity = '1';
+          (el as HTMLElement).style.transform = 'none';
+        });
+        return;
+      }
+
+      gsap.set(els, { opacity: 0, y: 20 });
+
+      gsap.to(els, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: 'power3.out',
+        stagger: 0.08,
+        delay: 0.1,
+      });
+    }
+
+    // Run on initial load and on View Transitions navigation
+    runEntranceAnimations();
+    document.addEventListener('astro:page-load', runEntranceAnimations);
   </script>
 </body>
 </html>

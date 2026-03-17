@@ -1,4 +1,5 @@
 /* src/styles/global.css */
+@import './fonts.css';
 
 /* ===== Theme System ===== */
 /* Default: Brutalist Dark */
@@ -124,6 +125,35 @@ body {
   opacity: 0.9;
 }
 
+/* Store badge buttons */
+.store-badge-primary {
+  background-color: var(--accent);
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  border: 1px solid transparent;
+}
+.store-badge-primary:hover {
+  opacity: 0.88;
+}
+
+.store-badge-secondary {
+  background-color: var(--bg-elevated);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  border: 1px solid var(--border-strong);
+}
+.store-badge-secondary:hover {
+  border-color: var(--text-muted);
+}
+
+/* Legacy — keep so any direct .store-badge refs don't break */
+.store-badge {
+  background-color: var(--bg-elevated);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  border: 1px solid var(--border-strong);
+}
+.store-badge:hover {
+  border-color: var(--text-muted);
+}
+
 .btn-secondary {
   display: inline-flex;
   align-items: center;
@@ -166,6 +196,114 @@ body {
   --border-color: var(--border-subtle);
   --surface-color: var(--bg-elevated);
   --deep-dark: var(--bg-footer);
+}
+
+/* ── Hero responsive layout ──────────────────────────────────────────────────
+   Mobile (<768px): image in-flow at natural aspect ratio, info bar below.
+   Desktop (768px+): full-screen overlay, info bar absolute at bottom. */
+
+[data-hero] {
+  padding-top: 60px;          /* offset fixed navbar on mobile */
+}
+
+[data-hero-image] {
+  position: relative;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+/* Hero image — in-flow on mobile so full image is always visible without cropping.
+   Tailwind's .absolute is overridden by this higher-specificity selector. */
+[data-hero-image] img {
+  position: relative !important;
+  display: block;
+  width: 100%;
+  height: auto;
+  inset: unset !important;
+}
+
+@media (min-width: 768px) {
+  [data-hero] {
+    height: 100dvh;
+    padding-top: 0;             /* navbar overlaps for immersive desktop hero */
+    align-items: center;
+    justify-content: center;
+  }
+  [data-hero-image] {
+    position: absolute;
+    inset: 0;
+    flex-shrink: unset;
+  }
+  /* Desktop: restore absolute fill so image covers the full-screen section */
+  [data-hero-image] img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+/* Gradient overlay on image — desktop only */
+.hero-gradient {
+  display: none;
+}
+@media (min-width: 768px) {
+  .hero-gradient {
+    display: block;
+  }
+}
+
+/* Info bar — solid bg below image on mobile; gradient overlay on desktop */
+.hero-bar {
+  position: relative;
+  background: var(--bg-primary);
+  padding-top: 1.5rem;
+}
+@media (min-width: 768px) {
+  .hero-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-top: 80px;
+    background: linear-gradient(transparent, var(--bg-primary));
+  }
+}
+
+/* Title block — centered on mobile, left-aligned on desktop */
+.hero-title-block {
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .hero-title-block {
+    text-align: left;
+  }
+}
+
+/* Store badge row — binary layout: vertical centered stack OR horizontal row.
+   Column mode: centered, content-width buttons (no full-bleed stretch).
+   Row mode (640px+): horizontal, all badges at identical min-width. */
+.store-badge-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* center buttons horizontally in column mode */
+  gap: 0.75rem;
+}
+.store-badge-row > a {
+  width: auto;           /* fit content — no full-width stretch on mobile */
+}
+.store-badge-row > a > div {
+  min-width: 240px;      /* uniform minimum so all three match in column mode */
+}
+@media (min-width: 640px) {
+  .store-badge-row {
+    flex-direction: row;
+    align-items: center;
+  }
+  .store-badge-row > a > div {
+    min-width: 160px;
+  }
 }
 
 /* Legacy button class (used by 404, ContactForm) */

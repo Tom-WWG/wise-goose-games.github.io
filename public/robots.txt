@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://wisegoosegames.com/sitemap.xml
+Sitemap: https://wisegoosegames.com/sitemap-index.xml
 
 # Allow all major search engines
 User-agent: Googlebot
@@ -16,6 +16,29 @@ Allow: /
 
 User-agent: DuckDuckBot
 Allow: /
+
+# AI Search Crawlers (allow for visibility in AI search)
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# AI Training-Only Crawlers (block)
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
 
 # Block common spam bots and scrapers
 User-agent: AhrefsBot

@@ -13,6 +13,24 @@ export interface FeatureHighlight {
   description: string;
 }
 
+export interface PressQuote {
+  source: string;
+  quote: string;
+  url?: string;
+}
+
+export interface Award {
+  name: string;
+  event: string;
+  year?: number;
+}
+
+export interface SocialProof {
+  steamReviewSummary?: string;
+  pressQuotes?: PressQuote[];
+  awards?: Award[];
+}
+
 export interface Game {
   id: string;
   title: string;
@@ -42,6 +60,7 @@ export interface Game {
     primary?: string;
     positioning?: string;
   };
+  socialProof?: SocialProof;
 }
 
 export const games: Game[] = [
@@ -52,7 +71,7 @@ export const games: Game[] = [
     releaseDate: "February 27, 2026",
     price: "$9.99 USD",
     genre: "Spatial Puzzle",
-    tagline: "Looks Cozy. Plays Hard.",
+    tagline: "Build pathways from puzzle blocks.",
     shortDescription: "Guide ghost friends home by building pathways from polyomino pieces. A cozy-looking spatial puzzle game that will absolutely break your brain.",
     longDescription: "Four ghost friends are lost in the fog. Build pathways from 3D polyomino pieces to guide them home. Place, rotate, and connect modular pathway pieces to navigate each ghost to their exit. What starts simple quickly evolves with obstacles blocking your path, waypoints requiring connections, teleporters that break the space, and multiple ghosts that need to move in unison. Each puzzle introduces something new. No filler, just problems that will challenge how you think about space and connection. 83 hand-crafted puzzles spread across 7 mechanical zones.",
     features: [
@@ -61,7 +80,7 @@ export const games: Game[] = [
       "Obstacles, waypoints, teleporters, switches, and multi-ghost coordination",
       "No timers. No hints. Just logic.",
       "16 languages supported including Japanese and Korean",
-      "Available on Steam (Windows & macOS) and iOS",
+      "Available on Steam (Windows & macOS), iOS, and Android",
     ],
     platforms: {
       steam: {
@@ -71,14 +90,17 @@ export const games: Game[] = [
       ios: {
         url: "https://apps.apple.com/us/app/pathways-poltergeists/id6752310915",
       },
+      android: {
+        url: "https://play.google.com/store/apps/details?id=com.wgg.PathwaysAndPoltergeists&hl=en_GB",
+      },
     },
     trailer: "https://www.youtube.com/watch?v=V5bOVQK9jYY",
     steamAssets: {
-      header: "/pp-assets/MainCapsuleDesignV3_Cyan.png",
+      header: "/pp-assets/HeaderCapsule-card.webp",
       screenshots: [
-        "/pp-assets/screenshot-1.png",
-        "/pp-assets/screenshot-4.png",
-        "/pp-assets/screenshot-7.png",
+        "/pp-assets/screenshot-1.webp",
+        "/pp-assets/screenshot-4.webp",
+        "/pp-assets/screenshot-7.webp",
       ],
     },
     pressKit: "https://drive.google.com/drive/folders/1xcCn678Z3cP55w8ZprwVwsJbbOwFWfJq",
@@ -108,6 +130,32 @@ export const games: Game[] = [
     audience: {
       primary: "Women aged 25–32 (validated through professional playtesting with 100% positive response)",
       positioning: "Cozy discovery, honest difficulty — players drawn in by the aesthetic find themselves deeply engaged by the puzzle design",
+    },
+    socialProof: {
+      steamReviewSummary: "100% Positive Playtester Response",
+      pressQuotes: [
+        {
+          source: "Professional Playtester",
+          quote: "No hesitations. I was playing and thinking to myself that I would buy this game.",
+        },
+        {
+          source: "Professional Playtester",
+          quote: "Truly a fantastic game!",
+        },
+        {
+          source: "Professional Playtester",
+          quote: "The digital art and graphics were stunning!",
+        },
+        {
+          source: "Professional Playtester",
+          quote: "Satisfyingly cute!",
+        },
+        {
+          source: "Professional Playtester",
+          quote: "Just enough challenge to keep me engaged without being enough to ragequit.",
+        }
+      ],
+      awards: [],
     },
   },
 ];

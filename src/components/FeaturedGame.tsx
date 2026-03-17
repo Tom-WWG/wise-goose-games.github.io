@@ -2,8 +2,8 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Gamepad2, Apple } from 'lucide-react';
 import type { Game } from '../data/games';
+import StoreBadges from './StoreBadges';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,9 +41,6 @@ export default function FeaturedGame({ game }: Props) {
     return () => ctx.revert();
   }, []);
 
-  const steamPlatform = game.platforms['steam'];
-  const iosPlatform = game.platforms['ios'];
-
   return (
     <section
       ref={sectionRef}
@@ -61,6 +58,9 @@ export default function FeaturedGame({ game }: Props) {
             <img
               src={game.steamAssets.header}
               alt={game.title}
+              width={920}
+              height={430}
+              loading="lazy"
               className="w-full max-w-2xl mx-auto rounded-2xl shadow-lg transition-transform duration-300 group-hover:scale-[1.02]"
             />
           )}
@@ -76,40 +76,14 @@ export default function FeaturedGame({ game }: Props) {
             {game.shortDescription}
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-4">
-            {steamPlatform && (
-              <a
-                href={steamPlatform.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-accent"
-              >
-                <span className="bg-slide" />
-                <Gamepad2 size={18} />
-                Steam
-              </a>
-            )}
-            {iosPlatform && (
-              <a
-                href={iosPlatform.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-accent"
-              >
-                <span className="bg-slide" />
-                <Apple size={18} />
-                App Store
-              </a>
-            )}
+          {/* CTAs — platform-aware via StoreBadges */}
+          <div className="flex justify-center mb-4">
+            <StoreBadges game={game} utmContent="featured_cta" showPrice />
           </div>
-
-          {game.price && (
-            <span className="font-body text-text/50 text-sm">{game.price}</span>
-          )}
         </div>
 
       </div>
     </section>
   );
 }
+
