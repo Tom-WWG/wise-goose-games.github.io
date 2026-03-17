@@ -1,0 +1,156 @@
+---
+// src/layouts/BaseLayout.astro
+import { ViewTransitions } from 'astro:transitions';
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  ogType?: string;
+  ogUrl: string;
+  ogImage: string;
+  twitterCard: string;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogType = 'website',
+  ogUrl,
+  ogImage,
+  twitterCard,
+  structuredData,
+  noindex = false,
+} = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Anti-FOUC: set theme before paint -->
+  <script is:inline>
+    (function() {
+      var ct = localStorage.getItem('color-theme') || 'brutalist-dark';
+      document.documentElement.setAttribute('data-color-theme', ct);
+    })();
+  </script>
+  <!-- Re-apply theme after ViewTransitions swap -->
+  <script is:inline>
+    document.addEventListener('astro:after-swap', function() {
+      var ct = localStorage.getItem('color-theme') || 'brutalist-dark';
+      document.documentElement.setAttribute('data-color-theme', ct);
+    });
+  </script>
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+  <meta name="author" content="Wise Goose Games" />
+  {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+  <!-- Favicon -->
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon-180x180.png" />
+  <meta name="msapplication-TileImage" content="/favicon.png" />
+
+  <!-- Canonical -->
+  <link rel="canonical" href={canonical} />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content={ogType} />
+  <meta property="og:url" content={ogUrl} />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={ogImage} />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content={twitterCard} />
+  <meta name="twitter:url" content={ogUrl} />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={ogImage} />
+
+  <!-- Font preloads (self-hosted, eliminates render-blocking external CSS) -->
+  <link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/cormorant-garamond-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+  <!-- Structured Data -->
+  {structuredData && !Array.isArray(structuredData) && (
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+  )}
+  {structuredData && Array.isArray(structuredData) && structuredData.map((sd) => (
+    <script type="application/ld+json" set:html={JSON.stringify(sd)} />
+  ))}
+
+  <slot name="head" />
+  <ViewTransitions />
+</head>
+<body>
+  <Navbar />
+  <slot />
+  <Footer />
+
+  <!-- GA4 (moved to end of body to avoid blocking LCP) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VN624MYNHY" is:inline></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-VN624MYNHY');
+  </script>
+
+  <!-- GA4 page view on View Transitions navigation -->
+  <script is:inline>
+    document.addEventListener('astro:page-load', () => {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'page_view', {
+          page_location: window.location.href,
+        });
+      }
+    });
+  </script>
+
+  <!-- Page entrance animations -->
+  <script>
+    import gsap from 'gsap';
+
+    function runEntranceAnimations() {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const els = document.querySelectorAll('[data-enter]');
+
+      if (prefersReducedMotion || els.length === 0) {
+        els.forEach(el => {
+          (el as HTMLElement).style.opacity = '1';
+          (el as HTMLElement).style.transform = 'none';
+        });
+        return;
+      }
+
+      gsap.set(els, { opacity: 0, y: 20 });
+
+      gsap.to(els, {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+        ease: 'power3.out',
+        stagger: 0.08,
+        delay: 0.1,
+      });
+    }
+
+    // Run on initial load and on View Transitions navigation
+    runEntranceAnimations();
+    document.addEventListener('astro:page-load', runEntranceAnimations);
+  </script>
+</body>
+</html>

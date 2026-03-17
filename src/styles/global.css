@@ -1,0 +1,342 @@
+/* src/styles/global.css */
+@import './fonts.css';
+
+/* ===== Theme System ===== */
+/* Default: Brutalist Dark */
+:root,
+[data-color-theme="brutalist-dark"] {
+  --bg-primary: #0A0A0A;
+  --bg-elevated: #141414;
+  --bg-footer: #050505;
+  --text-primary: #FFFFFF;
+  --text-secondary: #888888;
+  --text-muted: #666666;
+  --text-footer: #555555;
+  --accent: #E87A2E;
+  --accent-text: #FFFFFF;
+  --border-subtle: #1A1A1A;
+  --border-medium: #222222;
+  --border-strong: #333333;
+}
+
+[data-color-theme="wgg-warm-dark"] {
+  --bg-primary: #1C1612;
+  --bg-elevated: #24201C;
+  --bg-footer: #0F0D0A;
+  --text-primary: #F0EBE5;
+  --text-secondary: #9A918A;
+  --text-muted: #7A7068;
+  --text-footer: #5A5248;
+  --accent: #E87A2E;
+  --accent-text: #FFFFFF;
+  --border-subtle: #3A342E;
+  --border-medium: #4A4038;
+  --border-strong: #5A5248;
+}
+
+[data-color-theme="wgg-warm-light"] {
+  --bg-primary: #FDFCF8;
+  --bg-elevated: #FFFFFF;
+  --bg-footer: #2C2C2C;
+  --text-primary: #2C2C2C;
+  --text-secondary: #888888;
+  --text-muted: #AAAAAA;
+  --text-footer: #999999;
+  --accent: #E87A2E;
+  --accent-text: #FFFFFF;
+  --border-subtle: #E0E0E0;
+  --border-medium: #D0D0D0;
+  --border-strong: #BBBBBB;
+}
+
+[data-color-theme="pp-deep-ocean"] {
+  --bg-primary: #062028;
+  --bg-elevated: #0A1F2E;
+  --bg-footer: #031018;
+  --text-primary: #E0F0EE;
+  --text-secondary: #5A8A86;
+  --text-muted: #3A6A66;
+  --text-footer: #2A4A48;
+  --accent: #38BDB4;
+  --accent-text: #062028;
+  --border-subtle: #0F3444;
+  --border-medium: #1A4A52;
+  --border-strong: #2A5A62;
+}
+
+[data-color-theme="pp-midnight-cyan"] {
+  --bg-primary: #0A0A0A;
+  --bg-elevated: #0F1414;
+  --bg-footer: #050505;
+  --text-primary: #FFFFFF;
+  --text-secondary: #6A8A88;
+  --text-muted: #4A6A68;
+  --text-footer: #3A5555;
+  --accent: #38BDB4;
+  --accent-text: #0A0A0A;
+  --border-subtle: #1A2A2A;
+  --border-medium: #2A3A3A;
+  --border-strong: #3A4A4A;
+}
+
+/* ===== Base Reset ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* ===== Button Styles ===== */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 10px 24px;
+  background-color: var(--accent);
+  color: var(--accent-text);
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.9;
+}
+
+/* Store badge buttons */
+.store-badge-primary {
+  background-color: var(--accent);
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  border: 1px solid transparent;
+}
+.store-badge-primary:hover {
+  opacity: 0.88;
+}
+
+.store-badge-secondary {
+  background-color: var(--bg-elevated);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  border: 1px solid var(--border-strong);
+}
+.store-badge-secondary:hover {
+  border-color: var(--text-muted);
+}
+
+/* Legacy — keep so any direct .store-badge refs don't break */
+.store-badge {
+  background-color: var(--bg-elevated);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  border: 1px solid var(--border-strong);
+}
+.store-badge:hover {
+  border-color: var(--text-muted);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 10px 24px;
+  background-color: transparent;
+  color: var(--text-secondary);
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: 1px solid var(--border-strong);
+  border-radius: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
+}
+
+/* ===== Focus Rings (Accessibility) ===== */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ===== Backward-compat aliases for unrewritten pages ===== */
+/* Remove once all pages migrate to new tokens */
+:root {
+  --bg-color: var(--bg-primary);
+  --text-color: var(--text-primary);
+  --accent-color: var(--accent);
+  --accent-hover: var(--accent);
+  --light-gray: var(--bg-elevated);
+  --border-color: var(--border-subtle);
+  --surface-color: var(--bg-elevated);
+  --deep-dark: var(--bg-footer);
+}
+
+/* ── Hero responsive layout ──────────────────────────────────────────────────
+   Mobile (<768px): image in-flow at natural aspect ratio, info bar below.
+   Desktop (768px+): full-screen overlay, info bar absolute at bottom. */
+
+[data-hero] {
+  padding-top: 60px;          /* offset fixed navbar on mobile */
+}
+
+[data-hero-image] {
+  position: relative;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+/* Hero image — in-flow on mobile so full image is always visible without cropping.
+   Tailwind's .absolute is overridden by this higher-specificity selector. */
+[data-hero-image] img {
+  position: relative !important;
+  display: block;
+  width: 100%;
+  height: auto;
+  inset: unset !important;
+}
+
+@media (min-width: 768px) {
+  [data-hero] {
+    height: 100dvh;
+    padding-top: 0;             /* navbar overlaps for immersive desktop hero */
+    align-items: center;
+    justify-content: center;
+  }
+  [data-hero-image] {
+    position: absolute;
+    inset: 0;
+    flex-shrink: unset;
+  }
+  /* Desktop: restore absolute fill so image covers the full-screen section */
+  [data-hero-image] img {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+}
+
+/* Gradient overlay on image — desktop only */
+.hero-gradient {
+  display: none;
+}
+@media (min-width: 768px) {
+  .hero-gradient {
+    display: block;
+  }
+}
+
+/* Info bar — solid bg below image on mobile; gradient overlay on desktop */
+.hero-bar {
+  position: relative;
+  background: var(--bg-primary);
+  padding-top: 1.5rem;
+}
+@media (min-width: 768px) {
+  .hero-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-top: 80px;
+    background: linear-gradient(transparent, var(--bg-primary));
+  }
+}
+
+/* Title block — centered on mobile, left-aligned on desktop */
+.hero-title-block {
+  text-align: center;
+}
+@media (min-width: 768px) {
+  .hero-title-block {
+    text-align: left;
+  }
+}
+
+/* Store badge row — binary layout: vertical centered stack OR horizontal row.
+   Column mode: centered, content-width buttons (no full-bleed stretch).
+   Row mode (640px+): horizontal, all badges at identical min-width. */
+.store-badge-row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;   /* center buttons horizontally in column mode */
+  gap: 0.75rem;
+}
+.store-badge-row > a {
+  width: auto;           /* fit content — no full-width stretch on mobile */
+}
+.store-badge-row > a > div {
+  min-width: 240px;      /* uniform minimum so all three match in column mode */
+}
+@media (min-width: 640px) {
+  .store-badge-row {
+    flex-direction: row;
+    align-items: center;
+  }
+  .store-badge-row > a > div {
+    min-width: 160px;
+  }
+}
+
+/* Legacy button class (used by 404, ContactForm) */
+.btn-accent {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  background-color: var(--accent);
+  color: var(--accent-text);
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+.btn-accent:hover {
+  opacity: 0.9;
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
