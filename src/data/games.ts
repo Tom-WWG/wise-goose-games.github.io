@@ -161,31 +161,59 @@ export const games: Game[] = [
     faq: [
       {
         question: "What is Pathways & Poltergeists?",
-        answer: "Pathways & Poltergeists is a spatial puzzle game developed by Wise Goose Games in which players build pathways from 3D polyomino pieces to guide four ghost characters home. Rather than controlling the ghosts directly, players rotate and place modular pathway pieces onto a grid, and the ghosts automatically follow any connected route to their exit. The game features 83 hand-crafted puzzles across 7 mechanical zones, progressively introducing obstacles, waypoints, teleporters, switches, and multi-ghost coordination challenges.",
+        answer: "Pathways & Poltergeists is a spatial puzzle game by Wise Goose Games where players build pathways from 3D polyomino pieces to guide four ghost friends home. You don't control the ghosts directly. Instead, you rotate and place modular pathway pieces onto a grid, and the ghosts automatically follow any valid connected route to their exit. The game features 83 hand-crafted puzzles across 7 mechanical zones, progressively introducing obstacles, waypoints, teleporters, switches, and multi-ghost coordination challenges.",
       },
       {
-        question: "How many puzzles are in Pathways & Poltergeists?",
-        answer: "Pathways & Poltergeists contains 83 hand-crafted puzzles spread across 7 distinct mechanical zones. Each zone introduces a new gameplay system — beginning with basic pathway construction and progressing through obstacles, waypoints, teleporters, switches and gates, multi-ghost coordination, and finally combined systems that bring all mechanics together. There are no filler puzzles; every level is designed to introduce or challenge a specific spatial concept.",
+        question: "How many puzzles does Pathways & Poltergeists have?",
+        answer: "Pathways & Poltergeists has 83 hand-crafted puzzles spread across 7 distinct mechanical zones. Each zone introduces a new gameplay system beginning with basic pathway construction and progressing through obstacles, waypoints, teleporters, switches and gates, multi-ghost coordination, and finally combined systems that bring all mechanics together. There are no filler puzzles; every level is designed around a specific spatial concept.",
       },
       {
         question: "What platforms is Pathways & Poltergeists available on?",
-        answer: "Pathways & Poltergeists is available on Steam for Windows PC and macOS, on the Apple App Store for iOS devices, and on Google Play for Android devices. The game was released on February 27, 2026. It supports 16 languages including English, Japanese, and Korean.",
+        answer: "Pathways & Poltergeists is available on Steam for Windows PC and macOS, on the Apple App Store for iPhone and iPad, and on Google Play for Android. All versions were released on February 27, 2026 and support 16 languages including English, Japanese, Korean, and more.",
       },
       {
         question: "How much does Pathways & Poltergeists cost?",
-        answer: "Pathways & Poltergeists is priced at $9.99 USD on Steam, iOS App Store, and Google Play. There are no in-app purchases, no ads, and no additional paid content — the full game is included at the base price.",
+        answer: "Pathways & Poltergeists is $9.99 USD on Steam, the iOS App Store, and Google Play. It is a one-time purchase — there are no ads, no in-app purchases, no subscriptions, and no additional paid content. The full game is included at the base price across all platforms.",
+      },
+      {
+        question: "Does Pathways & Poltergeists have ads or in-app purchases?",
+        answer: "No. Pathways & Poltergeists has no ads and no in-app purchases on any platform. It is a premium one-time purchase at $9.99 USD. You get the complete game, all 83 puzzles, with no additional costs, no paywalls, and no interruptions.",
+      },
+      {
+        question: "Does Pathways & Poltergeists work offline?",
+        answer: "Yes. Pathways & Poltergeists works completely offline on all platforms, Steam (Windows and macOS), iOS, and Android. No internet connection is required to play. It is well suited for travel, commutes, or anywhere you don't have reliable connectivity.",
       },
       {
         question: "Is Pathways & Poltergeists multiplayer?",
-        answer: "No, Pathways & Poltergeists is a single-player game. It has no multiplayer, online, or cooperative modes. The game is designed as a solo puzzle experience focused on spatial reasoning and logical problem solving.",
+        answer: "No, Pathways & Poltergeists is single-player only. It has no multiplayer, co-op, or online features of any kind. The game is designed as a solo puzzle experience focused on spatial reasoning and logical problem solving at your own pace.",
+      },
+      {
+        question: "Does Pathways & Poltergeists have hints or a hint system?",
+        answer: "No. Pathways & Poltergeists has no hint system, no timers, and no penalties for taking your time or trying different approaches. Every puzzle is solvable through logic alone. The philosophy is to let players think as long as they need — the satisfaction comes from solving puzzles on your own terms.",
+      },
+      {
+        question: "How long does it take to beat Pathways & Poltergeists?",
+        answer: "Completion time varies depending on puzzle experience, but most players can expect 12 to 20+ hours to complete all 83 puzzles. The later mechanical zones, particularly multi-ghost coordination and combined systems, are significantly more demanding and may take considerably longer for players who prefer to work through puzzles without external help.",
+      },
+      {
+        question: "Is Pathways & Poltergeists good for casual players?",
+        answer: "Pathways & Poltergeists has a cozy, approachable visual style and is easy to pick up. There are no timers, no penalties, and no pressure. However, the puzzle design is genuinely challenging and gets harder as you progress. It is a good fit for players who enjoy a calm atmosphere paired with real difficulty, but players looking for a completely relaxing, low-challenge experience may find the later zones frustrating.",
+      },
+      {
+        question: "What is a spatial puzzle game?",
+        answer: "A spatial puzzle game is one where the core challenge involves reasoning about space, shape, and physical relationships rather than language, math, or pattern recognition. Players must mentally rotate, fit, and connect objects in two or three dimensions. Pathways & Poltergeists is a spatial puzzle game: players arrange 3D polyomino pieces on a grid to form connected pathways, requiring them to think about how shapes interlock and how routes flow across the board.",
+      },
+      {
+        question: "What is a polyomino?",
+        answer: "A polyomino is a flat shape made by connecting unit squares edge-to-edge. Dominoes (2 squares), trominoes (3 squares), tetrominoes (4 squares, as in Tetris), and pentominoes (5 squares) are all polyomino types. In Pathways & Poltergeists, polyomino pieces are rendered in 3D and function as modular pathway segments — I-pieces form straight corridors, L-pieces form 90-degree turns, T-pieces form three-way junctions, and so on. Players rotate and place them to construct routes for ghosts to follow.",
+      },
+      {
+        question: "What languages does Pathways & Poltergeists support?",
+        answer: "Pathways & Poltergeists supports 16 languages: English, French, German, Spanish, Portuguese, Italian, Dutch, Polish, Russian, Simplified Chinese, Traditional Chinese, Japanese, Korean, Turkish, Arabic, and Thai.",
       },
       {
         question: "Who made Pathways & Poltergeists?",
-        answer: "Pathways & Poltergeists was made by Wise Goose Games, a two-person independent game studio based in California, founded in 2025. The studio is committed to creating thoughtfully designed interactive experiences that balance accessible aesthetics with genuine puzzle depth.",
-      },
-      {
-        question: "Is Pathways & Poltergeists suitable for casual players?",
-        answer: "Pathways & Poltergeists has a cozy, approachable visual style and is easy to pick up — there are no timers, no penalties, and no hint systems. However, the puzzle design is genuinely challenging and rewards spatial thinking and patience. The game has been described as 'a cozy-looking spatial puzzle game that will absolutely break your brain,' making it a good fit for players who enjoy a calm atmosphere paired with meaningful difficulty.",
+        answer: "Pathways & Poltergeists was made by Wise Goose Games, a two-person independent game studio, founded in 2025. The studio focuses on thoughtfully designed puzzle experiences that balance accessible aesthetics with genuine mechanical depth.",
       },
     ],
   },
