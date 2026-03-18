@@ -17,7 +17,8 @@ export function getSEO(props: SEOProps) {
   // Ensure trailing slash consistency with sitemap
   const path = props.canonicalPath === '/' ? '/' : `${props.canonicalPath}/`;
   const fullUrl = `${SITE_URL}${path}`;
-  const ogImage = props.ogImage ?? DEFAULT_OG_IMAGE;
+  const rawOgImage = props.ogImage ?? DEFAULT_OG_IMAGE;
+  const ogImage = rawOgImage.startsWith('http') ? rawOgImage : `${SITE_URL}${rawOgImage}`;
   const ogType = props.ogType ?? "website";
 
   return {
@@ -53,6 +54,11 @@ export function getOrganizationSchema() {
         },
         sameAs: [
           "https://store.steampowered.com/app/4085150/Pathways__Poltergeists/",
+          "https://apps.apple.com/us/app/pathways-poltergeists/id6752310915",
+          "https://play.google.com/store/apps/details?id=com.wgg.PathwaysAndPoltergeists&hl=en_GB",
+          "https://www.instagram.com/wisegoosegames/",
+          "https://bsky.app/profile/wisegoosegames.com",
+          "https://linktr.ee/wisegoosegames",
         ],
       },
       {

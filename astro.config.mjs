@@ -6,5 +6,14 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://wisegoosegames.com',
-  integrations: [react(), tailwind(), sitemap()],
+  integrations: [
+    react(),
+    tailwind(),
+    sitemap({
+      serialize(item) {
+        item.lastmod = new Date().toISOString().split('T')[0];
+        return item;
+      },
+    }),
+  ],
 });

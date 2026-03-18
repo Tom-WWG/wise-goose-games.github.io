@@ -32,12 +32,21 @@ function CTABar({ game, centered = false }: { game: Game; centered?: boolean }) 
     >
       <div className={layout}>
         <div>
-          <h2
-            className={`font-body font-bold ${centered ? 'text-[16px]' : 'text-[18px]'}`}
-            style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}
-          >
-            {game.title}
-          </h2>
+          {centered ? (
+            <h2
+              className="font-body font-bold text-[16px]"
+              style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}
+            >
+              {game.title}
+            </h2>
+          ) : (
+            <h1
+              className="font-body font-bold text-[18px]"
+              style={{ color: 'var(--text-primary)', letterSpacing: '1px' }}
+            >
+              {game.title}
+            </h1>
+          )}
           <p
             className="font-drama italic text-[11px] mt-1"
             style={{ color: 'var(--text-muted)' }}

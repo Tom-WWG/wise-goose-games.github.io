@@ -30,10 +30,10 @@ export default function NavbarClient({ currentPath }: Props) {
       {/* Logo */}
       <a href="/" className="flex items-center gap-2">
         <img
-          src="/WWG_Goose_Face.svg"
+          src="/WWG_Goose_Face_128.png"
           alt="Wise Goose Games"
-          width={32}
-          height={32}
+          width={128}
+          height={128}
           className="h-7 w-auto"
         />
         <span

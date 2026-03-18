@@ -15,6 +15,7 @@ const visibleGames = getVisibleGames();
 
 <BaseLayout {...seo}>
   <main class="max-w-6xl mx-auto px-4 pt-32 pb-20">
+    <h1 class="sr-only">Games — Wise Goose Games</h1>
     <div class={`grid gap-8 ${visibleGames.length === 1 ? 'grid-cols-1 max-w-md mx-auto' : 'grid-cols-1 md:grid-cols-2 lg:grid-cols-3'}`}>
       {visibleGames.map((game) => (
         <a href={`/games/${game.id}`} class="no-underline" data-enter>
