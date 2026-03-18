@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 import type { Game } from '../data/games';
 import StoreBadges from './StoreBadges';
 import SocialProofComponent from './SocialProof';
+import FAQDrawer from './FAQDrawer';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -389,6 +390,11 @@ export default function GameDetail({ game }: Props) {
       <div data-cta-bottom>
         <CTABar game={game} centered />
       </div>
+
+      {/* ===== FAQ DRAWER: Below final CTA, unobtrusive ===== */}
+      {game.faq && game.faq.length > 0 && (
+        <FAQDrawer faqs={game.faq} />
+      )}
 
       {/* ===== LIGHTBOX ===== */}
       {lightboxIndex !== null && (
