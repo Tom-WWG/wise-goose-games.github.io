@@ -15,7 +15,5 @@ const seo = getSEO({
 ---
 
 <BaseLayout {...seo}>
-  {/* Preload hero image for faster LCP */}
-  <link slot="head" rel="preload" as="image" href="/pp-assets/HeroCapsule-2464w.webp" type="image/webp" />
   <Hero client:load game={game} headerImage="/pp-assets/HeroCapsule.webp" />
 </BaseLayout>
