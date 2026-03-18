@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GameDetail from '../../components/GameDetail.tsx';
 import { getVisibleGames } from '../../data/games';
-import { getSEO, getVideoGameSchema, getBreadcrumbSchema } from '../../utils/seo';
+import { getSEO, getVideoGameSchema, getBreadcrumbSchema, getFAQSchema } from '../../utils/seo';
 
 export function getStaticPaths() {
   const games = getVisibleGames();
@@ -26,6 +26,7 @@ const seo = getSEO({
       { name: 'Games', path: '/games/' },
       { name: game.title, path: `/games/${game.id}/` },
     ]),
+    ...(game.faq && game.faq.length > 0 ? [getFAQSchema(game.faq)] : []),
   ],
 });
 ---

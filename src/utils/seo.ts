@@ -177,6 +177,21 @@ export function getBreadcrumbSchema(items: { name: string; path: string }[]) {
   };
 }
 
+export function getFAQSchema(faqs: { question: string; answer: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: faq.answer,
+      },
+    })),
+  };
+}
+
 /** Parse "February 27, 2026" to "2026-02-27" */
 function parseReleaseDate(dateStr: string): string | undefined {
   try {
