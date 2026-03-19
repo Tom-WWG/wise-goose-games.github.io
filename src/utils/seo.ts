@@ -81,7 +81,7 @@ export function getVideoGameSchema(game: {
   platforms: Record<string, { url: string }>;
   price: string | null;
   steamAssets: { header?: string; screenshots?: string[] };
-  trailer: string | null;
+  muxPlaybackId: string | null;
 }) {
   const platformMap: Record<string, string[]> = {
     steam: ["PC", "macOS"],
@@ -118,14 +118,14 @@ export function getVideoGameSchema(game: {
   );
 
   // Build trailer VideoObject if available
-  const trailer = game.trailer
+  const trailer = game.muxPlaybackId
     ? {
         "@type": "VideoObject" as const,
         name: `${game.title} - Official Trailer`,
-        url: game.trailer,
-        thumbnailUrl: game.steamAssets.header
-          ? `${SITE_URL}${game.steamAssets.header}`
-          : undefined,
+        description: `Official trailer for ${game.title}`,
+        thumbnailUrl: `https://image.mux.com/${game.muxPlaybackId}/thumbnail.jpg`,
+        contentUrl: `https://stream.mux.com/${game.muxPlaybackId}/high.mp4`,
+        embedUrl: `https://player.mux.com/${game.muxPlaybackId}`,
         ...(datePublished ? { uploadDate: datePublished } : {}),
       }
     : undefined;
