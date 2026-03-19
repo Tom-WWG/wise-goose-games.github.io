@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GameDetail from '../../components/GameDetail.tsx';
+import MuxTrailer from '../../components/MuxTrailer.astro';
 import { getVisibleGames } from '../../data/games';
 import { getSEO, getVideoGameSchema, getBreadcrumbSchema, getFAQSchema } from '../../utils/seo';
 
@@ -13,6 +14,10 @@ export function getStaticPaths() {
 }
 
 const { game } = Astro.props;
+
+const muxMp4Url = game.muxPlaybackId
+  ? `https://stream.mux.com/${game.muxPlaybackId}/high.mp4`
+  : undefined;
 
 const seo = getSEO({
   title: `${game.title} — Wise Goose Games`,
@@ -32,7 +37,21 @@ const seo = getSEO({
 ---
 
 <BaseLayout {...seo}>
+  {muxMp4Url && (
+    <Fragment slot="head">
+      <meta property="og:video" content={muxMp4Url} />
+      <meta property="og:video:secure_url" content={muxMp4Url} />
+      <meta property="og:video:type" content="video/mp4" />
+      <meta property="og:video:width" content="1920" />
+      <meta property="og:video:height" content="1080" />
+    </Fragment>
+  )}
   <main>
+    {game.muxPlaybackId && (
+      <div data-enter class="w-full bg-black pt-[60px]">
+        <MuxTrailer playbackId={game.muxPlaybackId} title={game.title} />
+      </div>
+    )}
     <GameDetail client:load game={game} />
   </main>
 </BaseLayout>

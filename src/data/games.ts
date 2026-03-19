@@ -43,7 +43,7 @@ export interface Game {
   longDescription: string;
   features: string[];
   platforms: Record<string, GamePlatform>;
-  trailer: string | null;
+  muxPlaybackId: string | null;
   steamAssets: {
     header?: string;
     screenshots?: string[];
@@ -95,7 +95,7 @@ export const games: Game[] = [
         url: "https://play.google.com/store/apps/details?id=com.wgg.PathwaysAndPoltergeists&hl=en_GB",
       },
     },
-    trailer: "https://www.youtube.com/watch?v=V5bOVQK9jYY",
+    muxPlaybackId: "XCwylHGwg401azOsZJ8ry6HfdTj500zcAPoHAtsNuYCHM",
     steamAssets: {
       header: "/pp-assets/HeaderCapsule-card.webp",
       screenshots: [

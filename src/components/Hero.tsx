@@ -6,11 +6,6 @@ import type { Game } from '../data/games';
 import TrailerModal from './TrailerModal';
 import StoreBadges from './StoreBadges';
 
-function extractYouTubeId(url: string): string | null {
-  const match = url.match(/[?&]v=([^&#]+)/) ?? url.match(/youtu\.be\/([^?&#]+)/);
-  return match ? match[1] : null;
-}
-
 interface Props {
   game: Game;
   headerImage: string;
@@ -19,7 +14,7 @@ interface Props {
 export default function Hero({ game, headerImage }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [showTrailer, setShowTrailer] = useState(false);
-  const videoId = game.trailer ? extractYouTubeId(game.trailer) : null;
+  const videoId: string | null = null; // YouTube trailer migration — see homepage video spec
 
 
 

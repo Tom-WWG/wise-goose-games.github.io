@@ -10,11 +10,6 @@ import FAQDrawer from './FAQDrawer';
 
 gsap.registerPlugin(ScrollTrigger);
 
-function extractYouTubeId(url: string): string | null {
-  const match = url.match(/[?&]v=([^&#]+)/) ?? url.match(/youtu\.be\/([^?&#]+)/);
-  return match ? match[1] : null;
-}
-
 function CTABar({ game, centered = false }: { game: Game; centered?: boolean }) {
   const utmContent = centered ? 'detail_bottom_cta' : 'detail_top_cta';
   const badgeHeight = centered ? 'h-[48px]' : 'h-[40px]';
@@ -74,7 +69,6 @@ export default function GameDetail({ game }: Props) {
   const pageRef = useRef<HTMLDivElement>(null);
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const screenshots = game.steamAssets.screenshots ?? [];
-  const videoId = game.trailer ? extractYouTubeId(game.trailer) : null;
 
   // Lightbox keyboard handler
   useEffect(() => {
@@ -192,30 +186,6 @@ export default function GameDetail({ game }: Props) {
 
   return (
     <div ref={pageRef}>
-      {/* ===== TRAILER: Full-width, capped height ===== */}
-      {videoId && (
-        <div 
-          data-enter-detail 
-          className="w-full bg-black pt-[60px]" /* pt-[60px] clears the fixed navbar */
-        >
-          <div
-            className="w-full mx-auto"
-            style={{
-              aspectRatio: '16/9',
-              maxHeight: 'calc(100vh - 60px - 70px)', /* Viewport - navbar - CTA bar estimate */
-            }}
-          >
-            <iframe
-              src={`https://www.youtube.com/embed/${videoId}?rel=0`}
-              title={`${game.title} trailer`}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full border-0"
-            />
-          </div>
-        </div>
-      )}
-
       {/* ===== CTA BAR: Immediately below trailer ===== */}
       <div data-enter-detail>
         <CTABar game={game} />
