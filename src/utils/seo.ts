@@ -124,7 +124,7 @@ export function getVideoGameSchema(game: {
         name: `${game.title} - Official Trailer`,
         description: `Official trailer for ${game.title}`,
         thumbnailUrl: `https://image.mux.com/${game.muxPlaybackId}/thumbnail.jpg`,
-        contentUrl: `https://stream.mux.com/${game.muxPlaybackId}/high.mp4`,
+        contentUrl: `https://stream.mux.com/${game.muxPlaybackId}/highest.mp4`,
         embedUrl: `https://player.mux.com/${game.muxPlaybackId}`,
         ...(datePublished ? { uploadDate: datePublished } : {}),
       }

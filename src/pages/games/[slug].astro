@@ -16,7 +16,7 @@ export function getStaticPaths() {
 const { game } = Astro.props;
 
 const muxMp4Url = game.muxPlaybackId
-  ? `https://stream.mux.com/${game.muxPlaybackId}/high.mp4`
+  ? `https://stream.mux.com/${game.muxPlaybackId}/highest.mp4`
   : undefined;
 
 const seo = getSEO({
