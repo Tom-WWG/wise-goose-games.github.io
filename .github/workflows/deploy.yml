@@ -33,6 +33,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          PUBLIC_MUX_ENV_KEY: ${{ vars.PUBLIC_MUX_ENV_KEY }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

@@ -14,6 +14,8 @@ const poster = `https://image.mux.com/${playbackId}/thumbnail.jpg`;
   <MuxPlayer
     playback-id={playbackId}
     metadata-video-title={title}
+    metadata-video-id={playbackId}
+    env-key={import.meta.env.PUBLIC_MUX_ENV_KEY}
     poster={poster}
     muted
     autoplay
