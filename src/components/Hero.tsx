@@ -59,7 +59,9 @@ export default function Hero({ game, headerImage }: Props) {
         />
 
         {/* Image wrapper — mobile: in-flow at natural aspect ratio; desktop: absolute fill via CSS */}
-        <div
+        <a
+          href="/games/pathways-poltergeists"
+          className="block w-full h-full"
           data-hero-image
         >
           {/* Capsule art — responsive <img> for LCP + SEO */}
@@ -112,7 +114,7 @@ export default function Hero({ game, headerImage }: Props) {
               </span>
             </button>
           )}
-        </div>
+        </a>
 
         {/* Info bar — mobile: flows below image with solid bg; desktop: absolute bottom overlay via CSS */}
         <div
