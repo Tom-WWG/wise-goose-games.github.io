@@ -10,7 +10,7 @@ export interface SEOProps {
   noindex?: boolean;
 }
 
-const SITE_URL = "https://wisegoosegames.com";
+export const SITE_URL = "https://wisegoosegames.com";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-hero-logo-1200x630.png`;
 
 export function getSEO(props: SEOProps) {
@@ -43,19 +43,21 @@ export function getOrganizationSchema() {
         "@id": `${SITE_URL}/#organization`,
         name: "Wise Goose Games",
         url: SITE_URL,
-        logo: `${SITE_URL}/logo_512x512.png`,
+        logo: {
+          "@type": "ImageObject",
+          url: `${SITE_URL}/logo_512x512.png`,
+          width: 512,
+          height: 512,
+        },
         description: "Two-person independent game studio based in California, committed to creating thoughtfully designed interactive experiences.",
         email: "contact@wisegoosegames.com",
-        foundingDate: "2025",
+        foundingDate: "2025-01-01",
         contactPoint: {
           "@type": "ContactPoint",
           email: "contact@wisegoosegames.com",
           contactType: "customer support",
         },
         sameAs: [
-          "https://store.steampowered.com/app/4085150/Pathways__Poltergeists/",
-          "https://apps.apple.com/us/app/pathways-poltergeists/id6752310915",
-          "https://play.google.com/store/apps/details?id=com.wgg.PathwaysAndPoltergeists&hl=en_GB",
           "https://www.instagram.com/wisegoosegames/",
           "https://bsky.app/profile/wisegoosegames.com",
           "https://linktr.ee/wisegoosegames",
@@ -66,6 +68,7 @@ export function getOrganizationSchema() {
         "@id": `${SITE_URL}/#website`,
         name: "Wise Goose Games",
         url: SITE_URL,
+        inLanguage: "en",
         publisher: { "@id": `${SITE_URL}/#organization` },
       },
     ],
@@ -89,12 +92,12 @@ export function getVideoGameSchema(game: {
     android: ["Android"],
   };
   const platformNames = Object.keys(game.platforms).flatMap((p) => platformMap[p] ?? [p]);
-  const osMap: Record<string, string> = {
-    steam: "Windows, macOS",
-    ios: "iOS",
-    android: "Android",
+  const osMap: Record<string, string[]> = {
+    steam: ["Windows", "macOS"],
+    ios: ["iOS"],
+    android: ["Android"],
   };
-  const operatingSystems = Object.keys(game.platforms).map((p) => osMap[p] ?? p);
+  const operatingSystems = Object.keys(game.platforms).flatMap((p) => osMap[p] ?? [p]);
 
   // Extract numeric price from string like "$9.99 USD"
   const priceMatch = game.price?.match(/[\d.]+/);
@@ -134,12 +137,13 @@ export function getVideoGameSchema(game: {
     "@context": "https://schema.org",
     "@type": "VideoGame",
     name: game.title,
+    inLanguage: "en",
     url: `${SITE_URL}/games/${game.id}/`,
     description: game.shortDescription,
     genre: game.genre,
     gamePlatform: platformNames,
     operatingSystem: operatingSystems,
-    applicationCategory: "Game",
+    applicationCategory: "GameApplication",
     numberOfPlayers: {
       "@type": "QuantitativeValue",
       value: 1,
@@ -201,4 +205,26 @@ function parseReleaseDate(dateStr: string): string | undefined {
   } catch {
     return undefined;
   }
+}
+
+export function getCollectionPageSchema(title: string, description: string, url: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: title,
+    description,
+    url,
+    publisher: { "@id": `${SITE_URL}/#organization` },
+  };
+}
+
+export function getContactPageSchema(title: string, description: string, url: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    name: title,
+    description,
+    url,
+    publisher: { "@id": `${SITE_URL}/#organization` },
+  };
 }

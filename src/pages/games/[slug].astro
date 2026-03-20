@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import GameDetail from '../../components/GameDetail.tsx';
+import GameDetail from '../../components/GameDetail.astro';
 import MuxTrailer from '../../components/MuxTrailer.astro';
 import { getVisibleGames } from '../../data/games';
 import { getSEO, getVideoGameSchema, getBreadcrumbSchema, getFAQSchema } from '../../utils/seo';
@@ -52,6 +52,6 @@ const seo = getSEO({
         <MuxTrailer playbackId={game.muxPlaybackId} title={game.title} />
       </div>
     )}
-    <GameDetail client:load game={game} />
+    <GameDetail game={game} />
   </main>
 </BaseLayout>

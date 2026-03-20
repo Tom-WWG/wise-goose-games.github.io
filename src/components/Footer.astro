@@ -1,5 +1,6 @@
 ---
 // src/components/Footer.astro
+import { Image } from 'astro:assets';
 ---
 
 <footer
@@ -9,11 +10,12 @@
     <div class="flex flex-col md:flex-row items-center justify-between gap-4">
       <!-- Left: Studio brand -->
       <div class="flex items-center gap-3">
-        <img
+        <Image
           src="/WWG_Goose_Header_280px.png"
           alt="Wise Goose Games"
           width={246}
           height={280}
+          loading="lazy"
           class="h-6 w-auto opacity-60"
         />
         <span

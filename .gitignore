@@ -4,3 +4,7 @@ dist/
 .DS_Store
 .superpowers/
 .env.local
+.claude/
+
+# Ignore source PNGs (WebP should be used)
+public/pp-assets/*.png
