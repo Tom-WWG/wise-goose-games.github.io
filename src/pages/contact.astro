@@ -1,12 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.tsx';
-import { getSEO } from '../utils/seo';
+import { getSEO, getContactPageSchema, getBreadcrumbSchema, SITE_URL } from '../utils/seo';
 
 const seo = getSEO({
   title: 'Contact — Wise Goose Games',
   description: 'Get in touch with Wise Goose Games for press inquiries, business opportunities, or general questions.',
   canonicalPath: '/contact',
+  structuredData: [
+    getContactPageSchema('Contact — Wise Goose Games', 'Get in touch with Wise Goose Games for press inquiries, business opportunities, or general questions.', `${SITE_URL}/contact/`),
+    getBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Contact', path: '/contact/' }
+    ])
+  ]
 });
 ---
 

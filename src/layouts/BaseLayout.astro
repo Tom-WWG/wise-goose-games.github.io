@@ -94,6 +94,32 @@ const {
 
   <slot name="head" />
   <ViewTransitions />
+
+  <style is:global>
+    @media (prefers-reduced-motion: no-preference) {
+      [data-reveal], [data-enter], [data-enter-detail], [data-animate], [data-word], [data-reveal-content], [data-cta-bottom] {
+        opacity: 0;
+        will-change: opacity, transform;
+      }
+      [data-enter], [data-enter-detail], [data-reveal-content], [data-animate="bar"], [data-word], [data-cta-bottom] {
+        transform: translateY(20px);
+      }
+      [data-animate]:not([data-animate="bar"]):not([data-animate="play"]) {
+        transform: translateY(40px);
+      }
+      [data-reveal] {
+        transform: translateY(30px);
+      }
+      [data-animate="play"] {
+        transform: none;
+      }
+      .is-revealed {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+        transition: opacity 0.6s cubic-bezier(0.215, 0.61, 0.355, 1), transform 0.6s cubic-bezier(0.215, 0.61, 0.355, 1);
+      }
+    }
+  </style>
 </head>
 <body>
   <Navbar />
@@ -120,37 +146,66 @@ const {
     });
   </script>
 
-  <!-- Page entrance animations -->
+  <!-- Page entrance and scroll reveals -->
   <script>
-    import gsap from 'gsap';
+    function setupAnimations() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    function runEntranceAnimations() {
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const els = document.querySelectorAll('[data-enter]');
+      // 1. On-load entrance animations (staggered)
+      const enterGroups = {
+        'data-enter': Array.from(document.querySelectorAll('[data-enter]')),
+        'data-enter-detail': Array.from(document.querySelectorAll('[data-enter-detail]')),
+        'data-animate-play': Array.from(document.querySelectorAll('[data-animate="play"]')),
+        'data-animate-bar': Array.from(document.querySelectorAll('[data-animate="bar"]'))
+      };
 
-      if (prefersReducedMotion || els.length === 0) {
-        els.forEach(el => {
-          (el as HTMLElement).style.opacity = '1';
-          (el as HTMLElement).style.transform = 'none';
+      requestAnimationFrame(() => {
+        enterGroups['data-enter'].forEach((el, i) => {
+          setTimeout(() => el.classList.add('is-revealed'), 100 + (i * 80));
         });
-        return;
-      }
-
-      gsap.set(els, { opacity: 0, y: 20 });
-
-      gsap.to(els, {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        ease: 'power3.out',
-        stagger: 0.08,
-        delay: 0.1,
+        enterGroups['data-enter-detail'].forEach((el, i) => {
+          setTimeout(() => el.classList.add('is-revealed'), 150 + (i * 100));
+        });
+        enterGroups['data-animate-play'].forEach((el) => {
+          setTimeout(() => el.classList.add('is-revealed'), 500);
+        });
+        enterGroups['data-animate-bar'].forEach((el) => {
+          setTimeout(() => el.classList.add('is-revealed'), 300);
+        });
       });
+
+      // 2. Scroll-triggered animations
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+      document.querySelectorAll('[data-reveal], [data-reveal-content], [data-cta-bottom], [data-animate]:not([data-animate="play"]):not([data-animate="bar"])').forEach(el => observer.observe(el));
+
+      // 3. Staggered words in Philosophy
+      const philosophyWords = Array.from(document.querySelectorAll('[data-word]'));
+      if (philosophyWords.length > 0) {
+        const philosophyParent = philosophyWords[0].parentElement;
+        if (philosophyParent) {
+          const wordObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+              philosophyWords.forEach((el, i) => {
+                setTimeout(() => el.classList.add('is-revealed'), i * 30);
+              });
+              wordObserver.disconnect();
+            }
+          }, { threshold: 0.2 });
+          wordObserver.observe(philosophyParent);
+        }
+      }
     }
 
-    // Run on initial load and on View Transitions navigation
-    runEntranceAnimations();
-    document.addEventListener('astro:page-load', runEntranceAnimations);
+    setupAnimations();
+    document.addEventListener('astro:page-load', setupAnimations);
   </script>
 </body>
 </html>

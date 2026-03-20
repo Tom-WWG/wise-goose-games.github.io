@@ -1,0 +1,17 @@
+name: IndexNow
+
+on:
+  push:
+    branches:
+      - prototype
+      - main
+  workflow_dispatch:
+
+jobs:
+  ping-indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify IndexNow (Bing/Yandex)
+        run: |
+          # Ping the API to instantly index updated links
+          curl -s "https://api.indexnow.org/indexnow?url=https://wisegoosegames.com/sitemap-index.xml&key=bb3809dfdbbb4aeab50800de2cf1c1e5"

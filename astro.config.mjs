@@ -9,11 +9,6 @@ export default defineConfig({
   integrations: [
     react(),
     tailwind(),
-    sitemap({
-      serialize(item) {
-        item.lastmod = new Date().toISOString().split('T')[0];
-        return item;
-      },
-    }),
+    sitemap(),
   ],
 });

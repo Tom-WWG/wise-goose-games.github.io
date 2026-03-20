@@ -1,0 +1,79 @@
+---
+// src/components/Hero.astro
+import type { Game } from '../data/games';
+import StoreBadges from './StoreBadges.tsx';
+
+interface Props {
+  game: Game;
+  headerImage: string;
+}
+
+const { game, headerImage } = Astro.props;
+---
+
+<section
+  data-hero
+  class="relative flex flex-col overflow-hidden"
+>
+  {/* Background — solid base */}
+  <div
+    class="absolute inset-0"
+    style="background-color: var(--bg-primary);"
+  ></div>
+
+  {/* Image wrapper */}
+  <a
+    href={`/games/${game.id}/`}
+    class="block w-full h-full"
+    data-hero-image
+  >
+    {/* Capsule art */}
+    <img
+      src={headerImage}
+      srcset={`${headerImage.replace('.webp', '-640w.webp')} 640w, ${headerImage.replace('.webp', '-1232w.webp')} 1232w, ${headerImage.replace('.webp', '-2464w.webp')} 2464w, ${headerImage.replace('.webp', '-3696w.webp')} 3696w`}
+      sizes="100vw"
+      alt={`${game.title} — ${game.tagline}`}
+      width={3696}
+      height={1727}
+      fetchpriority="high"
+      decoding="async"
+      class="absolute inset-0 w-full h-full object-contain"
+    />
+    {/* Gradient */}
+    <div
+      class="hero-gradient absolute inset-0"
+      style="background: linear-gradient(transparent 40%, var(--bg-primary) 100%);"
+    ></div>
+  </a>
+
+  {/* Info bar */}
+  <div
+    data-animate="bar"
+    class="hero-bar z-10 px-6 md:px-8 pb-6"
+  >
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div class="hero-title-block">
+        <h1
+          class="font-body font-bold text-[22px] md:text-[26px]"
+          style="color: var(--text-primary); letter-spacing: 1px;"
+        >
+          {game.title}
+        </h1>
+        <p
+          class="font-drama italic text-[12px] md:text-[14px] mt-1"
+          style="color: var(--text-secondary);"
+        >
+          {game.tagline}
+        </p>
+      </div>
+      <StoreBadges client:load game={game} utmContent="hero_cta" showPrice={true} />
+    </div>
+  </div>
+</section>
+
+{/* Accent divider */}
+<div class="h-[2px]" style="background-color: var(--accent);"></div>
+
+<script>
+  // Handled globally by BaseLayout's IntersectionObserver
+</script>

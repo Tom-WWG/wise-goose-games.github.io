@@ -1,6 +1,7 @@
 ---
 import type { Game } from '../data/games';
 import { buildTrackedUrl } from '../utils/utm';
+import { Image } from 'astro:assets';
 
 interface Props {
   game: Game;
@@ -26,7 +27,7 @@ const statusLabel: Record<string, string> = {
 <article class="bg-surface border border-border overflow-hidden hover:-translate-y-1 transition-transform">
   <!-- Header art -->
   {game.steamAssets.header && (
-    <img
+    <Image
       src={game.steamAssets.header}
       alt={`${game.title} header art`}
       width={920}

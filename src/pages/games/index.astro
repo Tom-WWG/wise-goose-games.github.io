@@ -2,12 +2,19 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import GameCard from '../../components/GameCard.astro';
 import { getVisibleGames } from '../../data/games';
-import { getSEO } from '../../utils/seo';
+import { getSEO, getCollectionPageSchema, getBreadcrumbSchema, SITE_URL } from '../../utils/seo';
 
 const seo = getSEO({
   title: 'Games — Wise Goose Games',
   description: 'Explore our catalog of thoughtfully crafted games from Wise Goose Games.',
   canonicalPath: '/games',
+  structuredData: [
+    getCollectionPageSchema('Games — Wise Goose Games', 'Explore our catalog of thoughtfully crafted games from Wise Goose Games.', `${SITE_URL}/games/`),
+    getBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'Games', path: '/games/' }
+    ])
+  ]
 });
 
 const visibleGames = getVisibleGames();

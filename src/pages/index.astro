@@ -2,18 +2,18 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getSEO, getOrganizationSchema } from '../utils/seo';
 import { games } from '../data/games';
-import Hero from '../components/Hero.tsx';
+import Hero from '../components/Hero.astro';
 
 const game = games[0];
 
 const seo = getSEO({
   title: 'Wise Goose Games — Thoughtfully Crafted Games',
-  description: 'Wise Goose Games LLC is a two-person independent game studio based in California, committed to creating thoughtfully designed interactive experiences that respect players\' intelligence.',
+  description: 'Wise Goose Games is a California-based independent studio creating thoughtfully designed interactive experiences that respect players\' intelligence.',
   canonicalPath: '/',
   structuredData: getOrganizationSchema(),
 });
 ---
 
 <BaseLayout {...seo}>
-  <Hero client:load game={game} headerImage="/pp-assets/HeroCapsule.webp" />
+  <Hero game={game} headerImage="/pp-assets/HeroCapsule.webp" />
 </BaseLayout>
