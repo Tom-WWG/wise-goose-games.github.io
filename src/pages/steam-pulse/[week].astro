@@ -36,6 +36,7 @@ const genreBarItems = d.genres.map(g => ({
   score: g.score,
   trend: g.trend,
   topGames: g.top_games,
+  gameCount: g.game_count,
 }));
 
 const tagBarItems = d.tags.map(t => ({
@@ -44,6 +45,7 @@ const tagBarItems = d.tags.map(t => ({
   trend: t.trend,
   isNew: risingTagNames.has(t.name) && t.trend === 'rising',
   topGames: t.top_games,
+  gameCount: t.game_count,
 }));
 
 // Build TrendSeries arrays for SteamPulseTrendChart

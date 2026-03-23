@@ -74,11 +74,11 @@
         </button>
         <div class="spfaq-a">
           <p>The Composite Score is a 0–100 signal strength rating for each genre or tag, combining three factors:</p>
-          <code class="spfaq-formula">S = (SR × 0.5) + (RP × 0.3) + (TM × 0.2)</code>
+          <code class="spfaq-formula">S = (SR × 0.5) + (RP × 0.4) + (TM × 0.1)</code>
           <ul>
-            <li><strong>SR (Success Rate, 50% weight):</strong> How many games in this genre/tag were Hits this week.</li>
-            <li><strong>RP (Revenue Potential, 30% weight):</strong> Normalized average estimated revenue of games carrying this tag.</li>
-            <li><strong>TM (Trend Momentum, 20% weight):</strong> Week-over-week composite change, normalized 0–100. First-run weeks default to 50 (neutral).</li>
+            <li><strong>SR (Success Rate, 50% weight):</strong> How many games in this genre/tag were Hits this week, Laplace-smoothed to avoid false confidence on small samples.</li>
+            <li><strong>RP (Revenue Potential, 40% weight):</strong> Normalized average estimated revenue of Hit-classified games carrying this tag. Only winning games count.</li>
+            <li><strong>TM (Trend Momentum, 10% weight):</strong> Week-over-week composite change, normalized 0–100. First-run weeks default to 50 (neutral).</li>
           </ul>
           <p>A score above 70 indicates a strong market signal. Below 50 suggests either high miss rates or declining momentum in that category.</p>
         </div>
@@ -95,7 +95,7 @@
         </button>
         <div class="spfaq-a">
           <p>Success Rate is the percentage of games <em>with a specific genre or tag</em> that qualified as Hits that week. A 100% success rate means every game in that category cleared the revenue threshold, a strong niche signal. Success Rate is the heaviest input into the Composite Score, weighted at 50%.</p>
-          <p>Note that small sample sizes (2–3 games) can produce 100% success rates by chance. We flag these in the Emerging Niches section separately so you can weight them accordingly.</p>
+          <p>We apply <strong>Laplace smoothing</strong> to avoid false confidence from tiny samples: the formula is <code>(hits + 1) ÷ (total + 2) × 100</code> rather than a raw ratio. This pulls extreme values (0% or 100% on 2 games) toward the center. We also flag small samples in the Emerging Niches section so you can weight them accordingly.</p>
         </div>
       </div>
 
@@ -109,7 +109,7 @@
           </svg>
         </button>
         <div class="spfaq-a">
-          <p>Revenue Potential is a normalized score (0–100) based on the average estimated revenue of all games carrying a given tag or genre in the report period. Tags where the average game earned more get a higher RP score. It's weighted at 30% in the Composite Score formula.</p>
+          <p>Revenue Potential is a normalized score (0–100) based on the average estimated revenue of <strong>Hit-classified games</strong> carrying a given tag or genre. Only games that cleared the revenue threshold count — misses are excluded so a crowded, low-quality week doesn't dilute the signal. Tags where winning games earned more get a higher RP score. It's weighted at 40% in the Composite Score formula.</p>
           <p>It answers the question: when games in this category succeed, <em>how much</em> do they typically earn?</p>
         </div>
       </div>
@@ -139,7 +139,7 @@
           </svg>
         </button>
         <div class="spfaq-a">
-          <p>Trend Momentum (TM) measures how much a genre or tag's composite score changed compared to the previous report period, normalized to a 0–100 scale. A rising tag gained ground; a declining tag gave it back. TM is weighted at 20% in the Composite Score.</p>
+          <p>Trend Momentum (TM) measures how much a genre or tag's composite score changed compared to the previous report period, normalized to a 0–100 scale. A rising tag gained ground; a declining tag gave it back. TM is weighted at 10% in the Composite Score, intentionally low to prevent a single noisy week from swinging the overall signal.</p>
           <p>On a tag's first appearance in the dataset (no prior week to compare against), TM defaults to 50, a neutral starting baseline.</p>
         </div>
       </div>

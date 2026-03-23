@@ -151,7 +151,7 @@ async function main() {
     }
 
     // Compute composite scores
-    const computed = computeScores(report.games, previousScores);
+    const computed = computeScores(report, previousScores);
     console.log(`  Genres: ${computed.genres.length}  Tags: ${computed.tags.length}`);
     console.log(`  Hit rate: ${computed.hit_rate}%  Releases: ${computed.total_releases}`);
 

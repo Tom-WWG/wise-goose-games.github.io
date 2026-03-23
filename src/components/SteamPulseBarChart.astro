@@ -16,6 +16,7 @@ interface BarItem {
   trend: 'rising' | 'stable' | 'declining';
   isNew?: boolean;
   topGames?: TopGame[];
+  gameCount?: number;
 }
 
 interface Props {
@@ -84,7 +85,12 @@ function gamesAttr(item: BarItem): string {
           >
             <div class="sp-bar-meta">
               <span class="sp-bar-label">{item.name}</span>
-              <span class="sp-bar-value">{item.score}</span>
+              <div class="sp-bar-score-group">
+                <span class="sp-bar-value">{item.score}</span>
+                {item.gameCount !== undefined && (
+                  <span class="sp-bar-n">n={item.gameCount}</span>
+                )}
+              </div>
             </div>
             <div class="sp-bar-track">
               <div
@@ -120,7 +126,12 @@ function gamesAttr(item: BarItem): string {
               ) : (
                 <span class="sp-bar-label">{item.name}</span>
               )}
-              <span class="sp-bar-value">{item.score}</span>
+              <div class="sp-bar-score-group">
+                <span class="sp-bar-value">{item.score}</span>
+                {item.gameCount !== undefined && (
+                  <span class="sp-bar-n">n={item.gameCount}</span>
+                )}
+              </div>
             </div>
             <div class="sp-bar-track">
               <div
@@ -148,15 +159,15 @@ function gamesAttr(item: BarItem): string {
   <!-- Footer -->
   <footer class="sp-footer">
     <div class="sp-formula-wrap">
-      <span class="sp-footer-note sp-footer-note--interactive">Score = (success rate × 0.5) + (revenue potential × 0.3) + (trend momentum × 0.2)</span>
+      <span class="sp-footer-note sp-footer-note--interactive">Score = (success rate × 0.5) + (revenue potential × 0.4) + (trend momentum × 0.1)</span>
       <div class="sp-formula-tooltip" role="tooltip">
         <p class="sp-tooltip-title">COMPOSITE SCORE FORMULA</p>
-        <code class="sp-tooltip-eq">S = (SR × 0.5) + (RP × 0.3) + (TM × 0.2)</code>
+        <code class="sp-tooltip-eq">S = (SR × 0.5) + (RP × 0.4) + (TM × 0.1)</code>
         <dl class="sp-tooltip-legend">
           <dt>SR</dt>
-          <dd>Success Rate — hits ÷ total releases, as %</dd>
+          <dd>Success Rate — (hits + 1) ÷ (total + 2) × 100, Laplace-smoothed to reduce noise on small samples</dd>
           <dt>RP</dt>
-          <dd>Revenue Potential — normalised avg. estimated revenue across all tags</dd>
+          <dd>Revenue Potential — normalised avg. estimated revenue of Hit-classified games only</dd>
           <dt>TM</dt>
           <dd>Trend Momentum — WoW delta normalised 0–100. Defaults to 50 (neutral) on first run.</dd>
         </dl>
@@ -169,15 +180,20 @@ function gamesAttr(item: BarItem): string {
 <script>
   const STEAM_CDN = 'https://cdn.akamai.steamstatic.com/steam/apps';
 
-  function formatRevenue(n: number): string {
-    function withCommas(num: number, decimals: number): string {
-      const parts = num.toFixed(decimals).split('.');
-      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      return decimals > 0 ? parts.join('.') : parts[0];
-    }
-    if (n >= 1_000_000) return `$${withCommas(n / 1_000_000, 1)}M`;
-    if (n >= 1_000) return `$${withCommas(n / 1_000, 1)}k`;
-    return `$${withCommas(n, 0)}`;
+  function revenueTier(n: number): { label: string; cssClass: string } {
+    if (n >= 10_000_000) return { label: 'LANDMARK',  cssClass: 'sp-rev-tier--landmark' };
+    if (n >= 1_000_000)  return { label: 'BREAKOUT',  cssClass: 'sp-rev-tier--breakout' };
+    if (n >= 100_000)    return { label: 'STRONG',    cssClass: 'sp-rev-tier--strong' };
+    return                      { label: 'SOLID',     cssClass: 'sp-rev-tier--solid' };
+  }
+
+  function formatRevenueApprox(n: number): string {
+    if (n >= 100_000_000) return `~$${Math.round(n / 10_000_000) * 10}M`;
+    if (n >= 10_000_000)  return `~$${Math.round(n / 1_000_000)}M`;
+    if (n >= 1_000_000)   return `~$${(Math.round(n / 100_000) / 10).toFixed(1)}M`;
+    if (n >= 100_000)     return `~$${Math.round(n / 10_000) * 10}K`;
+    if (n >= 1_000)       return `~$${Math.round(n / 1_000)}K`;
+    return `~$${n}`;
   }
 
   function renderGames(games: Array<{
@@ -189,6 +205,8 @@ function gamesAttr(item: BarItem): string {
     if (!games.length) return '<p class="sp-detail-empty">No game data for this week yet.</p>';
     return games.map((g, i) => {
       const isHit = g.classification === 'hit';
+      const tier = revenueTier(g.revenue_estimate);
+      const revText = formatRevenueApprox(g.revenue_estimate);
       // Fallback chain: header.jpg → capsule_616x353.jpg → capsule_231x87.jpg → hide
       const onerror = [
         `this.src='${STEAM_CDN}/${g.app_id}/capsule_616x353.jpg';this.onerror=function(){`,
@@ -211,7 +229,10 @@ function gamesAttr(item: BarItem): string {
             <span class="sp-game-title">${g.title}</span>
             <div class="sp-game-meta">
               <span class="sp-game-badge sp-game-badge--${isHit ? 'hit' : 'promising'}">${g.classification}</span>
-              <span class="sp-game-rev">${formatRevenue(g.revenue_estimate)} lifetime est.</span>
+              <span class="sp-game-rev">
+                <span class="sp-rev-tier ${tier.cssClass}">${tier.label}</span>
+                <span class="sp-rev-approx">${revText}</span>
+              </span>
             </div>
           </div>
         </div>`;
@@ -265,9 +286,6 @@ function gamesAttr(item: BarItem): string {
       });
     });
 
-    // Auto-select the first genre row on load
-    const first = root.querySelector<HTMLElement>('.sp-bar-row[data-group="genre"]');
-    first?.click();
   }
 
   // Support Astro view transitions
@@ -674,7 +692,42 @@ function gamesAttr(item: BarItem): string {
     background: rgba(56, 189, 248, 0.06);
   }
 
+  .sp-bar-score-group {
+    display: flex;
+    align-items: baseline;
+    gap: 0.35rem;
+  }
+
+  .sp-bar-n {
+    font-size: 0.625rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.3);
+    letter-spacing: 0.03em;
+    font-variant-numeric: tabular-nums;
+  }
+
   :global(.sp-game-rev) {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  :global(.sp-rev-tier) {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 1px 4px;
+    border: 1px solid currentColor;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+
+  :global(.sp-rev-tier--landmark) { color: #F59E0B; }   /* amber  — $10M+       */
+  :global(.sp-rev-tier--breakout) { color: #4ADE80; }   /* green  — $1M–$10M    */
+  :global(.sp-rev-tier--strong)   { color: #38BDF8; }   /* blue   — $100K–$1M   */
+  :global(.sp-rev-tier--solid)    { color: rgba(255,255,255,0.5); } /* white — <$100K */
+
+  :global(.sp-rev-approx) {
     font-size: 0.71rem;
     font-weight: 600;
     color: var(--text-secondary);

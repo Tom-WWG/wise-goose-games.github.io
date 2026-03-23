@@ -1,5 +1,5 @@
 import { isGenreTag } from './tag-names.js';
-import type { ReportFile } from './fetch-report.js';
+import type { ReportFile, TagEntry } from './fetch-report.js';
 
 export interface TagStats {
   tagId: string;
@@ -57,28 +57,59 @@ export function computeScores(
   // Use pre-computed tag stats from the CloudFront report
   const tagEntries = Object.values(report.tags).filter(t => t.total_games >= 2);
 
-  // Normalize avg_revenue across all qualifying tags
-  const revenues = tagEntries.map(t => t.avg_revenue);
+  // Build a lookup of TagEntry by tag_id for joining games → tags
+  const tagById: Record<number, TagEntry> = {};
+  for (const t of Object.values(report.tags)) {
+    tagById[t.tag_id] = t;
+  }
+
+  // Compute hits-only average revenue per tag name (Change A)
+  // Only games classified as HIT contribute to this average.
+  const hitRevSum: Record<string, number> = {};
+  const hitRevCount: Record<string, number> = {};
+  for (const game of report.games) {
+    if (game.hit_class !== 'HIT') continue;
+    for (const tag_id of game.tag_ids) {
+      const tag = tagById[tag_id];
+      if (!tag) continue;
+      hitRevSum[tag.tag_name] = (hitRevSum[tag.tag_name] ?? 0) + game.est_net_per_month;
+      hitRevCount[tag.tag_name] = (hitRevCount[tag.tag_name] ?? 0) + 1;
+    }
+  }
+  const hitsAvgRevByName: Record<string, number> = {};
+  for (const name of Object.keys(hitRevSum)) {
+    hitsAvgRevByName[name] = hitRevSum[name] / hitRevCount[name];
+  }
+
+  // Normalize hits-only avg revenue across all qualifying tags (Change A)
+  const revenues = tagEntries.map(t => hitsAvgRevByName[t.tag_name] ?? t.avg_revenue);
   const minRev = Math.min(...revenues);
   const maxRev = Math.max(...revenues);
 
   const withScores: TagStats[] = tagEntries.map(t => {
-    const revenue_potential = normalize(t.avg_revenue, minRev, maxRev);
+    // Use hits-only avg revenue for normalization; fall back to tag's own avg if no HIT games (Change A)
+    const revenue_potential = normalize(hitsAvgRevByName[t.tag_name] ?? t.avg_revenue, minRev, maxRev);
     const prevScore = previousScores[t.tag_name] ?? null;
+
+    // Laplace-smoothed success rate for score math (Change B)
+    // Raw t.success_rate is retained in the returned object for display purposes.
+    const smoothedSR = ((t.hits + 1) / (t.total_games + 2)) * 100;
 
     // Bootstrap composite using neutral TM=50 to get a stable base for delta.
     // Delta compares this neutral-momentum composite against the stored prevScore,
     // which was also computed with TM=50 when it was first written (or the actual
     // prior-week composite). We use the neutral base on BOTH sides so the comparison
     // is apples-to-apples: pure SR+RP signal without momentum compounding.
-    const baseComposite = Math.round(t.success_rate * 0.5 + revenue_potential * 0.3 + 50 * 0.2);
+    // Weights: SR 50%, RP 40%, TM 10% (Change C)
+    const baseComposite = Math.round(smoothedSR * 0.5 + revenue_potential * 0.4 + 50 * 0.1);
     const delta = prevScore !== null ? baseComposite - prevScore : 0;
     const clampedDelta = Math.max(-100, Math.min(100, delta));
     const trend_momentum = Math.round((clampedDelta + 100) / 2); // 0–100
 
     // Final composite with momentum factored in
+    // Weights: SR 50%, RP 40%, TM 10% (Change C)
     const composite = Math.round(
-      t.success_rate * 0.5 + revenue_potential * 0.3 + trend_momentum * 0.2
+      smoothedSR * 0.5 + revenue_potential * 0.4 + trend_momentum * 0.1
     );
     const trend: 'rising' | 'stable' | 'declining' =
       delta > 5 ? 'rising' : delta < -5 ? 'declining' : 'stable';

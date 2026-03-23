@@ -11,6 +11,7 @@ const scoredItem = z.object({
   name: z.string(),
   score: z.number().min(0).max(100),
   trend: z.enum(['rising', 'stable', 'declining']),
+  game_count: z.number().int().positive().optional(),
   top_games: z.array(topGame).max(5).optional(),
 });
 

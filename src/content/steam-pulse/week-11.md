@@ -11,82 +11,93 @@ promising_count: 0
 niche_count: 0
 genres:
   - name: Sandbox
-    score: 63
+    score: 65
     trend: stable
+    game_count: 4
     top_games:
       - { app_id: 1062090, title: "Timberborn", classification: hit, revenue_estimate: 248729216 }
       - { app_id: 3717070, title: "WWE 2K26", classification: niche, revenue_estimate: 15903128 }
       - { app_id: 2541530, title: "AETHUS", classification: hit, revenue_estimate: 467228 }
+  - name: Action
+    score: 52
+    trend: declining
+    game_count: 9
+    top_games:
+      - { app_id: 2157830, title: "John Carpenter's Toxic Commando", classification: hit, revenue_estimate: 14283171 }
+      - { app_id: 1942110, title: "Bootstrap Island", classification: hit, revenue_estimate: 8831823 }
+      - { app_id: 3920610, title: "FATAL FRAME II: Crimson Butterfly REMAKE", classification: hit, revenue_estimate: 6298740 }
   - name: Adventure
-    score: 62
+    score: 46
     trend: stable
+    game_count: 7
     top_games:
       - { app_id: 2157830, title: "John Carpenter's Toxic Commando", classification: hit, revenue_estimate: 14283171 }
       - { app_id: 1942110, title: "Bootstrap Island", classification: hit, revenue_estimate: 8831823 }
       - { app_id: 2975950, title: "Solasta II", classification: hit, revenue_estimate: 7059079 }
-  - name: Shooter
-    score: 62
+  - name: Casual
+    score: 45
     trend: stable
+    game_count: 3
+    top_games:
+      - { app_id: 4173110, title: "Cirno! Lifts a Boulder", classification: hit, revenue_estimate: 249018 }
+      - { app_id: 3780110, title: "每日亲亲洛丽塔", classification: hit, revenue_estimate: 171589 }
+      - { app_id: 3122460, title: "Desktop Raid", classification: hit, revenue_estimate: 137703 }
+  - name: Shooter
+    score: 45
+    trend: stable
+    game_count: 2
     top_games:
       - { app_id: 2157830, title: "John Carpenter's Toxic Commando", classification: hit, revenue_estimate: 14283171 }
       - { app_id: 2778610, title: "Over The Top: WWI", classification: hit, revenue_estimate: 2157052 }
-  - name: Action
-    score: 61
-    trend: stable
-    top_games:
-      - { app_id: 2157830, title: "John Carpenter's Toxic Commando", classification: hit, revenue_estimate: 14283171 }
-      - { app_id: 1942110, title: "Bootstrap Island", classification: hit, revenue_estimate: 8831823 }
-      - { app_id: 3920610, title: "FATAL FRAME II: Crimson Butterfly REMAKE", classification: hit, revenue_estimate: 6298740 }
-  - name: Survival
-    score: 61
-    trend: stable
-    top_games:
-      - { app_id: 1942110, title: "Bootstrap Island", classification: hit, revenue_estimate: 8831823 }
-      - { app_id: 2541530, title: "AETHUS", classification: hit, revenue_estimate: 467228 }
 tags:
   - name: City Builder
-    score: 93
+    score: 83
     trend: rising
+    game_count: 2
     top_games:
       - { app_id: 1062090, title: "Timberborn", classification: hit, revenue_estimate: 248729216 }
       - { app_id: 2001070, title: "Heart of the Machine", classification: hit, revenue_estimate: 1415656 }
-  - name: Survival Horror
-    score: 62
+  - name: FPS
+    score: 47
     trend: stable
+    game_count: 3
     top_games:
-      - { app_id: 1942110, title: "Bootstrap Island", classification: hit, revenue_estimate: 8831823 }
-      - { app_id: 3920610, title: "FATAL FRAME II: Crimson Butterfly REMAKE", classification: hit, revenue_estimate: 6298740 }
+      - { app_id: 2157830, title: "John Carpenter's Toxic Commando", classification: hit, revenue_estimate: 14283171 }
+      - { app_id: 2778610, title: "Over The Top: WWI", classification: hit, revenue_estimate: 2157052 }
+      - { app_id: 3780110, title: "每日亲亲洛丽塔", classification: hit, revenue_estimate: 171589 }
   - name: Open World
-    score: 61
+    score: 46
     trend: stable
+    game_count: 3
     top_games:
       - { app_id: 1942110, title: "Bootstrap Island", classification: hit, revenue_estimate: 8831823 }
       - { app_id: 2541530, title: "AETHUS", classification: hit, revenue_estimate: 467228 }
       - { app_id: 3684500, title: "Warlords Battleground: Extraction", classification: hit, revenue_estimate: 178029 }
   - name: Exploration
-    score: 61
+    score: 46
     trend: stable
+    game_count: 3
     top_games:
       - { app_id: 2852190, title: "Monster Hunter Stories 3: Twisted Reflection", classification: hit, revenue_estimate: 6937409 }
       - { app_id: 3576870, title: "Blossom: The Seed of Life", classification: hit, revenue_estimate: 339629 }
       - { app_id: 4173110, title: "Cirno! Lifts a Boulder", classification: hit, revenue_estimate: 249018 }
-  - name: FPS
-    score: 61
+  - name: Female Protagonist
+    score: 46
     trend: stable
+    game_count: 3
     top_games:
-      - { app_id: 2157830, title: "John Carpenter's Toxic Commando", classification: hit, revenue_estimate: 14283171 }
-      - { app_id: 2778610, title: "Over The Top: WWI", classification: hit, revenue_estimate: 2157052 }
-      - { app_id: 3780110, title: "每日亲亲洛丽塔", classification: hit, revenue_estimate: 171589 }
+      - { app_id: 3920610, title: "FATAL FRAME II: Crimson Butterfly REMAKE", classification: hit, revenue_estimate: 6298740 }
+      - { app_id: 2162820, title: "Rustil: Eternal Labyrinth Castle", classification: hit, revenue_estimate: 1524054 }
+      - { app_id: 4173110, title: "Cirno! Lifts a Boulder", classification: hit, revenue_estimate: 249018 }
 rising:
-  - { tag: City Builder, delta: 27 }
-  - { tag: Strategy, delta: 9 }
-saturating: []
+  - { tag: City Builder, delta: 37 }
+saturating:
+  - { tag: Action, delta: -23 }
 niches:
   - { tag: City Builder, success_rate: 100, game_count: 2 }
   - { tag: Sandbox, success_rate: 75, game_count: 4 }
-  - { tag: Adventure, success_rate: 100, game_count: 7 }
+  - { tag: Action, success_rate: 100, game_count: 9 }
 ---
-
 ## WEEKLY TAKE
 A significantly larger week (35 releases), and the hit rate fell further to 51%. City Builder was the standout, jumping 27 points to lead all tags at a 93 composite score. Sandbox and Adventure genres showed steady floor-level performance despite the noisier field.
 
