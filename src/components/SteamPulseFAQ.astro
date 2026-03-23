@@ -352,22 +352,22 @@
 </style>
 
 <script>
-  const faqRoot = document.getElementById('steam-pulse-faq');
-  const trigger = document.getElementById('spfaq-trigger');
-
-  // ── Open a specific FAQ item by anchor id ──────────────────────────────────
+  // ── openToAnchor ───────────────────────────────────────────────────────────
+  // Queries faqRoot and trigger fresh every call so Astro view transitions
+  // never leave us holding stale (or null) element references.
   function openToAnchor(hash: string) {
     if (!hash || !hash.startsWith('faq-')) return;
-    const target = document.getElementById(hash);
-    if (!target) return;
+    const faqRoot = document.getElementById('steam-pulse-faq');
+    const trigger = document.getElementById('spfaq-trigger');
+    const target  = document.getElementById(hash);
+    if (!target || !faqRoot || !trigger) return;
 
     // 1. Open outer drawer
-    faqRoot?.setAttribute('data-open', '');
-    trigger?.setAttribute('aria-expanded', 'true');
+    faqRoot.setAttribute('data-open', '');
+    trigger.setAttribute('aria-expanded', 'true');
 
     // 2. Close all items, then open the target item
-    const allItems = document.querySelectorAll<HTMLElement>('.spfaq-item');
-    allItems.forEach(sibling => {
+    document.querySelectorAll<HTMLElement>('.spfaq-item').forEach(sibling => {
       sibling.removeAttribute('data-open');
       sibling.querySelector<HTMLButtonElement>('.spfaq-q')?.setAttribute('aria-expanded', 'false');
     });
@@ -378,8 +378,7 @@
       item.querySelector<HTMLButtonElement>('.spfaq-q')?.setAttribute('aria-expanded', 'true');
     }
 
-    // 3. Scroll after drawer + item transitions complete.
-    // Offset by navbar height + a little breathing room so the question title isn't clipped.
+    // 3. Scroll after drawer + item transitions complete
     setTimeout(() => {
       const navbar = document.querySelector<HTMLElement>('nav, header, .navbar');
       const offset = (navbar?.offsetHeight ?? 64) + 16;
@@ -388,46 +387,55 @@
     }, 420);
   }
 
-  // ── Intercept all #faq-* link clicks on the page ──────────────────────────
-  // Using document-level delegation so it works for links anywhere on the page.
-  document.addEventListener('click', (e) => {
-    const anchor = (e.target as Element).closest<HTMLAnchorElement>('a[href^="#faq-"]');
-    if (!anchor) return;
-    e.preventDefault();
-    const hash = anchor.getAttribute('href')!.slice(1); // strip leading #
-    window.history.pushState(null, '', anchor.getAttribute('href')!);
-    openToAnchor(hash);
-  });
-
-  // ── Outer drawer toggle button ─────────────────────────────────────────────
-  trigger?.addEventListener('click', () => {
-    const isOpen = faqRoot?.hasAttribute('data-open');
-    if (isOpen) {
-      faqRoot?.removeAttribute('data-open');
-      trigger.setAttribute('aria-expanded', 'false');
-    } else {
-      faqRoot?.setAttribute('data-open', '');
-      trigger.setAttribute('aria-expanded', 'true');
-    }
-  });
-
-  // ── Individual item toggles ────────────────────────────────────────────────
-  document.querySelectorAll<HTMLElement>('.spfaq-item').forEach(item => {
-    const btn = item.querySelector<HTMLButtonElement>('.spfaq-q');
-    btn?.addEventListener('click', () => {
-      const isOpen = item.hasAttribute('data-open');
-      item.closest('.spfaq-inner')?.querySelectorAll<HTMLElement>('.spfaq-item').forEach(sibling => {
-        sibling.removeAttribute('data-open');
-        sibling.querySelector<HTMLButtonElement>('.spfaq-q')?.setAttribute('aria-expanded', 'false');
-      });
-      if (!isOpen) {
-        item.setAttribute('data-open', '');
-        btn.setAttribute('aria-expanded', 'true');
-      }
+  // ── Document-level click delegation ───────────────────────────────────────
+  // Added once with a guard flag — survives view transitions without duplicating.
+  if (!(document as any).__faqClickDelegated) {
+    (document as any).__faqClickDelegated = true;
+    document.addEventListener('click', (e) => {
+      const anchor = (e.target as Element).closest<HTMLAnchorElement>('a[href^="#faq-"]');
+      if (!anchor) return;
+      e.preventDefault();
+      const href = anchor.getAttribute('href')!;
+      window.history.pushState(null, '', href);
+      openToAnchor(href.slice(1)); // strip leading #
     });
-  });
+  }
 
-  // ── Handle direct URL load with hash ──────────────────────────────────────
-  const initialHash = window.location.hash.slice(1);
-  if (initialHash) openToAnchor(initialHash);
+  // ── Per-page setup ─────────────────────────────────────────────────────────
+  // Runs on every page load (initial + view transitions) to attach UI listeners
+  // to freshly-rendered DOM elements and handle any URL hash already present.
+  function setupFAQ() {
+    const faqRoot = document.getElementById('steam-pulse-faq');
+    const trigger = document.getElementById('spfaq-trigger');
+    if (!faqRoot || !trigger) return;
+
+    // Outer drawer toggle
+    trigger.addEventListener('click', () => {
+      const isOpen = faqRoot.hasAttribute('data-open');
+      faqRoot.toggleAttribute('data-open', !isOpen);
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    // Individual item toggles
+    document.querySelectorAll<HTMLElement>('.spfaq-item').forEach(item => {
+      const btn = item.querySelector<HTMLButtonElement>('.spfaq-q');
+      btn?.addEventListener('click', () => {
+        const isOpen = item.hasAttribute('data-open');
+        item.closest('.spfaq-inner')?.querySelectorAll<HTMLElement>('.spfaq-item').forEach(sibling => {
+          sibling.removeAttribute('data-open');
+          sibling.querySelector<HTMLButtonElement>('.spfaq-q')?.setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.setAttribute('data-open', '');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // Handle hash present in the URL on load / navigation
+    const initialHash = window.location.hash.slice(1);
+    if (initialHash) openToAnchor(initialHash);
+  }
+
+  document.addEventListener('astro:page-load', setupFAQ);
 </script>
