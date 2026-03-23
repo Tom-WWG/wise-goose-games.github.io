@@ -1,0 +1,44 @@
+# Steam Pulse Weekly Report Generator
+# Runs every Sunday at midnight
+#
+# ┌─── minute (0)
+# │ ┌─── hour (0 = midnight)
+# │ │ ┌─── day of month (* = any)
+# │ │ │ ┌─── month (* = any)
+# │ │ │ │ ┌─── day of week (0 = Sunday)
+# │ │ │ │ │
+  0 0 * * 0 cd /path/to/wise-goose-games.github.io && npm run steam-pulse:generate >> logs/steam-pulse.log 2>&1
+
+# Installation (Linux/macOS via crontab):
+#   crontab -e
+#   Paste the line above (replace /path/to/... with your actual path)
+#
+# macOS alternative (launchd plist) — create ~/Library/LaunchAgents/com.wisegoose.steampulse.plist:
+#
+# <?xml version="1.0" encoding="UTF-8"?>
+# <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+# <plist version="1.0">
+# <dict>
+#   <key>Label</key>
+#   <string>com.wisegoose.steampulse</string>
+#   <key>ProgramArguments</key>
+#   <array>
+#     <string>/bin/bash</string>
+#     <string>-c</string>
+#     <string>cd /path/to/wise-goose-games.github.io && npm run steam-pulse:generate >> logs/steam-pulse.log 2>&1</string>
+#   </array>
+#   <key>StartCalendarInterval</key>
+#   <dict>
+#     <key>Weekday</key>
+#     <integer>0</integer>
+#     <key>Hour</key>
+#     <integer>0</integer>
+#     <key>Minute</key>
+#     <integer>0</integer>
+#   </dict>
+#   <key>RunAtLoad</key>
+#   <false/>
+# </dict>
+# </plist>
+#
+# Load with: launchctl load ~/Library/LaunchAgents/com.wisegoose.steampulse.plist

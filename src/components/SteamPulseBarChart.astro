@@ -1,0 +1,788 @@
+---
+// SteamPulseBarChart.astro
+// Ported from Stitch Slide 1: "Executive Steam Pulse Infographic"
+// Original: bar chart snapshot of top genres and tags for a given week
+
+interface TopGame {
+  app_id: number;
+  title: string;
+  classification: 'hit' | 'promising' | 'niche' | 'miss';
+  revenue_estimate: number;
+}
+
+interface BarItem {
+  name: string;
+  score: number;
+  trend: 'rising' | 'stable' | 'declining';
+  isNew?: boolean;
+  topGames?: TopGame[];
+}
+
+interface Props {
+  week: string;          // display string e.g. "Week 12"
+  hitRateDelta: number;  // signed number for WoW badge e.g. +4
+  genres: BarItem[];     // top 5 genres, pre-sorted descending by score
+  tags: BarItem[];       // top 5 tags, pre-sorted descending by score
+}
+
+const { week, hitRateDelta, genres, tags } = Astro.props;
+
+const BAR_COLORS = ['#E87A2E', '#38BDF8', '#A78BFA', '#34D399', '#FB7185'];
+function barColor(index: number): string {
+  return BAR_COLORS[index % BAR_COLORS.length];
+}
+
+const wowSign = hitRateDelta >= 0 ? '+' : '';
+const wowLabel = `${wowSign}${hitRateDelta}% WoW`;
+
+// Serialise top_games for each item into a data attribute
+function gamesAttr(item: BarItem): string {
+  return JSON.stringify(item.topGames ?? []);
+}
+---
+
+<div class="sp-bar-chart">
+  <!-- Header -->
+  <header class="sp-header">
+    <div class="sp-header-left">
+      <div class="sp-title">
+          <p class="sp-title-brand">Steam Pulse</p>
+          <p class="sp-title-sub">
+            <span class="sp-title-section">Composite Score</span>
+            <span class="sp-title-dot" aria-hidden="true">·</span>
+            <span class="sp-title-week">{week}</span>
+          </p>
+        </div>
+      <span class="sp-badge">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+          <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+          <polyline points="17 6 23 6 23 12"></polyline>
+        </svg>
+        {wowLabel}
+      </span>
+    </div>
+    <span class="sp-source">WISEGOOSEGAMES.COM/STEAM-PULSE</span>
+  </header>
+
+  <div class="sp-divider"></div>
+
+  <!-- Content: two chart sections side by side -->
+  <section class="sp-content">
+    <!-- CHART 1: TOP GENRES -->
+    <div class="sp-chart-block">
+      <h3 class="sp-section-label sp-section-label--primary">TOP GENRES</h3>
+      <div class="sp-bars">
+        {genres.map((item, i) => (
+          <div
+            class="sp-bar-row"
+            data-name={item.name}
+            data-games={gamesAttr(item)}
+            data-group="genre"
+            role="button"
+            tabindex="0"
+            aria-label={`Show top games for ${item.name}`}
+          >
+            <div class="sp-bar-meta">
+              <span class="sp-bar-label">{item.name}</span>
+              <span class="sp-bar-value">{item.score}</span>
+            </div>
+            <div class="sp-bar-track">
+              <div
+                class="sp-bar-fill"
+                style={`--bar-target: ${item.score}%; --bar-color: ${barColor(i)}; animation-delay: ${i * 80}ms`}
+              ></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- CHART 2: TOP TAGS -->
+    <div class="sp-chart-block">
+      <h3 class="sp-section-label sp-section-label--secondary">TOP TAGS</h3>
+      <div class="sp-bars">
+        {tags.map((item, i) => (
+          <div
+            class="sp-bar-row"
+            data-name={item.name}
+            data-games={gamesAttr(item)}
+            data-group="tag"
+            role="button"
+            tabindex="0"
+            aria-label={`Show top games for ${item.name}`}
+          >
+            <div class="sp-bar-meta">
+              {item.isNew ? (
+                <div class="sp-bar-label-group">
+                  <span class="sp-bar-label">{item.name}</span>
+                  <span class="sp-new-badge">NEW</span>
+                </div>
+              ) : (
+                <span class="sp-bar-label">{item.name}</span>
+              )}
+              <span class="sp-bar-value">{item.score}</span>
+            </div>
+            <div class="sp-bar-track">
+              <div
+                class="sp-bar-fill"
+                style={`--bar-target: ${item.score}%; --bar-color: ${barColor(i)}; animation-delay: ${(i + genres.length) * 80}ms`}
+              ></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Detail Strip: top games for selected genre/tag -->
+  <div class="sp-detail-strip" aria-live="polite">
+    <div class="sp-detail-header">
+      <span class="sp-detail-label" id="sp-detail-label">SELECT A ROW TO SEE TOP GAMES</span>
+      <span class="sp-detail-count" id="sp-detail-count"></span>
+    </div>
+    <div class="sp-detail-games" id="sp-detail-games">
+      <p class="sp-detail-empty">Click any genre or tag row above.</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="sp-footer">
+    <div class="sp-formula-wrap">
+      <span class="sp-footer-note sp-footer-note--interactive">Score = (success rate × 0.5) + (revenue potential × 0.3) + (trend momentum × 0.2)</span>
+      <div class="sp-formula-tooltip" role="tooltip">
+        <p class="sp-tooltip-title">COMPOSITE SCORE FORMULA</p>
+        <code class="sp-tooltip-eq">S = (SR × 0.5) + (RP × 0.3) + (TM × 0.2)</code>
+        <dl class="sp-tooltip-legend">
+          <dt>SR</dt>
+          <dd>Success Rate — hits ÷ total releases, as %</dd>
+          <dt>RP</dt>
+          <dd>Revenue Potential — normalised avg. estimated revenue across all tags</dd>
+          <dt>TM</dt>
+          <dd>Trend Momentum — WoW delta normalised 0–100. Defaults to 50 (neutral) on first run.</dd>
+        </dl>
+      </div>
+    </div>
+    <span class="sp-footer-source">Data via SteamWorks API · 7-day rolling averages</span>
+  </footer>
+</div>
+
+<script>
+  const STEAM_CDN = 'https://cdn.akamai.steamstatic.com/steam/apps';
+
+  function formatRevenue(n: number): string {
+    function withCommas(num: number, decimals: number): string {
+      const parts = num.toFixed(decimals).split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return decimals > 0 ? parts.join('.') : parts[0];
+    }
+    if (n >= 1_000_000) return `$${withCommas(n / 1_000_000, 1)}M`;
+    if (n >= 1_000) return `$${withCommas(n / 1_000, 1)}k`;
+    return `$${withCommas(n, 0)}`;
+  }
+
+  function renderGames(games: Array<{
+    app_id: number;
+    title: string;
+    classification: string;
+    revenue_estimate: number;
+  }>): string {
+    if (!games.length) return '<p class="sp-detail-empty">No game data for this week yet.</p>';
+    return games.map((g, i) => {
+      const isHit = g.classification === 'hit';
+      // Fallback chain: header.jpg → capsule_616x353.jpg → capsule_231x87.jpg → hide
+      const onerror = [
+        `this.src='${STEAM_CDN}/${g.app_id}/capsule_616x353.jpg';this.onerror=function(){`,
+        `this.src='${STEAM_CDN}/${g.app_id}/capsule_231x87.jpg';this.onerror=function(){`,
+        `this.style.display='none'`,
+        `}`,
+        `}`,
+      ].join('');
+      return `
+        <div class="sp-game-row" style="animation-delay:${i * 50}ms">
+          <div class="sp-game-capsule">
+            <img
+              src="${STEAM_CDN}/${g.app_id}/header.jpg"
+              alt="${g.title}"
+              loading="lazy"
+              onerror="${onerror}"
+            />
+          </div>
+          <div class="sp-game-info">
+            <span class="sp-game-title">${g.title}</span>
+            <div class="sp-game-meta">
+              <span class="sp-game-badge sp-game-badge--${isHit ? 'hit' : 'promising'}">${g.classification}</span>
+              <span class="sp-game-rev">${formatRevenue(g.revenue_estimate)} lifetime est.</span>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  function initBarChart(root: Element) {
+    const rows = root.querySelectorAll<HTMLElement>('.sp-bar-row');
+    const labelEl = root.querySelector<HTMLElement>('#sp-detail-label');
+    const countEl = root.querySelector<HTMLElement>('#sp-detail-count');
+    const gamesEl = root.querySelector<HTMLElement>('#sp-detail-games');
+
+    if (!labelEl || !countEl || !gamesEl) return;
+
+    let selectedRow: HTMLElement | null = null;
+
+    function deactivate() {
+      rows.forEach(r => r.classList.remove('sp-bar-row--selected'));
+      root.removeAttribute('data-selected-group');
+      selectedRow = null;
+      labelEl.textContent = 'SELECT A ROW TO SEE TOP GAMES';
+      countEl.textContent = '';
+      gamesEl.innerHTML = '<p class="sp-detail-empty">Click any genre or tag row above.</p>';
+    }
+
+    rows.forEach(row => {
+      function activate() {
+        // Toggle off if already selected
+        if (row === selectedRow) {
+          deactivate();
+          return;
+        }
+
+        rows.forEach(r => r.classList.remove('sp-bar-row--selected'));
+        row.classList.add('sp-bar-row--selected');
+        root.setAttribute('data-selected-group', row.dataset.group ?? '');
+        selectedRow = row;
+
+        const name = row.dataset.name ?? '';
+        const games = JSON.parse(row.dataset.games ?? '[]');
+
+        labelEl.textContent = name.toUpperCase() + ' — TOP GAMES';
+        countEl.textContent = games.length ? `${games.length} this week` : '';
+        // Replace innerHTML to retrigger CSS animations on new rows
+        gamesEl.innerHTML = renderGames(games);
+      }
+
+      row.addEventListener('click', activate);
+      row.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+      });
+    });
+
+    // Auto-select the first genre row on load
+    const first = root.querySelector<HTMLElement>('.sp-bar-row[data-group="genre"]');
+    first?.click();
+  }
+
+  // Support Astro view transitions
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('.sp-bar-chart').forEach(initBarChart);
+  });
+</script>
+
+<style>
+  .sp-bar-chart {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-medium);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  /* Header */
+  .sp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .sp-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  /* Variant C — Stacked Two-Line title */
+  .sp-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin: 0;
+  }
+
+  .sp-title-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1.1;
+  }
+
+  .sp-title-sub {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0;
+  }
+
+  .sp-title-section {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .sp-title-dot {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+  }
+
+  .sp-title-week {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .sp-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.08);
+    border: 1px solid rgba(74, 222, 128, 0.2);
+    padding: 0.125rem 0.5rem;
+    letter-spacing: 0.01em;
+  }
+
+  .sp-source {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .sp-divider {
+    height: 1px;
+    background: var(--border-medium);
+  }
+
+  /* Content layout */
+  .sp-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  @media (max-width: 600px) {
+    .sp-content {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .sp-chart-block {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  /* Section labels */
+  .sp-section-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    font-variant: all-small-caps;
+    letter-spacing: 0.08em;
+    color: var(--text-secondary);
+    padding-left: 0.75rem;
+    margin: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .sp-section-label--primary {
+    border-left: 2px solid var(--accent);
+  }
+
+  .sp-section-label--secondary {
+    border-left: 2px solid var(--text-secondary);
+  }
+
+  /* Bar rows */
+  .sp-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .sp-bar-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    cursor: pointer;
+    padding: 0.375rem 0.5rem;
+    margin: 0 -0.5rem;
+    border-left: 2px solid transparent;
+    transition: background 0.18s ease, border-left-color 0.18s ease;
+    outline: none;
+  }
+
+  .sp-bar-row:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .sp-bar-row--selected {
+    background: rgba(232, 122, 46, 0.06);
+    border-left-color: var(--accent);
+    padding-left: calc(0.5rem - 2px);
+  }
+
+  .sp-bar-row--selected .sp-bar-label {
+    color: var(--accent);
+  }
+
+  /* ── Visual hierarchy when a selection is active ──────────────────────── */
+
+  /* Tier 2: non-selected rows in the SAME column as the selection */
+  .sp-bar-chart[data-selected-group="genre"] .sp-bar-row[data-group="genre"]:not(.sp-bar-row--selected) .sp-bar-label,
+  .sp-bar-chart[data-selected-group="tag"]   .sp-bar-row[data-group="tag"]:not(.sp-bar-row--selected)   .sp-bar-label {
+    color: rgba(255, 255, 255, 0.28);
+  }
+
+  .sp-bar-chart[data-selected-group="genre"] .sp-bar-row[data-group="genre"]:not(.sp-bar-row--selected) .sp-bar-value,
+  .sp-bar-chart[data-selected-group="tag"]   .sp-bar-row[data-group="tag"]:not(.sp-bar-row--selected)   .sp-bar-value {
+    color: rgba(255, 255, 255, 0.18);
+  }
+
+  .sp-bar-chart[data-selected-group="genre"] .sp-bar-row[data-group="genre"]:not(.sp-bar-row--selected) .sp-bar-fill,
+  .sp-bar-chart[data-selected-group="tag"]   .sp-bar-row[data-group="tag"]:not(.sp-bar-row--selected)   .sp-bar-fill {
+    opacity: 0.22;
+  }
+
+  /* Tier 3: the entire OTHER column — even darker */
+  .sp-bar-chart[data-selected-group="genre"] .sp-bar-row[data-group="tag"] .sp-bar-label,
+  .sp-bar-chart[data-selected-group="tag"]   .sp-bar-row[data-group="genre"] .sp-bar-label {
+    color: rgba(255, 255, 255, 0.13);
+  }
+
+  .sp-bar-chart[data-selected-group="genre"] .sp-bar-row[data-group="tag"] .sp-bar-value,
+  .sp-bar-chart[data-selected-group="tag"]   .sp-bar-row[data-group="genre"] .sp-bar-value {
+    color: rgba(255, 255, 255, 0.08);
+  }
+
+  .sp-bar-chart[data-selected-group="genre"] .sp-bar-row[data-group="tag"] .sp-bar-fill,
+  .sp-bar-chart[data-selected-group="tag"]   .sp-bar-row[data-group="genre"] .sp-bar-fill {
+    opacity: 0.1;
+  }
+
+  /* Also dim the other column's section label */
+  .sp-bar-chart[data-selected-group="genre"] .sp-chart-block:last-child .sp-section-label,
+  .sp-bar-chart[data-selected-group="tag"]   .sp-chart-block:first-child .sp-section-label {
+    opacity: 0.3;
+  }
+
+  .sp-bar-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sp-bar-label-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .sp-bar-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: color 0.18s ease;
+  }
+
+  .sp-bar-value {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+    transition: color 0.2s ease;
+  }
+
+  .sp-new-badge {
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 0.0625rem 0.25rem;
+    line-height: 1.4;
+  }
+
+  /* Bar track + fill */
+  .sp-bar-track {
+    height: 4px;
+    width: 100%;
+    background: var(--border-strong);
+    overflow: hidden;
+  }
+
+  @keyframes growBar {
+    from { width: 0%; }
+    to   { width: var(--bar-target); }
+  }
+
+  .sp-bar-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--bar-color, var(--accent));
+    animation: growBar 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation-fill-mode: both;
+    transition: opacity 0.2s ease;
+  }
+
+  /* ── Detail strip ── */
+  .sp-detail-strip {
+    border: 1px solid var(--border-medium);
+    border-left: 3px solid var(--accent);
+    background: rgba(255, 255, 255, 0.015);
+    padding: 1rem 1.125rem 0.875rem;
+    min-height: 4.5rem;
+  }
+
+  .sp-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.75rem;
+  }
+
+  .sp-detail-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .sp-detail-count {
+    font-size: 0.625rem;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+  }
+
+  .sp-detail-empty {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    margin: 0;
+    opacity: 0.5;
+    font-style: italic;
+  }
+
+  .sp-detail-games {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  /* Game row animation */
+  @keyframes spGameIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  :global(.sp-game-row) {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.06));
+    animation: spGameIn 0.22s ease both;
+  }
+
+  :global(.sp-game-row:last-child) {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  :global(.sp-game-capsule) {
+    width: 90px;
+    height: 42px;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-subtle, rgba(255,255,255,0.06));
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  :global(.sp-game-capsule img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  :global(.sp-game-info) {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  :global(.sp-game-title) {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  :global(.sp-game-meta) {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  :global(.sp-game-badge) {
+    font-size: 0.5625rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    padding: 1px 5px;
+    border: 1px solid;
+    text-transform: uppercase;
+  }
+
+  :global(.sp-game-badge--hit) {
+    color: #4ade80;
+    border-color: rgba(74, 222, 128, 0.35);
+    background: rgba(74, 222, 128, 0.06);
+  }
+
+  :global(.sp-game-badge--promising) {
+    color: #38BDF8;
+    border-color: rgba(56, 189, 248, 0.35);
+    background: rgba(56, 189, 248, 0.06);
+  }
+
+  :global(.sp-game-rev) {
+    font-size: 0.71rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Footer */
+  .sp-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .sp-footer-note,
+  .sp-footer-source {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    opacity: 0.6;
+  }
+
+  /* Interactive formula line */
+  .sp-formula-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .sp-footer-note--interactive {
+    opacity: 1;
+    color: rgba(255, 255, 255, 0.55);
+    text-decoration: underline dotted rgba(255, 255, 255, 0.25);
+    cursor: help;
+    transition: color 0.15s;
+  }
+
+  .sp-formula-wrap:hover .sp-footer-note--interactive {
+    color: var(--accent);
+    text-decoration-color: var(--accent);
+  }
+
+  .sp-formula-tooltip {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 10px);
+    width: max-content;
+    min-width: 280px;
+    max-width: min(520px, 90vw);
+    background: var(--bg-elevated, #111);
+    border: 1px solid var(--accent);
+    padding: 16px 18px;
+    z-index: 100;
+    pointer-events: none;
+  }
+
+  .sp-formula-wrap:hover .sp-formula-tooltip {
+    display: block;
+  }
+
+  .sp-tooltip-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin: 0 0 10px;
+    text-transform: uppercase;
+  }
+
+  .sp-tooltip-eq {
+    display: block;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.04);
+    padding: 8px 10px;
+    margin-bottom: 12px;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+
+  .sp-tooltip-legend {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 12px;
+    margin: 0;
+  }
+
+  .sp-tooltip-legend dt {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    align-self: start;
+    padding-top: 1px;
+  }
+
+  .sp-tooltip-legend dd {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
+  }
+</style>

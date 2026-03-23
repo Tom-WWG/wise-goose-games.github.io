@@ -6,7 +6,18 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "steam-pulse:generate": "tsx scripts/steam-pulse/generate-report.ts",
+    "steam-pulse:generate:dry": "tsx scripts/steam-pulse/generate-report.ts --dry-run",
+    "steam-pulse:export": "tsx scripts/steam-pulse/export-social.ts",
+    "steam-pulse:export:png": "tsx scripts/steam-pulse/export-social.ts --format png",
+    "steam-pulse:export:mp4": "tsx scripts/steam-pulse/export-social.ts --format mp4",
+    "steam-pulse:export:build": "tsx scripts/steam-pulse/export-social.ts --build --format all",
+    "steam-pulse:export:help": "tsx scripts/steam-pulse/export-social.ts --help",
+    "steam-pulse:generate:local": "tsx scripts/steam-pulse/generate-from-local.ts",
+    "steam-pulse:generate:local:dry": "tsx scripts/steam-pulse/generate-from-local.ts --dry-run",
+    "steam-pulse:generate:batch": "tsx scripts/steam-pulse/generate-batch.ts",
+    "steam-pulse:generate:batch:dry": "tsx scripts/steam-pulse/generate-batch.ts --dry-run"
   },
   "repository": {
     "type": "git",
@@ -34,6 +45,14 @@
     "@astrojs/check": "^0.9.8",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
-    "typescript": "^5.9.3"
+    "@types/yargs": "^17.0.35",
+    "dotenv": "^17.3.1",
+    "gray-matter": "^4.0.3",
+    "puppeteer": "^19.0.0",
+    "puppeteer-screen-recorder": "^3.0.6",
+    "sharp": "^0.34.5",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "yargs": "^18.0.0"
   }
 }

@@ -47,14 +47,20 @@ export interface Game {
   steamAssets: {
     header?: string;
     screenshots?: string[];
+    screenshotAlts?: string[];
   };
   pressKit: string | null;
   tags: string[];
   featureHighlights: FeatureHighlight[];
   keyMechanics: {
     core?: string;
-    pieces?: string;
     progression?: string;
+  };
+  requirements?: {
+    os: string;
+    processor: string;
+    memory: string;
+    graphics: string;
   };
   audience: {
     primary?: string;
@@ -103,6 +109,11 @@ export const games: Game[] = [
         "/pp-assets/screenshot-4.webp",
         "/pp-assets/screenshot-7.webp",
       ],
+      screenshotAlts: [
+        "A quiet outdoor pathway puzzle level featuring four ghost characters standing on polyomino blocks",
+        "A late-game complex puzzle layout with teleporters, switches, and intersecting glowing routes",
+        "A dimly lit room showing an intricate puzzle structure built from 3D pathway segments"
+      ],
     },
     pressKit: "https://drive.google.com/drive/folders/1xcCn678Z3cP55w8ZprwVwsJbbOwFWfJq",
     tags: ["Puzzle", "Logic", "Strategy", "Difficult", "Building", "Grid-Based Movement", "Isometric", "Stylized", "Supernatural", "Singleplayer", "Atmospheric"],
@@ -125,8 +136,13 @@ export const games: Game[] = [
     ],
     keyMechanics: {
       core: "Players don't control ghosts directly. Instead they rotate and place polyomino pathway pieces onto a grid to construct routes. Ghosts automatically pathfind along connected tiles once a valid path exists.",
-      pieces: "I-pieces (straight corridors), L-pieces (90° turns), T-pieces (3-way junctions), S/Z-pieces (offset connections), O-pieces (2×2 hubs). Players rotate before placing; placed pieces are permanent.",
       progression: "Seven mechanical zones introduce new systems: basic pathing → obstacles → waypoints → teleporters → switches/gates → multi-ghost coordination → combined systems.",
+    },
+    requirements: {
+      os: "Windows 10 64-bit / macOS 11.0+",
+      processor: "Dual-core processor, 2.0 GHz",
+      memory: "4 GB RAM",
+      graphics: "Dedicated graphics card with 1 GB VRAM or integrated graphics with equivalent performance",
     },
     audience: {
       primary: "Women aged 25–32 (validated through professional playtesting with 100% positive response)",

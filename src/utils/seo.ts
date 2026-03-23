@@ -50,7 +50,6 @@ export function getOrganizationSchema() {
           height: 512,
         },
         description: "Two-person independent game studio based in California, committed to creating thoughtfully designed interactive experiences.",
-        email: "contact@wisegoosegames.com",
         foundingDate: "2025-01-01",
         contactPoint: {
           "@type": "ContactPoint",
@@ -129,6 +128,7 @@ export function getVideoGameSchema(game: {
         thumbnailUrl: `https://image.mux.com/${game.muxPlaybackId}/thumbnail.jpg`,
         contentUrl: `https://stream.mux.com/${game.muxPlaybackId}/highest.mp4`,
         embedUrl: `https://player.mux.com/${game.muxPlaybackId}`,
+        duration: "PT1M32S",
         ...(datePublished ? { uploadDate: datePublished } : {}),
       }
     : undefined;
@@ -141,6 +141,12 @@ export function getVideoGameSchema(game: {
     url: `${SITE_URL}/games/${game.id}/`,
     description: game.shortDescription,
     genre: game.genre,
+    keywords: game.genre,
+    playMode: "https://schema.org/SinglePlayer",
+    identifier: {
+      "@type": "PropertyValue",
+      value: "4085150"
+    },
     gamePlatform: platformNames,
     operatingSystem: operatingSystems,
     applicationCategory: "GameApplication",
@@ -154,7 +160,7 @@ export function getVideoGameSchema(game: {
       ? `${SITE_URL}${game.steamAssets.header}`
       : undefined,
     ...(screenshots.length > 0 ? { screenshot: screenshots } : {}),
-    ...(trailer ? { trailer } : {}),
+    ...(trailer ? { video: trailer } : {}),
     publisher: {
       "@type": "Organization",
       "@id": `${SITE_URL}/#organization`,
@@ -214,6 +220,12 @@ export function getCollectionPageSchema(title: string, description: string, url:
     name: title,
     description,
     url,
+    hasPart: [
+      {
+        "@type": "WebPage",
+        "@id": `${SITE_URL}/games/pathways-poltergeists/`
+      }
+    ],
     publisher: { "@id": `${SITE_URL}/#organization` },
   };
 }
