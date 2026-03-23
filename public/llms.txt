@@ -1,5 +1,6 @@
 # Wise Goose Games
 
+> License: RSL 1.0
 > Two-person independent game studio based in California, creating thoughtfully designed puzzle games that respect players' intelligence.
 
 ## Pathways & Poltergeists

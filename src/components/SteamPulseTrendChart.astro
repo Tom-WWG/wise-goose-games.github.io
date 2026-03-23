@@ -1,0 +1,504 @@
+---
+// SteamPulseTrendChart.astro
+// Ported from Stitch Slide 2: "Steam Pulse: Dated Genre & Tag Trends"
+// Accepts multi-week data props and renders dynamic SVG polyline charts.
+
+interface TrendPoint {
+  weekLabel: string; // e.g. "19/03"
+  score: number;     // 0–100 composite score
+}
+
+interface TrendSeries {
+  name: string;
+  currentScore: number;
+  history: TrendPoint[]; // exactly 8 entries, oldest first
+  trend: 'rising' | 'stable' | 'declining';
+}
+
+interface Props {
+  week: string;
+  genreSeries: TrendSeries[];  // up to 5 genre lines
+  tagSeries: TrendSeries[];    // up to 5 tag lines
+}
+
+const { week, genreSeries, tagSeries } = Astro.props;
+
+const SVG_WIDTH = 800;
+const SVG_HEIGHT = 250;
+
+function toPoints(history: TrendPoint[]): string {
+  return history
+    .map((pt, i) => {
+      const x = (i / (history.length - 1)) * SVG_WIDTH;
+      const y = SVG_HEIGHT - (pt.score / 100) * SVG_HEIGHT;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(' ');
+}
+
+const LINE_COLORS = [
+  '#E87A2E', // 0 — Orange (site accent)
+  '#38BDF8', // 1 — Sky blue
+  '#A78BFA', // 2 — Violet
+  '#34D399', // 3 — Emerald
+  '#FB7185', // 4 — Rose
+];
+
+function lineColor(index: number): string {
+  return LINE_COLORS[index % LINE_COLORS.length];
+}
+---
+
+<div class="sp-trend-chart">
+  <!-- Header -->
+  <header class="sp-header">
+    <div class="sp-header-left">
+      <div class="sp-title">
+          <p class="sp-title-brand">Steam Pulse</p>
+          <p class="sp-title-sub">
+            <span class="sp-title-section">Trending</span>
+            <span class="sp-title-dot" aria-hidden="true">·</span>
+            <span class="sp-title-week">{week}</span>
+          </p>
+        </div>
+    </div>
+    <span class="sp-source">WISEGOOSEGAMES.COM/STEAM-PULSE</span>
+  </header>
+
+  <div class="sp-divider"></div>
+
+  <!-- Genre Trends Section -->
+  <section class="sp-trend-section" data-trend-section="genre">
+    <header class="sp-trend-section-header">
+      <h3 class="sp-trend-section-label">GENRE TRENDS — COMPOSITE SCORE</h3>
+    </header>
+
+    <div class="sp-chart-area">
+      <div class="sp-graph-canvas brutalist-grid">
+        <svg viewBox={`0 0 ${SVG_WIDTH} 270`} preserveAspectRatio="none" aria-label="Genre trends line chart" role="img">
+          <!-- Y-axis guides -->
+          <line x1="0" x2={SVG_WIDTH} y1="0" y2="0" stroke="#1a1a1a" stroke-width="1" />
+          <line x1="0" x2={SVG_WIDTH} y1={SVG_HEIGHT / 2} y2={SVG_HEIGHT / 2} stroke="#1a1a1a" stroke-width="1" />
+          <line x1="0" x2={SVG_WIDTH} y1={SVG_HEIGHT} y2={SVG_HEIGHT} stroke="#1a1a1a" stroke-width="1" />
+
+          <!-- Polylines -->
+          {genreSeries.map((series, i) => (
+            <polyline
+              class="sp-trend-line"
+              data-line-index={i}
+              fill="none"
+              stroke={lineColor(i)}
+              stroke-width="2"
+              vector-effect="non-scaling-stroke"
+              points={toPoints(series.history)}
+            />
+          ))}
+
+          <!-- X axis labels -->
+          {genreSeries[0]?.history.map((pt, i) => {
+            const x = (i / (genreSeries[0].history.length - 1)) * SVG_WIDTH;
+            return (
+              <text
+                x={x}
+                y={SVG_HEIGHT + 18}
+                text-anchor="middle"
+                class={`sp-axis-label${i === genreSeries[0].history.length - 1 ? ' sp-axis-label--current' : ''}`}
+                font-size="11"
+              >{pt.weekLabel}</text>
+            );
+          })}
+        </svg>
+      </div>
+
+      <!-- Legend -->
+      <div class="sp-legend">
+        {genreSeries.map((series, i) => (
+          <span class="sp-legend-item" data-legend-index={i} style={`color: ${lineColor(i)}`}>
+            {series.name.toUpperCase()} <span class="sp-legend-score">{series.currentScore}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <div class="sp-trend-divider"></div>
+
+  <!-- Tag Trends Section -->
+  <section class="sp-trend-section" data-trend-section="tag">
+    <header class="sp-trend-section-header">
+      <h3 class="sp-trend-section-label">TAG TRENDS — COMPOSITE SCORE</h3>
+    </header>
+
+    <div class="sp-chart-area">
+      <div class="sp-graph-canvas brutalist-grid">
+        <svg viewBox={`0 0 ${SVG_WIDTH} 270`} preserveAspectRatio="none" aria-label="Tag trends line chart" role="img">
+          <!-- Y-axis guides -->
+          <line x1="0" x2={SVG_WIDTH} y1="0" y2="0" stroke="#1a1a1a" stroke-width="1" />
+          <line x1="0" x2={SVG_WIDTH} y1={SVG_HEIGHT / 2} y2={SVG_HEIGHT / 2} stroke="#1a1a1a" stroke-width="1" />
+          <line x1="0" x2={SVG_WIDTH} y1={SVG_HEIGHT} y2={SVG_HEIGHT} stroke="#1a1a1a" stroke-width="1" />
+
+          <!-- Polylines -->
+          {tagSeries.map((series, i) => (
+            <polyline
+              class="sp-trend-line"
+              data-line-index={i}
+              fill="none"
+              stroke={lineColor(i)}
+              stroke-width="2"
+              vector-effect="non-scaling-stroke"
+              points={toPoints(series.history)}
+            />
+          ))}
+
+          <!-- X axis labels -->
+          {tagSeries[0]?.history.map((pt, i) => {
+            const x = (i / (tagSeries[0].history.length - 1)) * SVG_WIDTH;
+            return (
+              <text
+                x={x}
+                y={SVG_HEIGHT + 18}
+                text-anchor="middle"
+                class={`sp-axis-label${i === tagSeries[0].history.length - 1 ? ' sp-axis-label--current' : ''}`}
+                font-size="11"
+              >{pt.weekLabel}</text>
+            );
+          })}
+        </svg>
+      </div>
+
+      <!-- Legend -->
+      <div class="sp-legend">
+        {tagSeries.map((series, i) => (
+          <span class="sp-legend-item" data-legend-index={i} style={`color: ${lineColor(i)}`}>
+            {series.name.toUpperCase()} <span class="sp-legend-score">{series.currentScore}</span>
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="sp-trend-footer">
+    <span class="sp-trend-footer-note">8-week rolling composite score</span>
+    <span class="sp-source">WISEGOOSEGAMES.COM/STEAM-PULSE</span>
+  </footer>
+</div>
+
+<style>
+  .sp-trend-chart {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-medium);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    font-family: 'Montserrat', sans-serif;
+    position: relative;
+  }
+
+  /* Shared header styles — matches SteamPulseBarChart.astro (Variant C) */
+  .sp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .sp-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  /* Variant C — Stacked Two-Line title */
+  .sp-title {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    margin: 0;
+  }
+
+  .sp-title-brand {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin: 0;
+    line-height: 1.1;
+  }
+
+  .sp-title-sub {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    margin: 0;
+  }
+
+  .sp-title-section {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.65rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .sp-title-dot {
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    opacity: 0.5;
+  }
+
+  .sp-title-week {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+    font-size: 0.65rem;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .sp-source {
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  .sp-divider {
+    height: 1px;
+    background: var(--border-medium);
+    margin-top: -0.5rem;
+  }
+
+  /* Accent dot (data pulse element from original) */
+  .sp-trend-chart::before {
+    content: '';
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 6px;
+    height: 6px;
+    background: var(--accent);
+  }
+
+  /* Header */
+  .sp-trend-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--accent);
+  }
+
+  .sp-trend-title {
+    font-size: 2rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1;
+  }
+
+  .sp-trend-subtitle {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-secondary);
+  }
+
+  /* Sections */
+  .sp-trend-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .sp-trend-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .sp-trend-section-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  /* Chart area: graph + legend side by side */
+  .sp-chart-area {
+    display: flex;
+    gap: 1.5rem;
+    align-items: stretch;
+  }
+
+  .sp-graph-canvas {
+    flex-grow: 1;
+    min-height: 120px;
+    position: relative;
+  }
+
+  .sp-graph-canvas svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    display: block;
+  }
+
+  /* Brutalist dot-grid background */
+  .brutalist-grid {
+    background-image: radial-gradient(var(--border-medium) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* X axis labels rendered inside SVG */
+  :global(.sp-axis-label) {
+    fill: var(--text-muted);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  :global(.sp-axis-label--current) {
+    fill: var(--accent);
+    font-weight: 800;
+  }
+
+  /* Legend */
+  .sp-legend {
+    width: 9rem;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0.25rem 0;
+    gap: 0.5rem;
+  }
+
+  /* Polyline default state — slightly dimmed, smooth transition */
+  :global(.sp-trend-line) {
+    stroke-opacity: 0.55;
+    transition: stroke-opacity 0.25s ease, stroke-width 0.25s ease;
+  }
+
+  :global(.sp-trend-line--highlighted) {
+    stroke-opacity: 1 !important;
+    stroke-width: 2.5px !important;
+  }
+
+  :global(.sp-trend-line--dimmed) {
+    stroke-opacity: 0.12 !important;
+  }
+
+  .sp-legend-item {
+    display: block;
+    font-size: 0.625rem;
+    font-weight: 700;
+    white-space: nowrap;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    user-select: none;
+  }
+
+  .sp-legend-item:hover {
+    opacity: 1;
+  }
+
+  .sp-legend-item--dimmed {
+    opacity: 0.35;
+  }
+
+  .sp-legend-score {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Divider between sections */
+  .sp-trend-divider {
+    height: 1px;
+    background: var(--border-medium);
+  }
+
+  /* Footer */
+  .sp-trend-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-subtle);
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .sp-trend-footer-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 0.8125rem;
+    color: var(--text-muted);
+  }
+
+  .sp-trend-footer-link {
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .sp-trend-footer-link:hover {
+    color: var(--text-primary);
+  }
+</style>
+
+<script>
+  function initTrendChart(section: Element) {
+    const legendItems = section.querySelectorAll<HTMLElement>('.sp-legend-item');
+    const lines = section.querySelectorAll<SVGPolylineElement>('.sp-trend-line');
+
+    function highlightLine(activeIndex: number) {
+      lines.forEach((line, i) => {
+        line.classList.remove('sp-trend-line--highlighted', 'sp-trend-line--dimmed');
+        if (i === activeIndex) {
+          line.classList.add('sp-trend-line--highlighted');
+        } else {
+          line.classList.add('sp-trend-line--dimmed');
+        }
+      });
+      legendItems.forEach((item, i) => {
+        item.classList.toggle('sp-legend-item--dimmed', i !== activeIndex);
+      });
+    }
+
+    function resetLines() {
+      lines.forEach(line => {
+        line.classList.remove('sp-trend-line--highlighted', 'sp-trend-line--dimmed');
+      });
+      legendItems.forEach(item => {
+        item.classList.remove('sp-legend-item--dimmed');
+      });
+    }
+
+    legendItems.forEach((item) => {
+      const idx = parseInt(item.dataset.legendIndex ?? '0', 10);
+
+      item.addEventListener('mouseenter', () => highlightLine(idx));
+      item.addEventListener('mouseleave', () => resetLines());
+      item.addEventListener('focus', () => highlightLine(idx));
+      item.addEventListener('blur', () => resetLines());
+    });
+  }
+
+  document.querySelectorAll('[data-trend-section]').forEach(initTrendChart);
+</script>

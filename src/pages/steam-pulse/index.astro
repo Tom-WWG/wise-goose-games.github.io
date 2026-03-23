@@ -1,0 +1,159 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const SITE_URL = 'https://wisegoosegames.com';
+
+const entries = await getCollection('steam-pulse');
+// Sort descending by week number (most recent first)
+const sorted = entries.sort((a, b) => b.data.week - a.data.week);
+---
+
+<BaseLayout
+  title="Steam Pulse — Weekly Steam Insights | Wise Goose Games"
+  description="Weekly Steam market insights for indie developers. Genre performance, tag trends, and emerging opportunities."
+  canonical={`${SITE_URL}/steam-pulse/`}
+  ogUrl={`${SITE_URL}/steam-pulse/`}
+  ogImage={`${SITE_URL}/og-image.jpg`}
+>
+  <main class="sp-index">
+    <div class="sp-index-container">
+
+      <header class="sp-index-header">
+        <h1 class="sp-index-headline">STEAM PULSE</h1>
+        <div class="sp-index-rule"></div>
+        <p class="sp-index-subtitle">Weekly Steam market insights for indie developers</p>
+      </header>
+
+      {sorted.length === 0 ? (
+        <p class="sp-index-empty">No reports published yet.</p>
+      ) : (
+        <ul class="sp-issue-list">
+          {sorted.map(entry => (
+            <li class="sp-issue-item">
+              <a href={`/steam-pulse/week-${entry.data.week}/`} class="sp-issue-link">
+                <div class="sp-issue-meta">
+                  <span class="sp-issue-week">WEEK {entry.data.week}</span>
+                  <span class="sp-issue-date">{entry.data.period}</span>
+                </div>
+                <div class="sp-issue-stats">
+                  <span class="sp-issue-releases">{entry.data.total_releases} RELEASES</span>
+                  <span class="sp-issue-hitrate">{entry.data.hit_rate}% HIT RATE</span>
+                  <span class={`sp-issue-delta ${entry.data.hit_rate_delta >= 0 ? 'sp-issue-delta--up' : 'sp-issue-delta--down'}`}>
+                    {entry.data.hit_rate_delta >= 0 ? '↑' : '↓'} {Math.abs(entry.data.hit_rate_delta)}pts
+                  </span>
+                </div>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )}
+
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .sp-index {
+    padding: 60px 24px 80px;
+    padding-top: 6rem;
+    min-height: 100vh;
+    background: var(--bg-primary);
+  }
+  .sp-index-container {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+  .sp-index-headline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(2.25rem, 6vw, 4rem);
+    font-weight: 900;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .sp-index-rule {
+    height: 2px;
+    background: var(--accent);
+    margin: 12px 0 20px;
+  }
+  .sp-index-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    margin: 0 0 48px;
+  }
+  .sp-issue-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .sp-issue-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-left: 3px solid transparent;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .sp-issue-link:hover {
+    border-left-color: var(--accent);
+    background: var(--bg-primary);
+  }
+  .sp-issue-meta {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .sp-issue-week {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: var(--text-primary);
+  }
+  .sp-issue-date {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+  .sp-issue-stats {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .sp-issue-releases,
+  .sp-issue-hitrate {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+  }
+  .sp-issue-delta {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+  .sp-issue-delta--up { color: #4ade80; }
+  .sp-issue-delta--down { color: #ef4444; }
+  .sp-index-empty {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    padding: 40px 0;
+  }
+  @media (max-width: 600px) {
+    .sp-issue-link { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .sp-issue-stats { flex-wrap: wrap; gap: 8px; }
+  }
+</style>

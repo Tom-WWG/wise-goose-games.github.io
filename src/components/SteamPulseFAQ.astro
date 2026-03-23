@@ -1,0 +1,433 @@
+---
+// SteamPulseFAQ.astro
+// Metric explanations accordion — same visual style as FAQDrawer.tsx on game pages.
+// Each item has an id anchor so metric labels on the page can deep-link to it.
+---
+
+<div class="spfaq" id="steam-pulse-faq">
+  <!-- Drawer trigger -->
+  <button
+    class="spfaq-trigger"
+    aria-expanded="false"
+    aria-controls="spfaq-drawer"
+    id="spfaq-trigger"
+  >
+    <span class="spfaq-trigger-label">Frequently Asked Questions: How We Measure</span>
+    <svg class="spfaq-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </button>
+
+  <!-- Drawer panel -->
+  <div
+    id="spfaq-drawer"
+    class="spfaq-drawer"
+    role="region"
+    aria-label="Frequently Asked Questions"
+    aria-labelledby="spfaq-trigger"
+  >
+    <div class="spfaq-inner">
+
+      <!-- Hit Rate -->
+      <div class="spfaq-item" id="faq-hit-rate">
+        <button class="spfaq-q" aria-expanded="false">
+          <span>What is Hit Rate?</span>
+          <svg class="spfaq-item-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="spfaq-a">
+          <p>Hit Rate is the percentage of qualifying releases that week which cleared our minimum revenue threshold, making them commercially meaningful for an indie developer. It's calculated as <strong>Hits ÷ Total Qualifying Releases × 100</strong>. A higher Hit Rate indicates a healthier, less crowded window for launches. We track the week-over-week (WoW) delta to show whether the market is opening up or getting tighter.</p>
+        </div>
+      </div>
+
+      <!-- Hit / Promising / Niche -->
+      <div class="spfaq-item" id="faq-classification">
+        <button class="spfaq-q" aria-expanded="false">
+          <span>What do Hit, Promising, and Niche mean?</span>
+          <svg class="spfaq-item-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="spfaq-a">
+          <p>Every game in our dataset receives one of three outcome classifications based on its estimated revenue and review signals:</p>
+          <ul>
+            <li><strong>Hit:</strong> Cleared our revenue viability threshold. A commercially meaningful launch for an indie team.</li>
+            <li><strong>Promising:</strong> Showed strong early signals (positive review velocity, early sales) but hasn't yet confirmed a full hit. Often recent launches still accumulating reviews.</li>
+            <li><strong>Niche:</strong> Found a real audience but below the main revenue threshold. These games serve a dedicated community rather than a broad market.</li>
+          </ul>
+          <p>Games that haven't accumulated enough data to classify are excluded from Hit Rate calculations to keep the signal clean.</p>
+        </div>
+      </div>
+
+      <!-- Composite Score -->
+      <div class="spfaq-item" id="faq-composite-score">
+        <button class="spfaq-q" aria-expanded="false">
+          <span>What is the Composite Score?</span>
+          <svg class="spfaq-item-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="spfaq-a">
+          <p>The Composite Score is a 0–100 signal strength rating for each genre or tag, combining three factors:</p>
+          <code class="spfaq-formula">S = (SR × 0.5) + (RP × 0.4) + (TM × 0.1)</code>
+          <ul>
+            <li><strong>SR (Success Rate, 50% weight):</strong> How many games in this genre/tag were Hits this week, Laplace-smoothed to avoid false confidence on small samples.</li>
+            <li><strong>RP (Revenue Potential, 40% weight):</strong> Normalized average estimated revenue of Hit-classified games carrying this tag. Only winning games count.</li>
+            <li><strong>TM (Trend Momentum, 10% weight):</strong> Week-over-week composite change, normalized 0–100. First-run weeks default to 50 (neutral).</li>
+          </ul>
+          <p>A score above 70 indicates a strong market signal. Below 50 suggests either high miss rates or declining momentum in that category.</p>
+        </div>
+      </div>
+
+      <!-- Success Rate -->
+      <div class="spfaq-item" id="faq-success-rate">
+        <button class="spfaq-q" aria-expanded="false">
+          <span>What is Success Rate?</span>
+          <svg class="spfaq-item-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="spfaq-a">
+          <p>Success Rate is the percentage of games <em>with a specific genre or tag</em> that qualified as Hits that week. A 100% success rate means every game in that category cleared the revenue threshold, a strong niche signal. Success Rate is the heaviest input into the Composite Score, weighted at 50%.</p>
+          <p>We apply <strong>Laplace smoothing</strong> to avoid false confidence from tiny samples: the formula is <code>(hits + 1) ÷ (total + 2) × 100</code> rather than a raw ratio. This pulls extreme values (0% or 100% on 2 games) toward the center. We also flag small samples in the Emerging Niches section so you can weight them accordingly.</p>
+        </div>
+      </div>
+
+      <!-- Revenue Potential -->
+      <div class="spfaq-item" id="faq-revenue-potential">
+        <button class="spfaq-q" aria-expanded="false">
+          <span>What is Revenue Potential?</span>
+          <svg class="spfaq-item-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="spfaq-a">
+          <p>Revenue Potential is a normalized score (0–100) based on the average estimated revenue of <strong>Hit-classified games</strong> carrying a given tag or genre. Only games that cleared the revenue threshold count — misses are excluded so a crowded, low-quality week doesn't dilute the signal. Tags where winning games earned more get a higher RP score. It's weighted at 40% in the Composite Score formula.</p>
+          <p>It answers the question: when games in this category succeed, <em>how much</em> do they typically earn?</p>
+        </div>
+      </div>
+
+      <!-- Revenue Estimate -->
+      <div class="spfaq-item" id="faq-revenue-estimate">
+        <button class="spfaq-q" aria-expanded="false">
+          <span>How are Revenue Estimates calculated?</span>
+          <svg class="spfaq-item-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="spfaq-a">
+          <p>Revenue estimates are derived from Steam review counts using the <strong>Boxleiter method</strong>: a game's cumulative review count multiplied by its price and a conversion factor (~57×). This is a well-established community estimation technique, not official figures from Valve. Estimates should be treated as directional signals, not accounting data.</p>
+          <p>The figures shown (e.g. "$5.4M lifetime est.") represent estimated <em>lifetime gross revenue to date</em> — total earned since launch across all time, not a single week's sales. Actual developer revenue is roughly 70% of this figure after Steam's revenue share. Figures for games in their first 1–2 weeks post-launch may be temporarily inflated due to review velocity and should be treated with extra skepticism.</p>
+        </div>
+      </div>
+
+      <!-- Trend Momentum -->
+      <div class="spfaq-item" id="faq-trend-momentum">
+        <button class="spfaq-q" aria-expanded="false">
+          <span>What is Trend Momentum?</span>
+          <svg class="spfaq-item-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="spfaq-a">
+          <p>Trend Momentum (TM) measures how much a genre or tag's composite score changed compared to the previous report period, normalized to a 0–100 scale. A rising tag gained ground; a declining tag gave it back. TM is weighted at 10% in the Composite Score, intentionally low to prevent a single noisy week from swinging the overall signal.</p>
+          <p>On a tag's first appearance in the dataset (no prior week to compare against), TM defaults to 50, a neutral starting baseline.</p>
+        </div>
+      </div>
+
+      <!-- WoW -->
+      <div class="spfaq-item" id="faq-wow">
+        <button class="spfaq-q" aria-expanded="false">
+          <span>What does WoW mean?</span>
+          <svg class="spfaq-item-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="spfaq-a">
+          <p><strong>Week-over-Week</strong>. The signed change in a metric compared to the immediately preceding report period. A "+4pts WoW" Hit Rate means the hit rate improved by 4 percentage points versus last week. Negative WoW values indicate a decline.</p>
+        </div>
+      </div>
+
+      <!-- Rising / Saturating -->
+      <div class="spfaq-item" id="faq-rising-saturating">
+        <button class="spfaq-q" aria-expanded="false">
+          <span>What are Rising and Saturating tags?</span>
+          <svg class="spfaq-item-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="spfaq-a">
+          <p><strong>Rising</strong> tags posted a significant composite score jump week-over-week. Demand is outpacing new supply, or recent launches in that category are performing unusually well.</p>
+          <p><strong>Saturating</strong> tags showed a meaningful composite score decline, typically because more releases are competing for the same audience without a proportional increase in total spending, or because recent releases in that category underperformed.</p>
+        </div>
+      </div>
+
+      <!-- Emerging Niches -->
+      <div class="spfaq-item" id="faq-emerging-niches">
+        <button class="spfaq-q" aria-expanded="false">
+          <span>What are Emerging Niches?</span>
+          <svg class="spfaq-item-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <div class="spfaq-a">
+          <p>Emerging Niches are tags where every game (or nearly every game) that carried them this week qualified as a Hit. These are micro-markets with very high recent batting averages, but the sample sizes are small (typically 2–4 games).</p>
+          <p>They're worth <em>watching</em> rather than betting on outright: one or two outlier hits can inflate a niche's success rate significantly. Consistent appearances across multiple weeks are the real signal.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<style>
+  .spfaq {
+    border-top: 1px solid var(--border-medium);
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  /* ── Outer drawer trigger ── */
+  .spfaq-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: color 0.15s ease;
+    gap: 1rem;
+  }
+
+  .spfaq-trigger:hover {
+    color: var(--text-secondary);
+  }
+
+  .spfaq-trigger-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .spfaq-chevron {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .spfaq[data-open] .spfaq-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ── Outer drawer panel ── */
+  .spfaq-drawer {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-medium);
+    border-top: none;
+  }
+
+  .spfaq[data-open] .spfaq-drawer {
+    max-height: 3600px;
+  }
+
+  .spfaq-inner {
+    padding: 0.25rem 1.5rem 1.5rem;
+  }
+
+  /* ── Individual FAQ items ── */
+  .spfaq-item {
+    border-bottom: 1px solid var(--border-subtle, rgba(255,255,255,0.07));
+  }
+
+  .spfaq-item:last-child {
+    border-bottom: none;
+  }
+
+  .spfaq-q {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text-primary);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: color 0.15s ease;
+  }
+
+  .spfaq-q:hover,
+  .spfaq-item[data-open] .spfaq-q {
+    color: var(--accent);
+  }
+
+  .spfaq-item-chevron {
+    flex-shrink: 0;
+    color: var(--accent);
+    transition: transform 0.2s ease;
+  }
+
+  .spfaq-item[data-open] .spfaq-item-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ── Answer panel ── */
+  .spfaq-a {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+  }
+
+  .spfaq-item[data-open] .spfaq-a {
+    max-height: 600px;
+  }
+
+  .spfaq-a p {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin: 0 0 0.75rem;
+  }
+
+  .spfaq-a p:last-child {
+    margin-bottom: 1.25rem;
+  }
+
+  .spfaq-a ul {
+    margin: 0.25rem 0 0.75rem 1.25rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .spfaq-a li {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: var(--text-muted);
+  }
+
+  .spfaq-a strong {
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .spfaq-formula {
+    display: block;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.04);
+    border-left: 2px solid var(--accent);
+    padding: 0.5rem 0.75rem;
+    margin: 0.5rem 0 0.875rem;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+</style>
+
+<script>
+  const faqRoot = document.getElementById('steam-pulse-faq');
+  const trigger = document.getElementById('spfaq-trigger');
+
+  // ── Open a specific FAQ item by anchor id ──────────────────────────────────
+  function openToAnchor(hash: string) {
+    if (!hash || !hash.startsWith('faq-')) return;
+    const target = document.getElementById(hash);
+    if (!target) return;
+
+    // 1. Open outer drawer
+    faqRoot?.setAttribute('data-open', '');
+    trigger?.setAttribute('aria-expanded', 'true');
+
+    // 2. Close all items, then open the target item
+    const allItems = document.querySelectorAll<HTMLElement>('.spfaq-item');
+    allItems.forEach(sibling => {
+      sibling.removeAttribute('data-open');
+      sibling.querySelector<HTMLButtonElement>('.spfaq-q')?.setAttribute('aria-expanded', 'false');
+    });
+
+    const item = target.closest<HTMLElement>('.spfaq-item') ?? (target.classList.contains('spfaq-item') ? target : null);
+    if (item) {
+      item.setAttribute('data-open', '');
+      item.querySelector<HTMLButtonElement>('.spfaq-q')?.setAttribute('aria-expanded', 'true');
+    }
+
+    // 3. Scroll after drawer + item transitions complete.
+    // Offset by navbar height + a little breathing room so the question title isn't clipped.
+    setTimeout(() => {
+      const navbar = document.querySelector<HTMLElement>('nav, header, .navbar');
+      const offset = (navbar?.offsetHeight ?? 64) + 16;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }, 420);
+  }
+
+  // ── Intercept all #faq-* link clicks on the page ──────────────────────────
+  // Using document-level delegation so it works for links anywhere on the page.
+  document.addEventListener('click', (e) => {
+    const anchor = (e.target as Element).closest<HTMLAnchorElement>('a[href^="#faq-"]');
+    if (!anchor) return;
+    e.preventDefault();
+    const hash = anchor.getAttribute('href')!.slice(1); // strip leading #
+    window.history.pushState(null, '', anchor.getAttribute('href')!);
+    openToAnchor(hash);
+  });
+
+  // ── Outer drawer toggle button ─────────────────────────────────────────────
+  trigger?.addEventListener('click', () => {
+    const isOpen = faqRoot?.hasAttribute('data-open');
+    if (isOpen) {
+      faqRoot?.removeAttribute('data-open');
+      trigger.setAttribute('aria-expanded', 'false');
+    } else {
+      faqRoot?.setAttribute('data-open', '');
+      trigger.setAttribute('aria-expanded', 'true');
+    }
+  });
+
+  // ── Individual item toggles ────────────────────────────────────────────────
+  document.querySelectorAll<HTMLElement>('.spfaq-item').forEach(item => {
+    const btn = item.querySelector<HTMLButtonElement>('.spfaq-q');
+    btn?.addEventListener('click', () => {
+      const isOpen = item.hasAttribute('data-open');
+      item.closest('.spfaq-inner')?.querySelectorAll<HTMLElement>('.spfaq-item').forEach(sibling => {
+        sibling.removeAttribute('data-open');
+        sibling.querySelector<HTMLButtonElement>('.spfaq-q')?.setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.setAttribute('data-open', '');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // ── Handle direct URL load with hash ──────────────────────────────────────
+  const initialHash = window.location.hash.slice(1);
+  if (initialHash) openToAnchor(initialHash);
+</script>

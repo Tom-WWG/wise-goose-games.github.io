@@ -9,6 +9,14 @@ export default defineConfig({
   integrations: [
     react(),
     tailwind(),
-    sitemap(),
+    sitemap({
+      filter: (page) => page !== 'https://wisegoosegames.com/privacy/' && page !== 'https://wisegoosegames.com/terms/',
+      serialize(item) {
+        if (!item.lastmod) {
+          item.lastmod = new Date().toISOString()
+        }
+        return item;
+      }
+    }),
   ],
 });
