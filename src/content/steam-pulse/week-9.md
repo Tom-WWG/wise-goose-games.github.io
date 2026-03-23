@@ -1,7 +1,7 @@
 ---
 week: 9
 date: 2026-02-25
-period: "25/02/26"
+period: "02/25/26"
 report_file: "report_20260225_150619.json"
 total_releases: 14
 hit_rate: 71

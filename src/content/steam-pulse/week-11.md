@@ -1,7 +1,7 @@
 ---
 week: 11
 date: 2026-03-13
-period: "13/03/26"
+period: "03/13/26"
 report_file: "report_20260313_114632.json"
 total_releases: 35
 hit_rate: 51

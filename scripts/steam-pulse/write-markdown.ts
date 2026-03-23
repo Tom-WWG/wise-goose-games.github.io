@@ -10,7 +10,7 @@ function formatDate(isoDate: string): string {
   const dd = String(d.getUTCDate()).padStart(2, '0');
   const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
   const yy = String(d.getUTCFullYear()).slice(-2);
-  return `${dd}/${mm}/${yy}`;
+  return `${mm}/${dd}/${yy}`;
 }
 
 export function writeMarkdown(opts: {
