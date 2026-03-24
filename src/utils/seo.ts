@@ -152,7 +152,8 @@ export function getVideoGameSchema(game: {
     applicationCategory: "GameApplication",
     numberOfPlayers: {
       "@type": "QuantitativeValue",
-      value: 1,
+      minValue: 1,
+      maxValue: 1,
     },
     ...(datePublished ? { datePublished } : {}),
     offers,
@@ -238,5 +239,56 @@ export function getContactPageSchema(title: string, description: string, url: st
     description,
     url,
     publisher: { "@id": `${SITE_URL}/#organization` },
+  };
+}
+
+export function getArticleSchema(params: {
+  headline: string;
+  description: string;
+  datePublished: string; // ISO 8601
+  dateModified?: string; // ISO 8601, defaults to datePublished
+  url: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: params.headline,
+    description: params.description,
+    datePublished: params.datePublished,
+    dateModified: params.dateModified ?? params.datePublished,
+    url: params.url,
+    author: {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "Wise Goose Games",
+    },
+    publisher: {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "Wise Goose Games",
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/logo_512x512.png`,
+        width: 512,
+        height: 512,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": params.url,
+    },
+  };
+}
+
+export function getItemListSchema(items: { name: string; url: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    itemListElement: items.map((item, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: item.name,
+      url: item.url,
+    })),
   };
 }

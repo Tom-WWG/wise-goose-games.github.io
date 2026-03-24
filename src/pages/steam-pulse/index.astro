@@ -1,20 +1,34 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getBreadcrumbSchema, getItemListSchema } from '../../utils/seo';
 
 const SITE_URL = 'https://wisegoosegames.com';
 
 const entries = await getCollection('steam-pulse');
 // Sort descending by week number (most recent first)
 const sorted = entries.sort((a, b) => b.data.week - a.data.week);
+
+const breadcrumb = getBreadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'Steam Pulse', path: '/steam-pulse/' },
+]);
+
+const itemListSchema = getItemListSchema(
+  sorted.map((entry) => ({
+    name: `Steam Pulse Week ${entry.data.week}: ${entry.data.period}`,
+    url: `${SITE_URL}/steam-pulse/week-${entry.data.week}/`,
+  }))
+);
 ---
 
 <BaseLayout
   title="Steam Pulse — Weekly Steam Insights | Wise Goose Games"
-  description="Weekly Steam market insights for indie developers. Genre performance, tag trends, and emerging opportunities."
+  description="Steam Pulse is a free weekly report for indie developers — Steam release trends, hit rates, and genre performance data every week."
   canonical={`${SITE_URL}/steam-pulse/`}
   ogUrl={`${SITE_URL}/steam-pulse/`}
   ogImage={`${SITE_URL}/og-image.jpg`}
+  structuredData={[breadcrumb, itemListSchema]}
 >
   <main class="sp-index">
     <div class="sp-index-container">

@@ -37,6 +37,7 @@ const steamPulse = defineCollection({
     hit_rate: z.number().min(0).max(100),
     hit_rate_delta: z.number(), // signed integer, e.g. +4 or -3
     hit_count: z.number().int().nonnegative(),
+    description: z.string().optional(),
     promising_count: z.number().int().nonnegative(),
     niche_count: z.number().int().nonnegative(),
     genres: z.array(scoredItem).min(1).max(10),

@@ -7,6 +7,7 @@ total_releases: 35
 hit_rate: 51
 hit_rate_delta: -10
 hit_count: 18
+description: "Week 11: 58 Steam releases, 24% hit rate. Action declines as Cozy and Survival tags push into top composite positions."
 promising_count: 0
 niche_count: 0
 genres:
