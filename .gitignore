@@ -17,17 +17,10 @@ exports/steam-pulse/
 # Generator logs
 logs/*.log
 
-# Stage only production files
-git add .gitignore
-git add scripts/steam-pulse/
-git add src/components/SteamPulseBarChart.astro
-git add src/components/SteamPulseFAQ.astro
-git add src/content/config.ts
-git add src/content/steam-pulse/
-git add src/pages/steam-pulse/
-git add src/pages/steam-pulse/\[week\].astro
-
-git commit -m "Steam Pulse: audit improvements, formula updates, FAQ polish"
-git push origin prototype
+# Developer artifacts — never commit to public repo
+CLAUDE.md
+*-REPORT.md
+Review_*.md
+cron/
 
 
