@@ -248,12 +248,12 @@ const row2Cols = screenshotRow2.length === 1 ? 'grid-cols-1'
 <script>
   document.addEventListener('astro:page-load', () => {
     document.querySelectorAll('[data-lightbox-trigger]').forEach(btn => {
-      // Prevent attaching multiple listeners during Astro View Transitions
-      if (btn.hasAttribute('data-lightbox-attached')) return;
-      btn.setAttribute('data-lightbox-attached', 'true');
+      // Clean up previous listeners if any (astro:page-load can run multiple times)
+      const newBtn = btn.cloneNode(true) as HTMLElement;
+      btn.parentNode?.replaceChild(newBtn, btn);
       
-      btn.addEventListener('click', () => {
-        const index = parseInt(btn.getAttribute('data-lightbox-trigger')!);
+      newBtn.addEventListener('click', () => {
+        const index = parseInt(newBtn.getAttribute('data-lightbox-trigger')!);
         window.dispatchEvent(new CustomEvent('open-lightbox', { detail: { index } }));
       });
     });
