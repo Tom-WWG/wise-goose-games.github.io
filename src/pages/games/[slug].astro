@@ -24,6 +24,7 @@ const seo = getSEO({
   description: game.shortDescription,
   canonicalPath: `/games/${game.id}`,
   ogImage: game.steamAssets.header,
+  ogType: 'game',
   structuredData: [
     getVideoGameSchema(game),
     getBreadcrumbSchema([
@@ -33,19 +34,11 @@ const seo = getSEO({
     ]),
     ...(game.faq && game.faq.length > 0 ? [getFAQSchema(game.faq)] : []),
   ],
+  ogVideo: muxMp4Url,
 });
 ---
 
-<BaseLayout {...seo}>
-  {muxMp4Url && (
-    <Fragment slot="head">
-      <meta property="og:video" content={muxMp4Url} />
-      <meta property="og:video:secure_url" content={muxMp4Url} />
-      <meta property="og:video:type" content="video/mp4" />
-      <meta property="og:video:width" content="1920" />
-      <meta property="og:video:height" content="1080" />
-    </Fragment>
-  )}
+<BaseLayout {...seo} ogVideo={muxMp4Url}>
   <main>
     {game.muxPlaybackId && (
       <div data-enter class="w-full bg-black pt-[60px]">

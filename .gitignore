@@ -3,8 +3,26 @@ dist/
 .astro/
 .DS_Store
 .superpowers/
+.env
 .env.local
+.env.*.local
 .claude/
 
 # Ignore source PNGs (WebP should be used)
 public/pp-assets/*.png
+
+# Steam Pulse social exports — large binary files, not committed
+exports/steam-pulse/
+
+# Generator logs
+logs/*.log
+
+# Developer artifacts — never commit to public repo
+CLAUDE.md
+*-REPORT.md
+Review_*.md
+reporting-ideation.md
+cron/
+docs/
+
+

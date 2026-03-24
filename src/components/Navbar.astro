@@ -5,8 +5,8 @@ import { Image } from 'astro:assets';
 const currentPath = Astro.url.pathname;
 
 const navLinks = [
-  { href: '/games', label: 'GAMES' },
-  { href: '/contact', label: 'CONTACT' },
+  { href: '/games/', label: 'GAMES' },
+  { href: '/steam-pulse/', label: 'PULSE' },
 ];
 ---
 
@@ -34,7 +34,7 @@ const navLinks = [
   {/* Desktop nav */}
   <div class="hidden md:flex items-center gap-5">
     {navLinks.map((link) => {
-      const isActive = currentPath === link.href || currentPath === link.href + '/';
+      const isActive = currentPath === link.href || currentPath + '/' === link.href;
       return (
         <a
           href={link.href}
@@ -69,7 +69,7 @@ const navLinks = [
     {navLinks.map((link) => (
       <a
         href={link.href}
-        class="py-3 px-4 font-body font-semibold text-xs tracking-wider"
+        class="py-4 px-4 font-body font-semibold text-xs tracking-wider"
         style="color: var(--text-secondary);"
       >
         {link.label}

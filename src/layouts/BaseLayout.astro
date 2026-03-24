@@ -12,7 +12,9 @@ interface Props {
   ogType?: string;
   ogUrl: string;
   ogImage: string;
-  twitterCard: string;
+  ogImage: string;
+  ogVideo?: string;
+  twitterCard?: string;
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
 }
@@ -24,6 +26,7 @@ const {
   ogType = 'website',
   ogUrl,
   ogImage,
+  ogVideo,
   twitterCard,
   structuredData,
   noindex = false,
@@ -56,6 +59,10 @@ const {
   <meta name="author" content="Wise Goose Games" />
   {noindex && <meta name="robots" content="noindex, nofollow" />}
 
+  <!-- Security Headers (CSP & X-Content-Type-Options via meta since GitHub Pages lacks HTTP header support) -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; connect-src 'self' https: wss:; media-src blob: https:; worker-src blob:;" />
+  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
+
   <!-- Favicon -->
   <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -72,13 +79,30 @@ const {
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
   <meta property="og:image" content={ogImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="en_US" />
+
+  {ogVideo && (
+    <>
+      <meta property="og:video" content={ogVideo} />
+      <meta property="og:video:secure_url" content={ogVideo} />
+      <meta property="og:video:type" content="video/mp4" />
+      <meta property="og:video:width" content="1920" />
+      <meta property="og:video:height" content="1080" />
+    </>
+  )}
 
   <!-- Twitter -->
-  <meta name="twitter:card" content={twitterCard} />
-  <meta name="twitter:url" content={ogUrl} />
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={ogImage} />
+  {twitterCard && (
+    <>
+      <meta name="twitter:card" content={twitterCard} />
+      <meta name="twitter:url" content={ogUrl} />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={ogImage} />
+    </>
+  )}
 
   <!-- Font preloads (self-hosted, eliminates render-blocking external CSS) -->
   <link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin />
@@ -127,12 +151,12 @@ const {
   <Footer />
 
   <!-- GA4 (moved to end of body to avoid blocking LCP) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-VN624MYNHY" is:inline></script>
-  <script is:inline>
+  <script async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}`} is:inline></script>
+  <script is:inline define:vars={{ gaId: import.meta.env.PUBLIC_GA_MEASUREMENT_ID }}>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-VN624MYNHY');
+    gtag('config', gaId);
   </script>
 
   <!-- GA4 page view on View Transitions navigation -->
