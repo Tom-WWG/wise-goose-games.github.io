@@ -21,6 +21,8 @@ logs/*.log
 CLAUDE.md
 *-REPORT.md
 Review_*.md
+reporting-ideation.md
 cron/
+docs/
 
 
