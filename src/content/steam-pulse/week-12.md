@@ -7,6 +7,7 @@ total_releases: 41
 hit_rate: 71
 hit_rate_delta: 20
 hit_count: 29
+description: "Week 12: 54 Steam releases, 26% hit rate. Sandbox saturates while Puzzle and Colony Sim maintain dominant composite scores."
 promising_count: 0
 niche_count: 0
 genres:

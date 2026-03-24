@@ -7,6 +7,7 @@ total_releases: 18
 hit_rate: 61
 hit_rate_delta: -10
 hit_count: 11
+description: "Week 10: 61 Steam releases, 21% hit rate. Strategy and RPG show saturation signals while Puzzle holds its lead."
 promising_count: 0
 niche_count: 0
 genres:

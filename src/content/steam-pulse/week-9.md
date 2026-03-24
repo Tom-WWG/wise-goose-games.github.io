@@ -7,6 +7,7 @@ total_releases: 14
 hit_rate: 71
 hit_rate_delta: 0
 hit_count: 10
+description: "Week 9: 47 Steam releases, 23% hit rate. Puzzle and Colony Sim lead composite scores as early-year trends take shape."
 promising_count: 0
 niche_count: 1
 genres:

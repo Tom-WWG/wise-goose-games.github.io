@@ -10,11 +10,12 @@ export default defineConfig({
     react(),
     tailwind(),
     sitemap({
-      filter: (page) => page !== 'https://wisegoosegames.com/privacy/' && page !== 'https://wisegoosegames.com/terms/',
+      filter: (page) =>
+        page !== 'https://wisegoosegames.com/steam-pulse/title-variants/',
       serialize(item) {
-        if (!item.lastmod) {
-          item.lastmod = new Date().toISOString()
-        }
+        // Remove build-time lastmod for all pages — inaccurate timestamps mislead crawlers
+        // Steam Pulse reports get real dates via Article schema (H-3)
+        delete item.lastmod;
         return item;
       }
     }),
