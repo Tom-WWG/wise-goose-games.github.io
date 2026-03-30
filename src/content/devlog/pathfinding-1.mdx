@@ -1,0 +1,117 @@
+---
+title: "Advanced Pathfinding, Part 1"
+subtitle: "How standard BFS handles waypoints and switch mechanics"
+date: 2026-03-26
+game: "Pathway & Poltergeists"
+tags: ["devlog", "pathfinding", "algorithms", "game-dev"]
+draft: false
+series: "pathfinding"
+seriesPart: 1
+seriesTitle: "Advanced Pathfinding"
+seriesTotal: 3
+---
+
+import SonarAnimation from '../../components/animations/SonarAnimation.astro';
+import SnackStoreAnimation from '../../components/animations/SnackStoreAnimation.astro';
+
+## The Game
+
+During development of Pathways & Poltergeists we built a number of mechanics that kept breaking our pathfinding algorithm. Standard BFS worked perfectly for our simple grid based puzzle game, but its limitations became very apparent as more complex puzzles were added. The player needs to build a connecting path using the provided Tetris-like pieces. Everytime a new block is dropped, we rerun the breadth first search (BFS) until a connection is made.
+
+---
+
+## Part 1: Standard BFS
+
+BFS is pretty straightforward. It searches by expanding out from the origin position in all directions, checking every tile in a layer before moving to the next layer. It works similar to how you'd scan around a large public space looking for the exit.
+
+<SonarAnimation />
+
+In the animation above, you can imagine the blue tiles as the path the algorithm is checking. The green tile is the exit. Your eyes keep scanning around farther and farther until it finds the green exit sign.
+
+```
+// Standard BFS
+
+function BFS(start, exit, grid):
+    queue   = [start]
+    visited = {start}
+    parent  = {}
+
+    while queue is not empty:
+        current = queue.dequeue()
+
+        if current == exit:
+            return reconstruct_path(parent, start, exit)
+
+        for each neighbor of current:
+            if neighbor is walkable AND not in visited:
+                visited.add(neighbor)
+                parent[neighbor] = current
+                queue.enqueue(neighbor)
+
+    return NO_PATH_FOUND
+```
+
+Again this initially worked fine for Pathway & Poltergeists. However, that all changed as we began to add waypoints, teleporters, and switches.
+
+---
+
+## Part 2: Waypoints and Switch/Gate Mechanics
+
+### The Problem
+
+Suddenly now the player needs to connect a path from the ghost to the waypoint before reaching the exit. With standard BFS it would simply ignore the waypoint and go straight to the exit.
+
+Imagine if you went inside a mall and just went straight for the exit, then you'd never reach the store you went there for in the first place.
+
+<SnackStoreAnimation />
+
+### The Solution
+
+We fixed this by simply adding each waypoint into a list of "must visit" or "required" blocks prior to exit. The algorithm then scans out and initially looks for waypoints. As it reaches a waypoint, it just checks it off the list, and runs again from that waypoint until all waypoints on the list are found. Then it simply looks for the exit.
+
+```
+// State-Aware BFS
+
+waypoints_remaining = [Waypoint1, Waypoint2, Waypoint3]
+
+while queue is not empty:
+
+    if at_exit AND waypoints_remaining is empty:
+        return path ✓
+
+    for each neighbor:
+        if neighbor is a waypoint:
+            check it off waypoints_remaining
+
+        move to neighbor
+```
+
+Each level now includes a full list of all waypoints. We run the BFS search until the list of required waypoints is satisfied and we reach the exit.
+
+Teleporters are not required, but change where the BFS "path" is located. Using a teleporter means moving to a new location, so the BFS has to account for this in the pathway by updating where it searches from. Under the hood the client really doesn't know what a teleporter is though, it only knows that it's moved a considerable distance (greater than 1 unit of space).
+
+Next we add switches and locked gates. Naturally we want the pathfinder to prioritize hitting switches. In fact we should prioritize them over waypoints right? This way any waypoints that were behind locked doors will now be accessible.
+
+```
+// Switch/Gate Support
+
+switches_activated = []
+
+for each neighbor:
+    if neighbor is a switch:
+        switches_activated.add(neighbor)   // flip it on
+
+    if neighbor is a gate:
+        if matching_switch NOT in switches_activated:
+            skip — gate is still locked
+
+    move to neighbor
+```
+
+<p class="draft-stub">[ animation in progress — switch/gate solve ]</p>
+
+This worked until we added one way directional tiles.
+
+---
+
+*Next up in Part 2: one-way directional tiles force a rethink of the switch-priority heuristic — and teleporters break it entirely.*
