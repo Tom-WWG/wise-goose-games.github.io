@@ -81,8 +81,6 @@ This can be a fairly expensive operation. The BFS is basically calling itself to
 
 With the ranking system in place, we now have the full functionality set of the pathfinding. Or what will be the completed set with one limitation: switches/gates require certain ghosts to be assigned to it. This BFS algorithm is what is known as a production graph or state based/state aware pathfinding algorithm. It's not completely novel, but it is the most complex one I've come across. We now have the full capability of mutating a grid in a behavior based fashion, and still understanding the pathway as it changes. In most navigation systems a unit who has a wall between them and the path in front of them, might just run into that wall instead of going around. Or in A* a unit might just run into a gate, because technically there's a path there, and it doesn't know the gate is not open. Not in Pathways & Poltergeists, the pathway is mutable, and understood, and shared between all entities at all times.
 
-<p class="draft-stub">[ copy in progress — closing section ]</p>
-
 | Mechanic | Adaptation |
 |---|---|
 | Basic grid navigation | BFS core |
