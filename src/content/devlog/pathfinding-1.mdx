@@ -1,14 +1,10 @@
 ---
-title: "Advanced Pathfinding, Part 1"
-subtitle: "How standard BFS handles waypoints and switch mechanics"
+title: "Advanced Pathfinding"
+subtitle: "Modifying the simple BFS into an obstacle course navigator"
 date: 2026-03-26
 game: "Pathway & Poltergeists"
 tags: ["devlog", "pathfinding", "algorithms", "game-dev"]
 draft: false
-series: "pathfinding"
-seriesPart: 1
-seriesTitle: "Advanced Pathfinding"
-seriesTotal: 3
 ---
 
 import SonarAnimation from '../../components/animations/SonarAnimation.astro';
@@ -112,6 +108,3 @@ for each neighbor:
 
 This worked until we added one way directional tiles.
 
----
-
-*Next up in Part 2: one-way directional tiles force a rethink of the switch-priority heuristic — and teleporters break it entirely.*
