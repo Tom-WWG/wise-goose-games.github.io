@@ -6,27 +6,13 @@ const SITE_URL = 'https://wisegoosegames.com';
 
 export async function getStaticPaths() {
   const entries = await getCollection('devlog', ({ data }) => !data.draft);
-
-  return entries.map(entry => {
-    let seriesPrev = null;
-    let seriesNext = null;
-    if (entry.data.series && entry.data.seriesPart) {
-      const siblings = entries
-        .filter(e => e.data.series === entry.data.series)
-        .sort((a, b) => (a.data.seriesPart ?? 0) - (b.data.seriesPart ?? 0));
-      const idx = siblings.findIndex(e => e.slug === entry.slug);
-      seriesPrev = idx > 0 ? siblings[idx - 1] : null;
-      seriesNext = idx < siblings.length - 1 ? siblings[idx + 1] : null;
-    }
-
-    return {
-      params: { slug: entry.slug },
-      props: { entry, seriesPrev, seriesNext },
-    };
-  });
+  return entries.map(entry => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
 }
 
-const { entry, seriesPrev, seriesNext } = Astro.props;
+const { entry } = Astro.props;
 const { Content } = await entry.render();
 ---
 
@@ -50,51 +36,9 @@ const { Content } = await entry.render();
         {entry.data.subtitle && <p class="devlog-article-subtitle">{entry.data.subtitle}</p>}
       </header>
 
-      {entry.data.series && (
-        <nav class="series-nav" aria-label="Series navigation, top">
-          <div class="series-nav-label">
-            <span class="series-tag">SERIES</span>
-            <span class="series-title-text">{entry.data.seriesTitle}</span>
-            <span class="series-part-count">Part {entry.data.seriesPart} of {entry.data.seriesTotal}</span>
-          </div>
-          <div class="series-nav-links">
-            {seriesPrev
-              ? <a class="series-nav-prev" href={`/devlog/${seriesPrev.slug}/`}>← {seriesPrev.data.title}</a>
-              : <span class="series-nav-prev series-nav-disabled" />
-            }
-            <a class="series-nav-all" href={`/devlog/${entry.data.series}/`}>Full Series</a>
-            {seriesNext
-              ? <a class="series-nav-next" href={`/devlog/${seriesNext.slug}/`}>{seriesNext.data.title} →</a>
-              : <span class="series-nav-next series-nav-disabled" />
-            }
-          </div>
-        </nav>
-      )}
-
       <article class="devlog-prose">
         <Content />
       </article>
-
-      {entry.data.series && (
-        <nav class="series-nav" aria-label="Series navigation, bottom">
-          <div class="series-nav-label">
-            <span class="series-tag">SERIES</span>
-            <span class="series-title-text">{entry.data.seriesTitle}</span>
-            <span class="series-part-count">Part {entry.data.seriesPart} of {entry.data.seriesTotal}</span>
-          </div>
-          <div class="series-nav-links">
-            {seriesPrev
-              ? <a class="series-nav-prev" href={`/devlog/${seriesPrev.slug}/`}>← {seriesPrev.data.title}</a>
-              : <span class="series-nav-prev series-nav-disabled" />
-            }
-            <a class="series-nav-all" href={`/devlog/${entry.data.series}/`}>Full Series</a>
-            {seriesNext
-              ? <a class="series-nav-next" href={`/devlog/${seriesNext.slug}/`}>{seriesNext.data.title} →</a>
-              : <span class="series-nav-next series-nav-disabled" />
-            }
-          </div>
-        </nav>
-      )}
     </div>
   </main>
 </BaseLayout>
@@ -422,61 +366,4 @@ const { Content } = await entry.render();
       margin-right: -2rem;
     }
   }
-
-  /* ── Series navigation ── */
-  .series-nav {
-    border: 1px solid var(--border-medium);
-    padding: 1rem 1.25rem;
-    margin: 2rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .series-nav-label {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    flex-wrap: wrap;
-  }
-
-  .series-tag {
-    font-size: 9px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: var(--bg-primary);
-    background: var(--accent);
-    padding: 0.2rem 0.5rem;
-    text-transform: uppercase;
-  }
-
-  .series-title-text {
-    font-weight: 700;
-    color: var(--text-primary);
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  .series-part-count {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-left: auto;
-  }
-
-  .series-nav-links {
-    display: grid;
-    grid-template-columns: 1fr auto 1fr;
-    gap: 0.5rem;
-    align-items: center;
-    font-size: 0.85rem;
-  }
-
-  .series-nav-prev { text-align: left; }
-  .series-nav-all  { text-align: center; color: var(--accent); font-weight: 700; font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; white-space: nowrap; }
-  .series-nav-next { text-align: right; }
-
-  .series-nav-links a { color: var(--text-secondary); text-decoration: none; transition: color 0.15s; }
-  .series-nav-links a:hover { color: var(--text-primary); }
-  .series-nav-disabled { display: block; }
 </style>
