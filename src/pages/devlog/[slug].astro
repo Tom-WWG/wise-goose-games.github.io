@@ -286,22 +286,6 @@ const { Content } = await entry.render();
       grid-column: 2;
     }
 
-    /* h2 pulls a "SECTION //" label back into the left gutter */
-    .devlog-prose h2 {
-      position: relative;
-    }
-    .devlog-prose h2::before {
-      content: "SECTION //";
-      position: absolute;
-      left: calc(-3rem - 200px);
-      width: 200px;
-      text-align: right;
-      font-size: 9px;
-      font-weight: 700;
-      color: var(--accent);
-      letter-spacing: 2px;
-      top: 0.35rem;
-    }
 
     /* Animations bleed slightly past the text column at desktop */
     .devlog-prose .grid-anim-container {
