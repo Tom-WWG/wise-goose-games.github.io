@@ -1,7 +1,7 @@
 ---
 title: "Advanced Pathfinding"
 subtitle: "Modifying the simple BFS into an obstacle course navigator"
-date: 2026-03-26
+date: 2026-03-30
 game: "Pathway & Poltergeists"
 tags: ["devlog", "pathfinding", "algorithms", "game-dev"]
 draft: false
@@ -9,39 +9,42 @@ draft: false
 
 import SonarAnimation from '../../components/animations/SonarAnimation.astro';
 import SnackStoreAnimation from '../../components/animations/SnackStoreAnimation.astro';
+import MuxVideo from '../../components/MuxVideo.astro';
 
 ## The Game
 
-During development of Pathways & Poltergeists we built a number of mechanics that kept breaking our pathfinding algorithm. Standard BFS worked perfectly for our simple grid based puzzle game, but its limitations became very apparent as more complex puzzles were added. The player needs to build a connecting path using the provided Tetris-like pieces. Everytime a new block is dropped, we rerun the breadth first search (BFS) until a connection is made.
+During development of Pathways & Poltergeists we built a number of mechanics that kept breaking our pathfinding algorithm. The core of the game requires the player to build a connecting path using the provided Tetris-like pieces. Everytime a player block is dropped, we rerun the breadth first search (BFS) until a connection is found. While standard BFS worked perfectly for our simple grid based puzzle game, its limitations became very apparent as more complex mechanics were added.
+ 
+Throughout this series we'll discuss each of the modifications made to have a hybrid BFS algorithm capable and ranking objectives, simulating failure states, and coordinating with other agents.
 
 ---
 
-## Part 1: Standard BFS
+## OG BFS
 
 BFS is pretty straightforward. It searches by expanding out from the origin position in all directions, checking every tile in a layer before moving to the next layer. It works similar to how you'd scan around a large public space looking for the exit.
 
 <SonarAnimation />
 
-In the animation above, you can imagine the blue tiles as the path the algorithm is checking. The green tile is the exit. Your eyes keep scanning around farther and farther until it finds the green exit sign.
+In the animation above, you can imagine the blue tiles as the path the algorithm is checking. The orange tile is the exit. Your eyes keep scanning around farther and farther until it finds the green exit sign.
 
 ```
 // Standard BFS
 
-function BFS(start, exit, grid):
+function findPath(start, exit, grid)
     queue   = [start]
     visited = {start}
-    parent  = {}
+    parents = empty map
 
-    while queue is not empty:
+    while queue is not empty
         current = queue.dequeue()
 
-        if current == exit:
-            return reconstruct_path(parent, start, exit)
+        if current is exit
+            return reconstructPath(parents, start, exit)
 
-        for each neighbor of current:
-            if neighbor is walkable AND not in visited:
-                visited.add(neighbor)
-                parent[neighbor] = current
+        for each neighbor of current
+            if neighbor is walkable and neighbor not in visited
+                add neighbor to visited
+                parents[neighbor] = current
                 queue.enqueue(neighbor)
 
     return NO_PATH_FOUND
@@ -51,7 +54,7 @@ Again this initially worked fine for Pathway & Poltergeists. However, that all c
 
 ---
 
-## Part 2: Waypoints and Switch/Gate Mechanics
+## Waypoints and Switch/Gate Mechanics
 
 ### The Problem
 
@@ -66,20 +69,28 @@ Imagine if you went inside a mall and just went straight for the exit, then you'
 We fixed this by simply adding each waypoint into a list of "must visit" or "required" blocks prior to exit. The algorithm then scans out and initially looks for waypoints. As it reaches a waypoint, it just checks it off the list, and runs again from that waypoint until all waypoints on the list are found. Then it simply looks for the exit.
 
 ```
-// State-Aware BFS
+// State-Aware BFS — each state now tracks position AND progress
+// State = { position, collectedWaypoints }
 
-waypoints_remaining = [Waypoint1, Waypoint2, Waypoint3]
+while queue is not empty
+    current = queue.dequeue()
 
-while queue is not empty:
+    // Only finish if we're at the exit AND have hit every waypoint
+    if current.position is exit and current.collectedWaypoints contains all waypoints
+        return reconstructPath(parents, startState, current)
 
-    if at_exit AND waypoints_remaining is empty:
-        return path ✓
+    for each neighbor of current
+        newProgress = current.collectedWaypoints
+        if neighbor is a waypoint
+            add neighbor to newProgress
 
-    for each neighbor:
-        if neighbor is a waypoint:
-            check it off waypoints_remaining
+        // "Cell A with 0 waypoints" is a different state than "Cell A with 1 waypoint"
+        nextState = { position: neighbor, collectedWaypoints: newProgress }
 
-        move to neighbor
+        if neighbor is walkable and nextState not in visited
+            add nextState to visited
+            parents[nextState] = current
+            queue.enqueue(nextState)
 ```
 
 Each level now includes a full list of all waypoints. We run the BFS search until the list of required waypoints is satisfied and we reach the exit.
@@ -89,22 +100,33 @@ Teleporters are not required, but change where the BFS "path" is located. Using 
 Next we add switches and locked gates. Naturally we want the pathfinder to prioritize hitting switches. In fact we should prioritize them over waypoints right? This way any waypoints that were behind locked doors will now be accessible.
 
 ```
-// Switch/Gate Support
+// Switch/Gate Support — state now also carries which switches are active
+// State = { position, collectedWaypoints, activeSwitches }
 
-switches_activated = []
+for each neighbor of current
+    newSwitches = current.activeSwitches
 
-for each neighbor:
-    if neighbor is a switch:
-        switches_activated.add(neighbor)   // flip it on
+    if neighbor is a switch
+        add neighbor to newSwitches         // flip it on
 
-    if neighbor is a gate:
-        if matching_switch NOT in switches_activated:
-            skip — gate is still locked
+    if neighbor is a gate
+        if matchingSwitch for gate not in newSwitches
+            skip this neighbor              // gate is locked, path is blocked
 
-    move to neighbor
+    // Layer onto the state from before — nothing else changes
+    nextState = {
+        position:            neighbor,
+        collectedWaypoints:  current.collectedWaypoints,
+        activeSwitches:      newSwitches
+    }
+
+    if neighbor is walkable and nextState not in visited
+        add nextState to visited
+        parents[nextState] = current
+        queue.enqueue(nextState)
 ```
 
-<p class="draft-stub">[ animation in progress — switch/gate solve ]</p>
+<MuxVideo playbackId="jJritN3JexNU7FHT75Kji4kEMK35CagwfA00EZpuDRn00" title="Pathway & Poltergeists — Waypoints & Switches demo" />
 
-This worked until we added one way directional tiles.
+In Part 2 of this series we'll discuss how the introduction one-way directional blocks had us back at the drawing board.
 
