@@ -51,7 +51,7 @@ const { Content } = await entry.render();
       </header>
 
       {entry.data.series && (
-        <nav class="series-nav">
+        <nav class="series-nav" aria-label="Series navigation, top">
           <div class="series-nav-label">
             <span class="series-tag">SERIES</span>
             <span class="series-title-text">{entry.data.seriesTitle}</span>
@@ -76,7 +76,7 @@ const { Content } = await entry.render();
       </article>
 
       {entry.data.series && (
-        <nav class="series-nav">
+        <nav class="series-nav" aria-label="Series navigation, bottom">
           <div class="series-nav-label">
             <span class="series-tag">SERIES</span>
             <span class="series-title-text">{entry.data.seriesTitle}</span>
