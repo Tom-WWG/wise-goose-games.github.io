@@ -46,11 +46,13 @@ const seo = getSEO({
 });
 ---
 
-<BaseLayout {...seo}>
-  <Fragment slot="head">
-    <meta property="article:published_time" content={dateISO} />
-    <meta property="article:author" content="Wise Goose Games" />
-  </Fragment>
+<BaseLayout
+  title={`${entry.data.title} — Wise Goose Games Devlog`}
+  description={entry.data.subtitle ?? `${entry.data.title} — Wise Goose Games devlog`}
+  canonical={`${SITE_URL}/devlog/${entry.slug}/`}
+  ogUrl={`${SITE_URL}/devlog/${entry.slug}/`}
+  ogImage={`${SITE_URL}/og-hero-logo-1200x630.png`}
+>
   <main class="devlog-article">
     <div class="devlog-article-container">
       <header class="devlog-article-header">
