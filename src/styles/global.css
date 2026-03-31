@@ -1,5 +1,6 @@
 /* src/styles/global.css */
 @import './fonts.css';
+@import '../components/animations/grid-animation.css';
 
 /* ===== Theme System ===== */
 /* Default: Brutalist Dark */
@@ -338,5 +339,31 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* ── Article animation layout ── */
+.anim-pair {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5rem;
+  align-items: flex-start;
+  margin: 2rem 0;
+}
+
+.anim-pair > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.anim-pair img {
+  width: 100%;
+  border-radius: 4px;
+  border: 1px solid var(--border-medium);
+}
+
+@media (max-width: 768px) {
+  .anim-pair {
+    flex-direction: column;
   }
 }

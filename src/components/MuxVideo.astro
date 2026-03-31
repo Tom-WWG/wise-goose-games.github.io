@@ -1,0 +1,40 @@
+---
+import { MuxPlayer } from '@mux/mux-player-astro';
+
+interface Props {
+  playbackId: string;
+  title: string;
+}
+
+const { playbackId, title } = Astro.props;
+const poster = `https://image.mux.com/${playbackId}/thumbnail.jpg`;
+---
+
+<div class="mux-video-wrap">
+  <MuxPlayer
+    playback-id={playbackId}
+    metadata-video-title={title}
+    metadata-video-id={playbackId}
+    env-key={import.meta.env.PUBLIC_MUX_ENV_KEY}
+    poster={poster}
+    loop
+    playsInline
+    style="--media-primary-color: #ffffff; --media-accent-color: #E87A2E; --media-background-color: #000000; --media-control-bar-background: rgba(0,0,0,0.75);"
+  />
+</div>
+
+<style>
+  .mux-video-wrap {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-block: 1.5rem;
+  }
+
+  .mux-video-wrap mux-player {
+    width: 100%;
+    height: 100%;
+  }
+</style>

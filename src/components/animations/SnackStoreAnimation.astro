@@ -1,0 +1,284 @@
+---
+// src/components/animations/SnackStoreAnimation.astro
+---
+
+<div class="snack-wrap" id="snack-anim">
+  <div class="snack-layout">
+    <div class="snack-grid" id="snack-grid"></div>
+    <div class="snack-checklist" id="snack-checklist"></div>
+  </div>
+</div>
+
+<style>
+  /* Scoped: static template elements only */
+  .snack-wrap { width: 100%; max-width: 567px; margin: 0 auto; }
+
+  .snack-layout {
+    display: grid;
+    grid-template-columns: 1fr 165px;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .snack-grid { min-width: 0; }
+
+  .snack-checklist {
+    width: 165px;
+    background: #0e0e0e;
+    border: 1px solid #2a2a2a;
+    border-radius: 4px;
+    padding: 15px 18px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    line-height: 1;
+  }
+
+  @media (max-width: 540px) {
+    .snack-layout    { grid-template-columns: 1fr; }
+    .snack-checklist { width: 100%; }
+  }
+</style>
+
+<style is:global>
+  /* Global: targets innerHTML-generated elements (no Astro scope attr) */
+  #snack-anim .checklist-title {
+    color: #444;
+    font-size: 13px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  #snack-anim .checklist-divider {
+    height: 1px;
+    background: #222;
+    margin-bottom: 15px;
+  }
+
+  #snack-anim .checklist-item {
+    height: 2em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+  }
+
+  #snack-anim .checklist-item[data-state="pending"] { color: #333; }
+  #snack-anim .checklist-item[data-state="active"]  { color: #d4a730; }
+  #snack-anim .checklist-item[data-state="done"]    { color: #22c55e; }
+
+  @media (color-gamut: p3) {
+    #snack-anim .checklist-item[data-state="done"] { color: color(display-p3 0.00 0.88 0.22); }
+  }
+
+  #snack-anim .checklist-item .item-icon {
+    flex-shrink: 0;
+    width: 1em;
+    text-align: center;
+  }
+</style>
+
+<script>
+  import { GridAnimationEngine } from './GridAnimationEngine.js';
+
+  function initSnackStore() {
+    const container = document.getElementById('snack-grid');
+    if (!container) return;
+
+    const engine = new GridAnimationEngine(container, {
+      cols: 9, rows: 9, speed: 110, loop: false,
+    });
+
+    engine.setTile(4, 4, { type: 'origin' });
+
+    // ── Seeded PRNG (mulberry32) ──
+    function mulberry32(seed) {
+      return function () {
+        seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+        let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+        t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+        return ((t ^ t >>> 14) >>> 0) / 4294967296;
+      };
+    }
+    const rand = mulberry32(Math.random() * 0xFFFFFFFF | 0);
+
+    // Pick a cell not in `taken` (Set of "r,c" strings) and not too close to origin
+    function pickPos(taken) {
+      let r, c;
+      do {
+        r = Math.floor(rand() * 9);
+        c = Math.floor(rand() * 9);
+      } while (
+        taken.has(`${r},${c}`) ||
+        Math.abs(r - 4) + Math.abs(c - 4) < 3
+      );
+      return [r, c];
+    }
+
+    // BFS on open 9×9 grid
+    function findPath(fromR, fromC, toR, toC) {
+      const visited = new Set();
+      const parent  = new Map();
+      const queue   = [[fromR, fromC]];
+      visited.add(`${fromR},${fromC}`);
+      while (queue.length > 0) {
+        const [r, c] = queue.shift();
+        if (r === toR && c === toC) {
+          const path = [];
+          let key = `${toR},${toC}`;
+          while (key) {
+            const [kr, kc] = key.split(',').map(Number);
+            path.unshift([kr, kc]);
+            key = parent.get(key) ?? null;
+          }
+          return path;
+        }
+        for (const [dr, dc] of [[-1,0],[1,0],[0,-1],[0,1]]) {
+          const nr = r + dr, nc = c + dc;
+          if (nr < 0 || nr >= 9 || nc < 0 || nc >= 9) continue;
+          const key = `${nr},${nc}`;
+          if (visited.has(key)) continue;
+          visited.add(key);
+          parent.set(key, `${r},${c}`);
+          queue.push([nr, nc]);
+        }
+      }
+      return [[fromR, fromC], [toR, toC]];
+    }
+
+    // ── Checklist — rendered once, never torn down ──
+    const panel = document.getElementById('snack-checklist');
+    panel.innerHTML = `
+      <div class="checklist-title">Waypoints</div>
+      <div class="checklist-divider"></div>
+      <div class="checklist-item" id="check-wp-0" data-state="pending"><span class="item-icon">○</span>Waypoint 1</div>
+      <div class="checklist-item" id="check-wp-1" data-state="pending"><span class="item-icon">○</span>Waypoint 2</div>
+      <div class="checklist-item" id="check-wp-2" data-state="pending"><span class="item-icon">○</span>Waypoint 3</div>
+      <div class="checklist-item" id="check-exit"  data-state="pending"><span class="item-icon">○</span>Exit</div>
+    `;
+
+    function setItem(id, state) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.dataset.state = state;
+      el.querySelector('.item-icon').textContent =
+        state === 'done' ? '✓' : state === 'active' ? '→' : '○';
+    }
+
+    // Show only `count` waypoint rows; hide the rest
+    function setChecklistCount(count) {
+      for (let i = 0; i < 3; i++) {
+        const el = document.getElementById(`check-wp-${i}`);
+        if (el) el.style.display = i < count ? '' : 'none';
+      }
+    }
+
+    // Reset all visible items to pending without touching display
+    function resetChecklist(count) {
+      setChecklistCount(count);
+      for (let i = 0; i < count; i++) setItem(`check-wp-${i}`, 'pending');
+      setItem('check-exit', 'pending');
+    }
+
+    // ── Tile tracking ──
+    let currentWaypoints = [];
+    let currentExit      = null;
+
+    function clearCurrentTiles() {
+      currentWaypoints.forEach(([r, c]) => engine.setTile(r, c, { type: '' }));
+      currentWaypoints = [];
+      if (currentExit) { engine.setTile(...currentExit, { type: '' }); currentExit = null; }
+    }
+
+    let animActive = false;
+
+    async function runAnimation() {
+      while (animActive) {
+
+        // Pick 1–3 waypoints + exit for this loop — single Set prevents any overlap
+        clearCurrentTiles();
+        const wpCount = 1 + Math.floor(rand() * 3);
+        const taken = new Set(['4,4']); // origin always reserved
+        const waypoints = [];
+        for (let i = 0; i < wpCount; i++) {
+          const [wr, wc] = pickPos(taken);
+          waypoints.push([wr, wc]);
+          taken.add(`${wr},${wc}`);
+        }
+        const [er, ec] = pickPos(taken);
+        taken.add(`${er},${ec}`);
+        currentWaypoints = waypoints;
+        currentExit      = [er, ec];
+
+        waypoints.forEach(([r, c]) => engine.setTile(r, c, { type: 'waypoint' }));
+        engine.setTile(er, ec, { type: 'exit' });
+
+        // Pre-compute leg paths
+        const legs = [];
+        let prev = [4, 4];
+        for (const [wr, wc] of waypoints) {
+          legs.push({ path: findPath(...prev, wr, wc), wpId: `check-wp-${legs.length}` });
+          prev = [wr, wc];
+        }
+        const exitPath = findPath(...prev, er, ec);
+
+        // Render fresh checklist for this count
+        resetChecklist(wpCount);
+
+        // ── Wavefront ──────────────────────────────────────────────────────
+        engine.clearPhases();
+        engine.addPhase({ type: 'wavefront', origin: [4, 4], speed: 155 });
+        await engine.play();
+        if (!animActive) break;
+
+        // ── Walk each waypoint leg ─────────────────────────────────────────
+        for (let i = 0; i < legs.length; i++) {
+          setItem(legs[i].wpId, 'active');
+          engine.clearPhases();
+          engine.addPhase({ type: 'path',    cells: legs[i].path, speed: 40 });
+          engine.addPhase({ type: 'pause',   duration: 200 });
+          engine.addPhase({ type: 'recolor', to: 'path-success' });
+          await engine.play();
+          if (!animActive) break;
+          setItem(legs[i].wpId, 'done');
+        }
+        if (!animActive) break;
+
+        // ── Walk to exit ───────────────────────────────────────────────────
+        setItem('check-exit', 'active');
+        engine.clearPhases();
+        engine.addPhase({ type: 'path',    cells: exitPath, speed: 40 });
+        engine.addPhase({ type: 'pause',   duration: 200 });
+        engine.addPhase({ type: 'recolor', to: 'path-success' });
+        engine.addPhase({ type: 'pause',   duration: 2800 });
+        engine.addPhase({ type: 'reset' });
+        await engine.play();
+        if (!animActive) break;
+
+        setItem('check-exit', 'done');
+        await new Promise(r => setTimeout(r, 700));
+        if (!animActive) break;
+      }
+    }
+
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries[0].isIntersecting) {
+          if (!animActive) { animActive = true; runAnimation(); }
+        } else {
+          animActive = false;
+          engine.stop();
+          clearCurrentTiles();
+          resetChecklist(0);
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(document.getElementById('snack-anim'));
+  }
+
+  document.addEventListener('astro:page-load', initSnackStore);
+  if (document.readyState !== 'loading') initSnackStore();
+</script>

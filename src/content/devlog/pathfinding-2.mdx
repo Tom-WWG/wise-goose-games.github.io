@@ -1,0 +1,71 @@
+---
+title: "Advanced Pathfinding, Part 2"
+subtitle: "One-way tiles and teleporters break the distance heuristic"
+date: 2026-03-26
+game: "Pathway & Poltergeists"
+tags: ["devlog", "pathfinding", "algorithms", "game-dev"]
+draft: true
+series: "pathfinding"
+seriesPart: 2
+seriesTitle: "Advanced Pathfinding"
+seriesTotal: 3
+---
+
+import DirectionalAnimation from '../../components/animations/DirectionalAnimation.astro';
+import SubwayAnimation from '../../components/animations/SubwayAnimation.astro';
+
+## Part 3: One-Way Directional Tiles & Teleporters
+
+### The Problem
+
+Here's where things first started getting tricky. If we look at this specific edge case in lvl 49. We have a waypoints right at the start then a one way directional followed by a switch. Since switches are hardcoded to be pathed over first, the pathfinder just instantly breaks since it cannot pass back over the one-ways and return to the waypoints.
+
+<DirectionalAnimation />
+
+### The Solution
+
+We added the ability to search by a layer of ranking, which was the shortest "distance" to required positions (waypoints). To accomplish this, we can look at it the same way a taxi cab in New York calculates distance for a fair. By using a heuristic which finds the shortest actual distance traveled, instead of drawing a straight line from A to B.
+
+```
+// Manhattan Distance Ordering — replaces hard-coded switch priority
+
+all_targets = remaining_switches + unvisited_waypoints
+
+sort all_targets by: Manhattan distance from current position
+
+visit closest target first, regardless of type
+```
+
+This fix worked well for a while until we got to the teleporter edge cases.
+
+### The Teleporter Problem
+
+<p class="draft-stub">[ copy in progress — distance ranking seemed like the fix, then teleporters broke it ]</p>
+
+<p class="draft-stub">[ copy in progress — subway analogy: planning a route by straight-line distance, missing the shortcut ]</p>
+
+<SubwayAnimation />
+
+### Teleporter-Aware Distance
+
+<p class="draft-stub">[ copy in progress — teleporter-aware distance estimation ]</p>
+
+```
+// Teleporter-Aware Distance Estimate
+
+function estimateDistance(from, to):
+    best = direct walking distance to target
+
+    for each teleporter on the grid:
+        via_teleporter = steps_to_teleporter_entrance
+                       + steps_from_teleporter_exit_to_target
+        best = min(best, via_teleporter)
+
+    return best
+```
+
+<p class="draft-stub">[ copy in progress — close Part 3 ]</p>
+
+---
+
+*In Part 3 we add multiple ghosts — which turns out to be the final piece that forces a complete rethink of target ordering.*

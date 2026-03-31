@@ -1,0 +1,92 @@
+---
+title: "Advanced Pathfinding, Part 3"
+subtitle: "Multi-ghost coordination and regret-aware targeting"
+date: 2026-03-26
+game: "Pathway & Poltergeists"
+tags: ["devlog", "pathfinding", "algorithms", "game-dev"]
+draft: true
+series: "pathfinding"
+seriesPart: 3
+seriesTitle: "Advanced Pathfinding"
+seriesTotal: 3
+---
+
+import MultiGhostAnimation from '../../components/animations/MultiGhostAnimation.astro';
+import RegretAnimation from '../../components/animations/RegretAnimation.astro';
+
+## Part 4: Multi-Ghost Coordination
+
+### The Problem
+
+With a new shared path state, we move into the final leg of difficulty when using multiple ghosts. In essence the ghosts are just a different starting position with different requirements for reaching an exit. Multiple ghosts makes the user think differently about placement, but the algorithm itself works just fine. Or that would be the case, except switches and gates don't require a specific ghost to press it. This introduces the first sort of "hard" limitation of the algorithm, being able to confirm a specific ghost is the unit that must press a particular switch.
+
+<MultiGhostAnimation />
+
+### The Solution
+
+We updated switches/gates to map to a specific ghost. This is probably the worst part of the algorithm because it limits level design just slightly when coordinating multiple ghosts with multiple switches/gates. If we are using more than 1 ghost, and a switch, then we are clearly defining who gets to press it or else the algorithm gets too confused (runs forever) trying to figure out who should do it.
+
+```
+// Multi-Ghost Loop
+
+repeat:
+    for each ghost:
+        if ghost already at exit: skip
+
+        run BFS using the shared switch state
+
+        if path found:
+            ghost moves to next target
+            any switches hit → add to shared state
+
+until no ghost makes progress  →  unsolvable
+   OR all ghosts at exit        →  solved ✓
+```
+
+Because state of the level is shared between the ghosts, we can recognize when a gate has been opened, and pass that along for the next ghost in the list to see if they can progress forward. Each time a piece is placed, we look at these segments to see if a new opening has occurred, or if progress can be made.
+
+---
+
+## Part 5: Regret-Aware Targeting — The Final Algorithm
+
+### The Problem
+
+The pathfinding being as complex as it was, and having several heart attacks while watching the users playtest the game, we had nearly reached its final form. There was only 1 issue remaining, which was that calculating by distances as our sorting for required positions was not enough for the complexity of the levels. There were cases of landing on a waypoint, or a switch, but still unable to traverse back (one-way directional tiles) or unable to open a gate. This is because the shortest distance is not the "best" distance to take.
+
+### The Solution
+
+We made a ranking to sort by each of the waypoints or switches. The ranking gives a score, by how accessible that mechanical position is as we traverse the grid. If something is inaccessible it will sorted last. If something can be reached it will be sorted higher based on how far away it is. Now the algorithm is basically running against itself to determine the ranking. We find a path, search outward from there by trying to connect that path to another required position, and so it's slightly recursive in that way. In the end when we've found all we can to discover, it's an ordered list ranked by how "accessible" that position is. If nothing is accessible, we default back to our taxi distance sorting.
+
+```
+// Regret Scoring
+
+for each candidate waypoint:
+
+    1. Can I reach it?
+       → If not, skip it
+
+    2. If I go there first, which other waypoints can I still reach?
+       → Run a quick BFS to each remaining waypoint from the end position
+
+    3. regret = waypoints I'd lose access to by going here first
+
+rank by: lowest regret → shortest path (tie-break)
+```
+
+This can be a fairly expensive operation. The BFS is basically calling itself to figure out the ranking of mechanical positions to then use to search again to see if we've connected to them in some identified order. Yeesh! Although in practice it still runs quickly, and the reason is because it gives up quickly too. The pass and ranking only happens so long as progress is being made. In our game it's pretty easy to dead end somewhere, and so that ranking terminates quickly. That being said, if the maps were quite large, this wouldn't work. Our largest grid size is 14x9 which is 126 grid positions to scan. Each time it moves outward from a pathway, dead ends or resolves, it's running a smaller path check to certain mechanics to get a ranking. That's a lot of complicated checks.
+
+<RegretAnimation />
+
+### Everything Together
+
+With the ranking system in place, we now have the full functionality set of the pathfinding. Or what will be the completed set with one limitation: switches/gates require certain ghosts to be assigned to it. This BFS algorithm is what is known as a production graph or state based/state aware pathfinding algorithm. It's not completely novel, but it is the most complex one I've come across. We now have the full capability of mutating a grid in a behavior based fashion, and still understanding the pathway as it changes. In most navigation systems a unit who has a wall between them and the path in front of them, might just run into that wall instead of going around. Or in A* a unit might just run into a gate, because technically there's a path there, and it doesn't know the gate is not open. Not in Pathways & Poltergeists, the pathway is mutable, and understood, and shared between all entities at all times.
+
+| Mechanic | Adaptation |
+|---|---|
+| Basic grid navigation | BFS core |
+| Waypoints | State-aware BFS — same cell, different collected state = new node |
+| Switches & gates | State grows to include `activatedSwitches`; gate checks state before traversal |
+| Teleporters | Teleporter-aware distance estimation for candidate ranking |
+| One-way directionals | Bidirectional exit + entry constraint check on every move |
+| Multiple ghosts | Shared switch state + interleaved sequential loop with deadlock detection |
+| Complex waypoint ordering | Regret scoring — simulate each option, measure future flexibility, commit to lowest regret |

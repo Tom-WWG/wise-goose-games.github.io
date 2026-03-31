@@ -18,6 +18,7 @@ exports/steam-pulse/
 logs/*.log
 
 # Developer artifacts — never commit to public repo
+dev-tools/
 CLAUDE.md
 *-REPORT.md
 Review_*.md

@@ -1,0 +1,151 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const SITE_URL = 'https://wisegoosegames.com';
+
+const entries = await getCollection('devlog', ({ data }) => !data.draft);
+
+type Entry = (typeof entries)[number];
+type ListItem =
+  | { kind: 'post'; entry: Entry }
+  | { kind: 'series'; slug: string; title: string; subtitle: string; date: Date; partCount: number };
+
+const seenSeries = new Map<string, boolean>();
+const listItems: ListItem[] = [];
+
+const sorted = [...entries].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+for (const entry of sorted) {
+  if (entry.data.series) {
+    if (seenSeries.has(entry.data.series)) continue;
+    seenSeries.set(entry.data.series, true);
+    const seriesParts = entries.filter(e => e.data.series === entry.data.series);
+    listItems.push({
+      kind: 'series',
+      slug: entry.data.series,
+      title: entry.data.seriesTitle ?? entry.data.title,
+      subtitle: `${seriesParts.length}-part series`,
+      date: entry.data.date,
+      partCount: seriesParts.length,
+    });
+  } else {
+    listItems.push({ kind: 'post', entry });
+  }
+}
+---
+
+<BaseLayout
+  title="Devlog — Wise Goose Games"
+  description="Development blog from Wise Goose Games — deep dives into the systems behind Pathway & Poltergeists."
+  canonical={`${SITE_URL}/devlog/`}
+  ogUrl={`${SITE_URL}/devlog/`}
+  ogImage={`${SITE_URL}/og-image.jpg`}
+>
+  <main class="devlog-index">
+    <div class="devlog-container">
+      <header class="devlog-header">
+        <h1>DEVLOG</h1>
+        <p>Behind the scenes at Wise Goose Games</p>
+      </header>
+
+      <ul class="devlog-list">
+        {listItems.map(item => (
+          <li class="devlog-item">
+            {item.kind === 'post' ? (
+              <a href={`/devlog/${item.entry.slug}/`}>
+                <span class="devlog-date">
+                  <em>{item.entry.data.date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}</em>
+                </span>
+                <h2>{item.entry.data.title}</h2>
+                {item.entry.data.subtitle && <p>{item.entry.data.subtitle}</p>}
+              </a>
+            ) : (
+              <a href={`/devlog/${item.slug}/`}>
+                <div class="devlog-series-badge">
+                  <span>SERIES</span>
+                  <span>{item.partCount} parts</span>
+                </div>
+                <span class="devlog-date">
+                  <em>{item.date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}</em>
+                </span>
+                <h2>{item.title}</h2>
+                <p>{item.subtitle}</p>
+              </a>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .devlog-container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+  }
+  .devlog-header {
+    margin-bottom: 3rem;
+    border-bottom: 2px solid var(--border-strong);
+    padding-bottom: 2rem;
+  }
+  .devlog-header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--text-primary);
+  }
+  .devlog-header p { color: var(--text-secondary); margin-top: 0.5rem; }
+  .devlog-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 1.5rem; }
+
+  /* ── P1: Hard border, no radius. P1: Brutalist hard-shadow hover ── */
+  .devlog-item a {
+    display: block;
+    padding: 1.5rem;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-medium);
+    text-decoration: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .devlog-item a:hover {
+    border-color: var(--accent);
+    box-shadow: 4px 4px 0 var(--accent);
+  }
+
+  /* ── P2: Cormorant Garamond italic date — links visually to article header ── */
+  .devlog-date {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--text-muted);
+  }
+  .devlog-date em { font-style: italic; }
+  .devlog-item h2 { font-size: 1.2rem; color: var(--text-primary); margin-top: 0.5rem; font-weight: 700; }
+  .devlog-item p { font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.3rem; }
+
+  .devlog-series-badge {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .devlog-series-badge span {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .devlog-series-badge span:first-child {
+    background: var(--accent);
+    color: var(--bg-primary);
+  }
+
+  .devlog-series-badge span:last-child {
+    border: 1px solid var(--border-medium);
+    color: var(--text-muted);
+  }
+</style>

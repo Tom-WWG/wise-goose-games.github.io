@@ -48,6 +48,23 @@ const steamPulse = defineCollection({
   }),
 });
 
+const devlog = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string().optional(),
+    date: z.coerce.date(),
+    game: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+    draft: z.boolean().default(false),
+    series: z.string().optional(),
+    seriesPart: z.number().int().positive().optional(),
+    seriesTitle: z.string().optional(),
+    seriesTotal: z.number().int().positive().optional(),
+  }),
+});
+
 export const collections = {
   'steam-pulse': steamPulse,
+  'devlog': devlog,
 };
