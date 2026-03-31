@@ -13,7 +13,9 @@ export default defineConfig({
     mdx(),
     sitemap({
       filter: (page) =>
-        page !== 'https://wisegoosegames.com/steam-pulse/title-variants/',
+        page !== 'https://wisegoosegames.com/steam-pulse/title-variants/' &&
+        page !== 'https://wisegoosegames.com/privacy/' &&
+        page !== 'https://wisegoosegames.com/terms/',
       serialize(item) {
         // Remove build-time lastmod for all pages — inaccurate timestamps mislead crawlers
         // Steam Pulse reports get real dates via Article schema (H-3)

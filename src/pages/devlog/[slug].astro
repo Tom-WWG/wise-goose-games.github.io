@@ -1,8 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-
-const SITE_URL = 'https://wisegoosegames.com';
+import { getSEO, getBlogPostingSchema, getBreadcrumbSchema } from '../../utils/seo';
 
 export async function getStaticPaths() {
   const entries = await getCollection('devlog', ({ data }) => !data.draft);
@@ -14,6 +13,37 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await entry.render();
+
+const dateISO = entry.data.date.toISOString().split('T')[0];
+
+// Derive the game slug from the game display name for the `about` cross-reference.
+// e.g. "Pathways & Poltergeists" → "pathways-poltergeists"
+const gameId = entry.data.game
+  ? entry.data.game.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
+  : undefined;
+
+const blogPostingSchema = getBlogPostingSchema({
+  slug: entry.slug,
+  headline: entry.data.title,
+  description: entry.data.subtitle ?? entry.data.title,
+  datePublished: dateISO,
+  tags: entry.data.tags,
+  gameId,
+  gameTitle: entry.data.game,
+});
+
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'Devlog', path: '/devlog/' },
+  { name: entry.data.title, path: `/devlog/${entry.slug}/` },
+]);
+
+const seo = getSEO({
+  title: `${entry.data.title} — Wise Goose Games Devlog`,
+  description: entry.data.subtitle ?? `${entry.data.title} — Wise Goose Games devlog`,
+  canonicalPath: `/devlog/${entry.slug}`,
+  structuredData: [blogPostingSchema, breadcrumbSchema],
+});
 ---
 
 <BaseLayout
@@ -35,6 +65,29 @@ const { Content } = await entry.render();
         <h1>{entry.data.title}</h1>
         {entry.data.subtitle && <p class="devlog-article-subtitle">{entry.data.subtitle}</p>}
       </header>
+
+      {entry.data.series && entry.data.seriesTotal && (
+        <nav class="devlog-series-nav" aria-label="Series navigation">
+          <span class="devlog-series-label">
+            {entry.data.seriesTitle ?? entry.data.series} — Part {entry.data.seriesPart} of {entry.data.seriesTotal}
+          </span>
+          <div class="devlog-series-links">
+            {Array.from({ length: entry.data.seriesTotal }, (_, i) => i + 1).map((n) => {
+              const partSlug = `${entry.data.series}-${n}`;
+              const isCurrent = n === entry.data.seriesPart;
+              return isCurrent ? (
+                <span class="devlog-series-part devlog-series-part--current" aria-current="page">
+                  Part {n}
+                </span>
+              ) : (
+                <a href={`/devlog/${partSlug}/`} class="devlog-series-part">
+                  Part {n}
+                </a>
+              );
+            })}
+          </div>
+        </nav>
+      )}
 
       <article class="devlog-prose">
         <Content />
@@ -296,5 +349,47 @@ const { Content } = await entry.render();
     .devlog-article-container {
       max-width: 860px;
     }
+  }
+
+  /* ── Series navigation ── */
+  .devlog-series-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.25rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-medium);
+    margin-bottom: 3rem;
+    font-size: 0.85rem;
+  }
+  .devlog-series-label {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.75rem;
+    flex: 1 0 100%;
+    margin-bottom: 0.25rem;
+  }
+  .devlog-series-links {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .devlog-series-part {
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--border-medium);
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.8rem;
+  }
+  .devlog-series-part:hover {
+    border-color: var(--accent);
+    color: var(--text-primary);
+  }
+  .devlog-series-part--current {
+    background: var(--accent);
+    color: var(--bg-primary);
+    border-color: var(--accent);
+    font-weight: 700;
   }
 </style>

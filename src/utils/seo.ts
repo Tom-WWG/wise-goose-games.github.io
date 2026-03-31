@@ -28,7 +28,6 @@ export function getSEO(props: SEOProps) {
     ogType,
     ogUrl: fullUrl,
     ogImage,
-    twitterCard: "summary_large_image" as const,
     structuredData: props.structuredData,
     noindex: props.noindex ?? false,
   };
@@ -54,7 +53,7 @@ export function getOrganizationSchema() {
         contactPoint: {
           "@type": "ContactPoint",
           email: "contact@wisegoosegames.com",
-          contactType: "customer support",
+          contactType: "customer service",
         },
         sameAs: [
           "https://www.instagram.com/wisegoosegames/",
@@ -79,8 +78,9 @@ export function getVideoGameSchema(game: {
   title: string;
   shortDescription: string;
   genre: string;
+  tags?: string[];
   releaseDate: string | null;
-  platforms: Record<string, { url: string }>;
+  platforms: Record<string, { url: string; appId?: string }>;
   price: string | null;
   steamAssets: { header?: string; screenshots?: string[] };
   muxPlaybackId: string | null;
@@ -141,11 +141,12 @@ export function getVideoGameSchema(game: {
     url: `${SITE_URL}/games/${game.id}/`,
     description: game.shortDescription,
     genre: game.genre,
-    keywords: game.genre,
+    keywords: game.tags && game.tags.length > 0 ? game.tags.join(", ") : game.genre,
     playMode: "https://schema.org/SinglePlayer",
     identifier: {
       "@type": "PropertyValue",
-      value: "4085150"
+      propertyID: "SteamAppID",
+      value: (game.platforms as Record<string, { url: string; appId?: string }>).steam?.appId ?? "4085150",
     },
     gamePlatform: platformNames,
     operatingSystem: operatingSystems,
@@ -214,19 +215,22 @@ function parseReleaseDate(dateStr: string): string | undefined {
   }
 }
 
-export function getCollectionPageSchema(title: string, description: string, url: string) {
+export function getCollectionPageSchema(
+  title: string,
+  description: string,
+  url: string,
+  parts: { id: string }[] = []
+) {
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
     name: title,
     description,
     url,
-    hasPart: [
-      {
-        "@type": "WebPage",
-        "@id": `${SITE_URL}/games/pathways-poltergeists/`
-      }
-    ],
+    hasPart: parts.map((p) => ({
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/games/${p.id}/`,
+    })),
     publisher: { "@id": `${SITE_URL}/#organization` },
   };
 }
@@ -287,8 +291,99 @@ export function getItemListSchema(items: { name: string; url: string }[]) {
     itemListElement: items.map((item, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      name: item.name,
-      url: item.url,
+      item: {
+        "@type": "WebPage",
+        "@id": item.url,
+        name: item.name,
+      },
     })),
+  };
+}
+
+export function getBlogSchema(params: {
+  name: string;
+  description: string;
+  posts: { slug: string; title: string; datePublished: string }[];
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "@id": `${SITE_URL}/devlog/`,
+    name: params.name,
+    description: params.description,
+    url: `${SITE_URL}/devlog/`,
+    inLanguage: "en",
+    publisher: {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "Wise Goose Games",
+    },
+    blogPost: params.posts.map((p) => ({
+      "@type": "BlogPosting",
+      "@id": `${SITE_URL}/devlog/${p.slug}/`,
+      headline: p.title,
+      url: `${SITE_URL}/devlog/${p.slug}/`,
+      datePublished: p.datePublished,
+    })),
+  };
+}
+
+export function getBlogPostingSchema(params: {
+  slug: string;
+  headline: string;
+  description: string;
+  datePublished: string; // ISO 8601 e.g. "2026-03-30"
+  dateModified?: string;
+  tags?: string[];
+  gameId?: string;       // e.g. "pathways-poltergeists" — links to VideoGame entity
+  gameTitle?: string;
+}) {
+  const url = `${SITE_URL}/devlog/${params.slug}/`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": url,
+    headline: params.headline,
+    description: params.description,
+    datePublished: params.datePublished,
+    dateModified: params.dateModified ?? params.datePublished,
+    url,
+    inLanguage: "en",
+    author: {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "Wise Goose Games",
+    },
+    publisher: {
+      "@type": "Organization",
+      "@id": `${SITE_URL}/#organization`,
+      name: "Wise Goose Games",
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/logo_512x512.png`,
+        width: 512,
+        height: 512,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+    isPartOf: {
+      "@type": "Blog",
+      "@id": `${SITE_URL}/devlog/`,
+    },
+    ...(params.tags && params.tags.length > 0
+      ? { keywords: params.tags.join(", ") }
+      : {}),
+    ...(params.gameId
+      ? {
+          about: {
+            "@type": "VideoGame",
+            "@id": `${SITE_URL}/games/${params.gameId}/`,
+            name: params.gameTitle ?? params.gameId,
+          },
+        }
+      : {}),
   };
 }

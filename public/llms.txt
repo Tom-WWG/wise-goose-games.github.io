@@ -123,6 +123,22 @@ Pathways & Poltergeists is a paid puzzle game for iPhone at $9.99 with no subscr
 
 ---
 
+## Devlog
+
+Technical development blog covering the systems behind Pathways & Poltergeists.
+
+### Advanced Pathfinding Series (3 parts)
+
+An explanation of how standard BFS pathfinding was extended to handle waypoints, switch-activated gates, and one-way directional blocks in a grid-based puzzle game. Covers state-aware BFS where each search state tracks position plus collected waypoints and active switches. Written for game developers and technically curious players.
+
+- [Part 1: State-Aware BFS with Waypoints and Switches](https://wisegoosegames.com/devlog/pathfinding-1/)
+
+### What is state-aware BFS?
+
+Standard breadth-first search finds the shortest path from a start to an end position. State-aware BFS extends this by treating each search state as a combination of position plus additional context (such as which waypoints have been collected and which switches are active). This allows the pathfinder to correctly navigate levels where the ghost must visit intermediate waypoints or activate switches to unlock gates before reaching the exit. Pathways & Poltergeists uses this approach to validate whether a player-constructed pathway is solvable.
+
+---
+
 ## About Wise Goose Games
 
 Wise Goose Games is a two-person independent game studio based in California, founded in 2025. The studio is focused on creating puzzle experiences that are honest about their difficulty, respect players' time and intelligence, and avoid the monetization patterns common in mobile gaming. Pathways & Poltergeists is the studio's debut title.
