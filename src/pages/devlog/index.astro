@@ -1,8 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-
-const SITE_URL = 'https://wisegoosegames.com';
+import { getSEO, getBlogSchema, getBreadcrumbSchema } from '../../utils/seo';
 
 const entries = await getCollection('devlog', ({ data }) => !data.draft);
 
@@ -33,15 +32,34 @@ for (const entry of sorted) {
     listItems.push({ kind: 'post', entry });
   }
 }
+
+// Blog schema uses all individual entries (not the de-duplicated series view)
+const allPublishedEntries = entries.map((e) => ({
+  slug: e.slug,
+  title: e.data.title,
+  datePublished: e.data.date.toISOString().split('T')[0],
+}));
+
+const blogSchema = getBlogSchema({
+  name: 'Wise Goose Games Devlog',
+  description: 'Development blog from Wise Goose Games. Technical deep dives into the systems behind Pathways & Poltergeists.',
+  posts: allPublishedEntries,
+});
+
+const breadcrumbSchema = getBreadcrumbSchema([
+  { name: 'Home', path: '/' },
+  { name: 'Devlog', path: '/devlog/' },
+]);
+
+const seo = getSEO({
+  title: 'Devlog — Wise Goose Games',
+  description: 'Development blog from Wise Goose Games. Technical deep dives into the systems behind Pathways & Poltergeists.',
+  canonicalPath: '/devlog',
+  structuredData: [blogSchema, breadcrumbSchema],
+});
 ---
 
-<BaseLayout
-  title="Devlog — Wise Goose Games"
-  description="Development blog from Wise Goose Games — deep dives into the systems behind Pathway & Poltergeists."
-  canonical={`${SITE_URL}/devlog/`}
-  ogUrl={`${SITE_URL}/devlog/`}
-  ogImage={`${SITE_URL}/og-image.jpg`}
->
+<BaseLayout {...seo}>
   <main class="devlog-index">
     <div class="devlog-container">
       <header class="devlog-header">

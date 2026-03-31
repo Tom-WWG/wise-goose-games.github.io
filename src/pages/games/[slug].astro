@@ -15,6 +15,10 @@ export function getStaticPaths() {
 
 const { game } = Astro.props;
 
+const muxPosterUrl = game.muxPlaybackId
+  ? `https://image.mux.com/${game.muxPlaybackId}/thumbnail.jpg`
+  : null;
+
 const muxMp4Url = game.muxPlaybackId
   ? `https://stream.mux.com/${game.muxPlaybackId}/highest.mp4`
   : undefined;
@@ -24,7 +28,7 @@ const seo = getSEO({
   description: game.shortDescription,
   canonicalPath: `/games/${game.id}`,
   ogImage: game.steamAssets.header,
-  ogType: 'game',
+  ogType: 'website',
   structuredData: [
     getVideoGameSchema(game),
     getBreadcrumbSchema([
@@ -39,6 +43,9 @@ const seo = getSEO({
 ---
 
 <BaseLayout {...seo} ogVideo={muxMp4Url}>
+  {muxPosterUrl && (
+    <link slot="head" rel="preload" as="image" href={muxPosterUrl} />
+  )}
   <main>
     {game.muxPlaybackId && (
       <div data-enter class="w-full bg-black pt-[60px]">

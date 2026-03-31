@@ -2,9 +2,10 @@
 title: "Advanced Pathfinding"
 subtitle: "Modifying the simple BFS into an obstacle course navigator"
 date: 2026-03-30
-game: "Pathway & Poltergeists"
+game: "Pathways & Poltergeists"
 tags: ["devlog", "pathfinding", "algorithms", "game-dev"]
 draft: false
+
 ---
 
 import SonarAnimation from '../../components/animations/SonarAnimation.astro';
@@ -48,7 +49,7 @@ function findPath(start, exit, grid)
     return NO_PATH_FOUND
 ```
 
-Again, this initially worked well for Pathway & Poltergeists. However, that all changed as we began to add waypoints, teleporters, and switches.
+Again, this initially worked well for Pathways & Poltergeists. However, that all changed as we began to add waypoints, teleporters, and switches.
 
 ---
 
@@ -124,7 +125,7 @@ for each neighbor of current
         queue.enqueue(nextState)
 ```
 
-<MuxVideo playbackId="XaTW92ZBDO34q1qbCCXh9ARfOCh01Qu6Jmfn00unNwB1E" title="Pathway & Poltergeists — Waypoints & Switches demo" />
+<MuxVideo playbackId="XaTW92ZBDO34q1qbCCXh9ARfOCh01Qu6Jmfn00unNwB1E" title="Pathways & Poltergeists — Waypoints & Switches demo" />
 <p class="media-caption">Here we see it all together, start → switch → waypoint → exit.</p>
 
 ---

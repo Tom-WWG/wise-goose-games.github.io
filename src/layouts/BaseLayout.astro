@@ -12,9 +12,7 @@ interface Props {
   ogType?: string;
   ogUrl: string;
   ogImage: string;
-  ogImage: string;
   ogVideo?: string;
-  twitterCard?: string;
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
 }
@@ -27,7 +25,6 @@ const {
   ogUrl,
   ogImage,
   ogVideo,
-  twitterCard,
   structuredData,
   noindex = false,
 } = Astro.props;
@@ -82,6 +79,7 @@ const {
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="en_US" />
+  <meta property="og:site_name" content="Wise Goose Games" />
 
   {ogVideo && (
     <>
@@ -93,16 +91,9 @@ const {
     </>
   )}
 
-  <!-- Twitter -->
-  {twitterCard && (
-    <>
-      <meta name="twitter:card" content={twitterCard} />
-      <meta name="twitter:url" content={ogUrl} />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={ogImage} />
-    </>
-  )}
+  <!-- Preconnect for Mux video CDN (game page + devlog video embeds) -->
+  <link rel="preconnect" href="https://stream.mux.com" crossorigin />
+  <link rel="preconnect" href="https://image.mux.com" crossorigin />
 
   <!-- Font preloads (self-hosted, eliminates render-blocking external CSS) -->
   <link rel="preload" href="/fonts/montserrat-latin.woff2" as="font" type="font/woff2" crossorigin />
