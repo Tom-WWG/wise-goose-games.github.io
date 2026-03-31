@@ -180,6 +180,11 @@ function gamesAttr(item: BarItem): string {
 <script>
   const STEAM_CDN = 'https://cdn.akamai.steamstatic.com/steam/apps';
 
+  // Escape HTML special chars before interpolating untrusted strings into innerHTML
+  function esc(str: string): string {
+    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
   function revenueTier(n: number): { label: string; cssClass: string } {
     if (n >= 10_000_000) return { label: 'LANDMARK',  cssClass: 'sp-rev-tier--landmark' };
     if (n >= 1_000_000)  return { label: 'BREAKOUT',  cssClass: 'sp-rev-tier--breakout' };
@@ -220,15 +225,15 @@ function gamesAttr(item: BarItem): string {
           <div class="sp-game-capsule">
             <img
               src="${STEAM_CDN}/${g.app_id}/header.jpg"
-              alt="${g.title}"
+              alt="${esc(g.title)}"
               loading="lazy"
               onerror="${onerror}"
             />
           </div>
           <div class="sp-game-info">
-            <span class="sp-game-title">${g.title}</span>
+            <span class="sp-game-title">${esc(g.title)}</span>
             <div class="sp-game-meta">
-              <span class="sp-game-badge sp-game-badge--${isHit ? 'hit' : 'promising'}">${g.classification}</span>
+              <span class="sp-game-badge sp-game-badge--${isHit ? 'hit' : 'promising'}">${esc(g.classification)}</span>
               <span class="sp-game-rev">
                 <span class="sp-rev-tier ${tier.cssClass}">${tier.label}</span>
                 <span class="sp-rev-approx">${revText}</span>

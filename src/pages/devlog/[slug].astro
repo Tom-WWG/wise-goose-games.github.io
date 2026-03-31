@@ -45,10 +45,16 @@ const { Content } = await entry.render();
 
 
 <style is:global>
+  .devlog-article {
+    padding: 3rem 1.5rem;
+  }
+
   .devlog-article-container {
     max-width: 760px;
     margin: 0 auto;
-    padding: 4rem 1.5rem;
+    padding: 4rem 3rem;
+    background-color: var(--bg-elevated);
+    border-radius: 20px;
   }
 
   /* ── P2: Brutalist masthead ── */
@@ -241,6 +247,17 @@ const { Content } = await entry.render();
   }
   .devlog-prose th { color: var(--text-primary); background: var(--bg-elevated); }
 
+  /* ── Media captions ── */
+  .devlog-prose .media-caption {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: -1.5rem;
+    margin-bottom: 2rem;
+    font-style: italic;
+    letter-spacing: 0.2px;
+  }
+
   /* ── Draft stubs — visible placeholder for in-progress copy ── */
   .devlog-prose .draft-stub {
     font-style: italic;
@@ -254,10 +271,13 @@ const { Content } = await entry.render();
 
   /* ── P7: Animation frames ── */
   /* Higher specificity overrides grid-animation.css border/radius on container */
+  /* Background explicitly pinned to black — does not inherit article bg-elevated */
   .devlog-prose .grid-anim-container {
-    border: 2px solid var(--border-strong);
+    background-color: #000000;
+    border: none;
     border-radius: 0;
     margin: 3rem 0;
+    padding: 2rem;
   }
   /* "● LIVE SIMULATION" footer strip — renders as last flex child in the column */
   .devlog-prose .grid-anim-container::after {
@@ -271,26 +291,10 @@ const { Content } = await entry.render();
     margin-top: 0.25rem;
   }
 
-  /* ── P6: Asymmetric gutter — wide viewports only ── */
+  /* ── Wide viewports — wider reading column ── */
   @media (min-width: 1200px) {
     .devlog-article-container {
-      max-width: 1020px;
-      display: grid;
-      grid-template-columns: 200px 1fr;
-      gap: 0 3rem;
-    }
-
-    /* Both header and prose live in the right (content) column */
-    .devlog-article-header,
-    .devlog-prose {
-      grid-column: 2;
-    }
-
-
-    /* Animations bleed slightly past the text column at desktop */
-    .devlog-prose .grid-anim-container {
-      margin-left: -2rem;
-      margin-right: -2rem;
+      max-width: 860px;
     }
   }
 </style>

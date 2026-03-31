@@ -1,0 +1,398 @@
+/* ════════════════════════════════════════════════════════════════════════════
+   Color tokens — sRGB defaults, overridden to display-p3 for capable screens.
+   Scoped to .grid-anim-container so they don't pollute the global cascade.
+   ════════════════════════════════════════════════════════════════════════════ */
+.grid-anim-container {
+  /* ── Core hues ── */
+  --anim-teal:   #38BDB4;
+  --anim-orange: #E87A2E;
+  --anim-red:    #c62828;
+  --anim-red-bright: #e53935;   /* label text — brighter than path-fail red */
+
+  /* ── Teal alpha series ── */
+  --anim-teal-70: rgba(56, 189, 180, 0.70);
+  --anim-teal-60: rgba(56, 189, 180, 0.60);
+  --anim-teal-55: rgba(56, 189, 180, 0.55);
+  --anim-teal-40: rgba(56, 189, 180, 0.40);
+  --anim-teal-35: rgba(56, 189, 180, 0.35);
+  --anim-teal-20: rgba(56, 189, 180, 0.20);
+  --anim-teal-12: rgba(56, 189, 180, 0.12);
+
+  /* ── Orange alpha series ── */
+  --anim-orange-70: rgba(232, 122, 46, 0.70);
+  --anim-orange-60: rgba(232, 122, 46, 0.60);
+  --anim-orange-50: rgba(232, 122, 46, 0.50);
+
+  /* ── Red alpha series ── */
+  --anim-red-70: rgba(198, 40, 40, 0.70);
+  --anim-red-55: rgba(198, 40, 40, 0.55);
+  --anim-red-50: rgba(198, 40, 40, 0.50);
+
+  /* ── Green — success trail ── */
+  --anim-green:    #22c55e;
+  --anim-green-60: rgba(34, 197, 94, 0.60);
+  --anim-green-40: rgba(34, 197, 94, 0.40);
+
+  /* ── Gray — neutral path (before verdict recolor) ── */
+  --anim-gray:    rgba(160, 160, 160, 0.60);
+  --anim-gray-50: rgba(160, 160, 160, 0.50);
+  --anim-gray-25: rgba(160, 160, 160, 0.25);
+}
+
+/* ── P3 wide-gamut override ─────────────────────────────────────────────────
+   display-p3 values are more saturated versions of the sRGB tokens above.
+   Browsers on SDR or non-P3 displays ignore this entire block.
+   ────────────────────────────────────────────────────────────────────────── */
+@media (color-gamut: p3) {
+  .grid-anim-container {
+    /* Core hues — P3 strong */
+    --anim-teal:       color(display-p3 0.00 0.92 0.87);
+    --anim-orange:     color(display-p3 0.99 0.40 0.00);
+    --anim-red:        color(display-p3 0.90 0.02 0.02);
+    --anim-red-bright: color(display-p3 0.97 0.08 0.06);
+
+    /* Teal alpha series */
+    --anim-teal-70: color(display-p3 0.00 0.92 0.87 / 0.70);
+    --anim-teal-60: color(display-p3 0.00 0.92 0.87 / 0.65);
+    --anim-teal-55: color(display-p3 0.00 0.92 0.87 / 0.60);
+    --anim-teal-40: color(display-p3 0.00 0.92 0.87 / 0.50);
+    --anim-teal-35: color(display-p3 0.00 0.92 0.87 / 0.40);
+    --anim-teal-20: color(display-p3 0.00 0.92 0.87 / 0.22);
+    --anim-teal-12: color(display-p3 0.00 0.92 0.87 / 0.14);
+
+    /* Orange alpha series */
+    --anim-orange-70: color(display-p3 0.99 0.40 0.00 / 0.70);
+    --anim-orange-60: color(display-p3 0.99 0.40 0.00 / 0.60);
+    --anim-orange-50: color(display-p3 0.99 0.40 0.00 / 0.50);
+
+    /* Red alpha series */
+    --anim-red-70: color(display-p3 0.90 0.02 0.02 / 0.70);
+    --anim-red-55: color(display-p3 0.90 0.02 0.02 / 0.55);
+    --anim-red-50: color(display-p3 0.90 0.02 0.02 / 0.50);
+
+    /* Green — success trail (bold traditional green, well outside sRGB) */
+    --anim-green:    color(display-p3 0.00 0.88 0.22);
+    --anim-green-60: color(display-p3 0.00 0.88 0.22 / 0.60);
+    --anim-green-40: color(display-p3 0.00 0.88 0.22 / 0.40);
+  }
+}
+
+/* ── Dev tool: force SDR (sRGB) mode ───────────────────────────────────────
+   Adding class "force-sdr" to <html> re-asserts sRGB token values at
+   specificity 0,2,0, which beats the @media (color-gamut: p3) block at 0,1,0.
+   Toggle via the dev pill in [slug].astro. Remove before shipping.
+   ────────────────────────────────────────────────────────────────────────── */
+.force-sdr .grid-anim-container {
+  --anim-teal:       #38BDB4;
+  --anim-orange:     #E87A2E;
+  --anim-red:        #c62828;
+  --anim-red-bright: #e53935;
+
+  --anim-teal-70: rgba(56, 189, 180, 0.70);
+  --anim-teal-60: rgba(56, 189, 180, 0.60);
+  --anim-teal-55: rgba(56, 189, 180, 0.55);
+  --anim-teal-40: rgba(56, 189, 180, 0.40);
+  --anim-teal-35: rgba(56, 189, 180, 0.35);
+  --anim-teal-20: rgba(56, 189, 180, 0.20);
+  --anim-teal-12: rgba(56, 189, 180, 0.12);
+
+  --anim-orange-70: rgba(232, 122, 46, 0.70);
+  --anim-orange-60: rgba(232, 122, 46, 0.60);
+  --anim-orange-50: rgba(232, 122, 46, 0.50);
+
+  --anim-red-70: rgba(198, 40, 40, 0.70);
+  --anim-red-55: rgba(198, 40, 40, 0.55);
+  --anim-red-50: rgba(198, 40, 40, 0.50);
+
+  --anim-green:    #22c55e;
+  --anim-green-60: rgba(34, 197, 94, 0.60);
+  --anim-green-40: rgba(34, 197, 94, 0.40);
+}
+
+/* ── Container ── */
+.grid-anim-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: #0a0a0a;
+  border: 1px solid #222;
+  border-radius: 4px;
+  padding: 12px;
+  font-size: 14px;
+}
+
+/* ── Grid ── */
+.grid-anim-grid {
+  display: grid;
+  gap: 5px;
+  width: 100%;
+  /* aspect-ratio is set inline by the engine (_buildGrid) from cols/rows — supports non-square grids */
+}
+
+/* ── Cells ── */
+.grid-anim-cell {
+  background: #1a1a1a;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(12px, 2vw, 24px);
+  /* Extended transition handles the fade-OFF (incandescent cool-down).
+     When the engine removes a state class the animation stops at its
+     current value — often mid-amber — and this transition carries it
+     the rest of the way to dark, passing through the warm residual glow. */
+  transition: background 0.55s ease-out, box-shadow 0.5s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Incandescent ignite keyframes ─────────────────────────────────────────
+   Intermediate stops use oklch() for perceptually uniform interpolation.
+   The amber midpoint mimics a tungsten filament heating through its colour
+   temperature ramp before arriving at the display-p3 target.
+   ────────────────────────────────────────────────────────────────────────── */
+
+/* Teal — wavefront active */
+@keyframes ignite-teal {
+  0%   { background: oklch(12% 0.00 0); box-shadow: none; }
+  100% { background: var(--anim-teal);  box-shadow: 0 0 10px var(--anim-teal-60); }
+}
+
+/* Red — fail path verdict (direct fade, no warmup) */
+@keyframes ignite-red {
+  0%   { background: oklch(12% 0.00 0);  box-shadow: none; }
+  100% { background: var(--anim-red);    box-shadow: 0 0 8px var(--anim-red-55); }
+}
+
+/* ── Label ── */
+.grid-anim-label {
+  text-align: center;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 6px 0;
+  transition: opacity 0.3s ease;
+  min-height: 28px;
+}
+
+.grid-anim-label.label-success { color: var(--anim-teal); }
+.grid-anim-label.label-fail    { color: var(--anim-red-bright); }
+
+/* ── Animation states ── */
+/* animation: takes precedence over transition: on the same property.
+   When the class is removed, the animation stops at its current value
+   (mid-amber if interrupted early) and the base cell transition carries
+   it the rest of the way to dark — the incandescent cool-down effect. */
+
+.grid-anim-cell.state-active {
+  animation: ignite-teal 0.32s ease-out forwards;
+  background: var(--anim-teal);
+  box-shadow: 0 0 10px var(--anim-teal-60);
+}
+
+.grid-anim-cell.state-visited {
+  /* No separate animation — the base transition handles the fade from
+     wherever ignite-teal was interrupted (typically mid-amber warmup)
+     down to this dim value, preserving the cooling-filament feel. */
+  background: var(--anim-teal-12);
+}
+
+.grid-anim-cell.state-path {
+  /* Neutral gray — no warm tone, no animation. Base cell transition
+     fades dark→gray. Verdict recolor (green/red) follows after a pause. */
+  animation: none;
+  background: var(--anim-gray);
+  box-shadow: 0 0 4px var(--anim-gray-25);
+}
+
+/* Recolor target — orange path resolved to green (success).
+   Longer transition lets the green bloom in slowly after orange sits. */
+.grid-anim-cell.state-path-success {
+  animation: none;
+  background: var(--anim-green);
+  box-shadow: 0 0 8px var(--anim-green-60);
+  transition: background 1.1s ease-in-out, box-shadow 1.0s ease-in-out;
+}
+
+/* ── Tile types ── */
+.grid-anim-cell.tile-origin {
+  background: var(--anim-teal);
+  box-shadow: 0 0 10px var(--anim-teal-60);
+}
+
+.grid-anim-cell.tile-exit {
+  background: var(--anim-orange);
+  box-shadow: 0 0 10px var(--anim-orange-60);
+}
+
+.grid-anim-cell.tile-waypoint {
+  background: var(--anim-teal-35);
+  border: 1px solid var(--anim-teal-60);
+}
+
+.grid-anim-cell.tile-switch {
+  background: rgba(255, 193, 7, 0.3);
+  border: 1px solid rgba(255, 193, 7, 0.6);
+}
+
+.grid-anim-cell.tile-blocked {
+  background: #0d0d0d;
+}
+
+.grid-anim-cell.tile-building {
+  background: #2a2a2a;
+  border: 1px solid #333;
+}
+
+/* ── Road tiles ── */
+.grid-anim-cell.tile-road-ns,
+.grid-anim-cell.tile-road-ew,
+.grid-anim-cell.tile-road-int,
+.grid-anim-cell[class*="tile-road-one-way"] {
+  background: #222;
+}
+
+/* Road markings: NS (vertical dashes) */
+.grid-anim-cell.tile-road-ns::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 40%;
+  background: rgba(255,255,255,0.25);
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 1px;
+}
+
+/* Road markings: EW (horizontal dashes) */
+.grid-anim-cell.tile-road-ew::after {
+  content: '';
+  position: absolute;
+  height: 2px;
+  width: 40%;
+  background: rgba(255,255,255,0.25);
+  left: 30%;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 1px;
+}
+
+/* Road intersection: crosshair */
+.grid-anim-cell.tile-road-int::before,
+.grid-anim-cell.tile-road-int::after {
+  content: '';
+  position: absolute;
+  background: rgba(255,255,255,0.15);
+  border-radius: 1px;
+}
+.grid-anim-cell.tile-road-int::before { width: 2px; height: 60%; top: 20%; left: 50%; transform: translateX(-50%); }
+.grid-anim-cell.tile-road-int::after  { height: 2px; width: 60%; left: 20%; top: 50%; transform: translateY(-50%); }
+
+/* One-way arrows via text content */
+.grid-anim-cell.tile-road-one-way-n::before { content: '↑'; position: absolute; color: rgba(255,255,255,0.5); font-size: 0.8em; }
+.grid-anim-cell.tile-road-one-way-s::before { content: '↓'; position: absolute; color: rgba(255,255,255,0.5); font-size: 0.8em; }
+.grid-anim-cell.tile-road-one-way-e::before { content: '→'; position: absolute; color: rgba(255,255,255,0.5); font-size: 0.8em; }
+.grid-anim-cell.tile-road-one-way-w::before { content: '←'; position: absolute; color: rgba(255,255,255,0.5); font-size: 0.8em; }
+
+/* Subway tiles */
+.grid-anim-cell.tile-subway-entrance {
+  background: #1a1a2e;
+  border: 1px solid var(--anim-teal-20);
+}
+.grid-anim-cell.tile-subway-entrance::before {
+  content: '⬇';
+  position: absolute;
+  color: var(--anim-teal);
+  font-size: 0.7em;
+  opacity: 0.8;
+}
+
+.grid-anim-cell.tile-subway-line {
+  background: #0f1a1a;
+  border-top: 2px solid var(--anim-teal-20);
+  border-bottom: 2px solid var(--anim-teal-20);
+}
+
+/* ── State overlays preserve tile type visuals ── */
+.grid-anim-cell.tile-origin.state-active,
+.grid-anim-cell.tile-origin.state-visited,
+.grid-anim-cell.tile-origin.state-path,
+.grid-anim-cell.tile-origin.state-path-success,
+.grid-anim-cell.tile-origin.state-path-fail {
+  animation: none;
+  background: var(--anim-teal);
+  box-shadow: 0 0 10px var(--anim-teal-60);
+}
+
+.grid-anim-cell.tile-exit.state-active,
+.grid-anim-cell.tile-exit.state-visited,
+.grid-anim-cell.tile-exit.state-path,
+.grid-anim-cell.tile-exit.state-path-success,
+.grid-anim-cell.tile-exit.state-path-fail {
+  animation: none;
+  background: var(--anim-orange);
+  box-shadow: 0 0 10px var(--anim-orange-60);
+}
+
+.grid-anim-cell.tile-waypoint.state-path {
+  background: var(--anim-teal-60);
+  box-shadow: 0 0 8px var(--anim-teal-40);
+}
+
+/* ── Step counter ── */
+.step-counter {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  color: #888;
+  letter-spacing: 1px;
+  padding: 6px 0;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Road tile state overlays ──────────────────────────────────────────────── */
+/* Road tile rules come after state rules in the file and win on cascade order, */
+/* overwriting the state background. These combo rules (specificity 0,3,0 >    */
+/* the individual road rules at 0,2,0) restore state visibility on road tiles.  */
+/* background-image composites the 70% alpha state colour OVER background-color */
+/* (#222), so the road surface shows through at 30% opacity underneath.        */
+
+.grid-anim-cell[class*="tile-road"].state-active {
+  background-color: #222;
+  background-image: linear-gradient(var(--anim-teal-70), var(--anim-teal-70));
+  box-shadow: 0 0 6px var(--anim-teal-40);
+}
+
+.grid-anim-cell[class*="tile-road"].state-visited {
+  background-color: #222;
+  background-image: linear-gradient(var(--anim-teal-20), var(--anim-teal-20));
+}
+
+.grid-anim-cell[class*="tile-road"].state-path {
+  background-color: #222;
+  background-image: linear-gradient(var(--anim-gray-50), var(--anim-gray-50));
+  box-shadow: none;
+}
+
+/* ── Fail path (red) — recolor target after orange draw.
+   Longer transition mirrors success — orange bleeds into red slowly. ── */
+.grid-anim-cell.state-path-fail {
+  animation: none;
+  background: var(--anim-red);
+  box-shadow: 0 0 8px var(--anim-red-55);
+  transition: background 1.1s ease-in-out, box-shadow 1.0s ease-in-out;
+}
+
+.grid-anim-cell[class*="tile-road"].state-path-success {
+  background-color: #222;
+  background-image: linear-gradient(var(--anim-green-60), var(--anim-green-60));
+  box-shadow: 0 0 6px var(--anim-green-40);
+}
+
+.grid-anim-cell[class*="tile-road"].state-path-fail {
+  background-color: #222;
+  background-image: linear-gradient(var(--anim-red-70), var(--anim-red-70));
+  box-shadow: 0 0 8px var(--anim-red-50);
+}

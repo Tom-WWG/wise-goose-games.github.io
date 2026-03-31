@@ -1,0 +1,111 @@
+---
+// src/components/animations/SubwayAnimation.astro
+---
+
+<div class="subway-wrap" id="subway-anim">
+  <div class="subway-grid" id="subway-grid"></div>
+</div>
+
+<style>
+  .subway-wrap { width: 100%; max-width: 70%; margin: 0 auto; }
+  .subway-grid { width: 100%; }
+</style>
+
+<script>
+  import { GridAnimationEngine } from './GridAnimationEngine.js';
+
+  function initSubway() {
+    const container = document.getElementById('subway-grid');
+    if (!container) return;
+
+    const engine = new GridAnimationEngine(container, {
+      cols: 11, rows: 9, speed: 80, loop: false,
+    });
+
+    // ── Tiles ──
+    engine.setTile(4, 0,  { type: 'origin' });
+    engine.setTile(4, 10, { type: 'exit' });
+    engine.setTile(0, 3,  { type: 'switch' });  // teleporter entrance
+    engine.setTile(0, 7,  { type: 'switch' });  // teleporter exit
+
+    const BLOCKED_TILES = [
+      [0,5],[1,5],[2,5],[3,5],[4,5],[5,5],[6,5],[7,5],[8,5],
+    ];
+    BLOCKED_TILES.forEach(([r, c]) => engine.setTile(r, c, { type: 'blocked' }));
+
+    // ── Pre-computed paths ──
+    // Seq A: naive heuristic wants a straight line — left side is reachable, right is not
+    const naiveLeft  = [[4,0],[4,1],[4,2],[4,3],[4,4]];
+    const naiveRight = [[4,6],[4,7],[4,8],[4,9],[4,10]];
+
+    // Teleporter route: hug top edge to entrance, jump, walk to exit
+    const walkToTeleA = [
+      [4,0],[3,0],[2,0],[1,0],[0,0],
+      [0,1],[0,2],[0,3],
+    ];
+    const walkFromTeleB = [
+      [0,7],[0,8],[0,9],[0,10],
+      [1,10],[2,10],[3,10],[4,10],
+    ];
+
+    // ── Animation loop ──
+    let active = false;
+    let loopRunning = false;
+
+    function stop() {
+      active = false;
+      engine.stop();
+    }
+
+    async function runLoop() {
+      loopRunning = true;
+      while (active) {
+        engine.clearPhases();
+
+        // Seq A — BFS wave shows left side only (no teleporter), then heuristic path attempt
+        engine.addPhase({ type: 'wavefront', origin: [4, 0], speed: 125 });
+        engine.addPhase({ type: 'reset' });
+        engine.addPhase({ type: 'path',    cells: naiveLeft,  speed: 40 });
+        engine.addPhase({ type: 'recolor', to: 'path-success' });          // left side: reachable
+        engine.addPhase({ type: 'path',    cells: naiveRight, speed: 40 });
+        engine.addPhase({ type: 'recolor', to: 'path-fail' });             // right side: blocked
+        engine.addPhase({ type: 'label',   text: 'WALL BLOCKS DIRECT PATH', style: 'fail', duration: 1600 });
+        engine.addPhase({ type: 'pause',   duration: 1200 });
+        engine.addPhase({ type: 'reset' });
+
+        // Seq B — teleporter-aware route (orange draw → teal success)
+        engine.addPhase({ type: 'wavefront', origin: [4, 0], speed: 125, teleporters: { '0,3': [0, 7] } });
+        engine.addPhase({ type: 'reset' });
+        engine.addPhase({ type: 'path',    cells: walkToTeleA,   speed: 40 });
+        engine.addPhase({ type: 'label',   text: 'TELEPORT ──▶', style: 'success', duration: 700 });
+        engine.addPhase({ type: 'path',    cells: walkFromTeleB, speed: 40 });
+        engine.addPhase({ type: 'recolor', to: 'path-success' });
+        engine.addPhase({ type: 'label',   text: 'EXIT REACHED VIA TELEPORTER', style: 'success', duration: 1600 });
+        engine.addPhase({ type: 'pause',   duration: 1200 });
+        engine.addPhase({ type: 'reset' });
+
+        await engine.play();
+      }
+      loopRunning = false;
+    }
+
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            active = true;
+            if (!loopRunning) runLoop();
+          } else {
+            stop();
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(document.getElementById('subway-anim'));
+  }
+
+  document.addEventListener('astro:page-load', initSubway);
+  if (document.readyState !== 'loading') initSubway();
+</script>
