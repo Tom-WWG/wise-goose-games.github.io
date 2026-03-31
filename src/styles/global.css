@@ -98,7 +98,13 @@ body {
   margin: 0;
   line-height: 1.6;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.site-main {
+  flex: 1;
 }
 
 /* ===== Button Styles ===== */
