@@ -1,0 +1,312 @@
+---
+// FAQAccordion.astro
+// Unified accordion FAQ component for game pages, steam-pulse pages, and homepage.
+// Accepts dynamic faqs data; each item may optionally carry an id for anchor deep-linking.
+
+interface FAQItem {
+  question: string;
+  answer: string;   // plain text or HTML string — rendered with set:html
+  id?: string;      // enables anchor deep-linking (e.g. "faq-hit-rate")
+}
+
+interface Props {
+  faqs: FAQItem[];
+  title?: string;
+}
+
+const { faqs, title = 'Frequently Asked Questions' } = Astro.props;
+---
+
+<div class="faqacc">
+  <!-- Outer drawer trigger — no static ID; JS targets via class selector -->
+  <button
+    class="faqacc-trigger"
+    aria-expanded="false"
+  >
+    <span class="faqacc-trigger-label">{title}</span>
+    <svg class="faqacc-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+      <polyline points="6 9 12 15 18 9"></polyline>
+    </svg>
+  </button>
+
+  <!-- Drawer panel — aria-label alone is sufficient; no static ID needed -->
+  <div
+    class="faqacc-drawer"
+    role="region"
+    aria-label={title}
+  >
+    <div class="faqacc-inner">
+      {faqs.map((item) => (
+        <div class="faqacc-item" id={item.id}>
+          <button class="faqacc-q" aria-expanded="false">
+            <span>{item.question}</span>
+            <svg class="faqacc-item-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+          <div class="faqacc-a">
+            <div class="faqacc-a-body" set:html={item.answer} />
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
+<style>
+  .faqacc {
+    border-top: 1px solid var(--border-medium);
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  /* ── Outer drawer trigger ── */
+  .faqacc-trigger {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.875rem 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-muted);
+    transition: color 0.15s ease;
+    gap: 1rem;
+  }
+
+  .faqacc-trigger:hover {
+    color: var(--text-secondary);
+  }
+
+  .faqacc-trigger-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .faqacc-chevron {
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+  }
+
+  .faqacc[data-open] .faqacc-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ── Outer drawer panel ── */
+  .faqacc-drawer {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.4s ease;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border-medium);
+    border-top: none;
+  }
+
+  .faqacc[data-open] .faqacc-drawer {
+    max-height: 4000px;
+  }
+
+  .faqacc-inner {
+    padding: 0.25rem 1.5rem 1.5rem;
+  }
+
+  /* ── Individual FAQ items ── */
+  .faqacc-item {
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .faqacc-item:last-child {
+    border-bottom: none;
+  }
+
+  .faqacc-q {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1rem 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text-primary);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: color 0.15s ease;
+  }
+
+  .faqacc-q:hover,
+  .faqacc-item[data-open] .faqacc-q {
+    color: var(--accent);
+  }
+
+  .faqacc-item-chevron {
+    flex-shrink: 0;
+    color: var(--accent);
+    transition: transform 0.2s ease;
+  }
+
+  .faqacc-item[data-open] .faqacc-item-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ── Answer panel ── */
+  .faqacc-a {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.3s ease;
+  }
+
+  .faqacc-item[data-open] .faqacc-a {
+    max-height: 1200px;
+  }
+
+  /* Answer body — styles plain text and HTML content uniformly */
+  .faqacc-a-body {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    padding-bottom: 1.25rem;
+  }
+
+  .faqacc-a-body p {
+    margin: 0 0 0.75rem;
+  }
+
+  .faqacc-a-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .faqacc-a-body ul {
+    margin: 0.25rem 0 0.75rem 1.25rem;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .faqacc-a-body li {
+    line-height: 1.6;
+  }
+
+  .faqacc-a-body strong {
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .faqacc-a-body code {
+    display: block;
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.04);
+    border-left: 2px solid var(--accent);
+    padding: 0.5rem 0.75rem;
+    margin: 0.5rem 0 0.875rem;
+    white-space: nowrap;
+    letter-spacing: 0.03em;
+  }
+</style>
+
+<script>
+  // ── openToAnchor ───────────────────────────────────────────────────────────
+  // Re-queries DOM on every call so Astro view transitions never leave stale refs.
+  // Uses only class selectors — no static IDs — so multiple instances on one page
+  // are safe.
+  function openToAnchor(hash: string) {
+    const target = document.getElementById(hash);
+    if (!target) return;
+
+    // Walk up to find the containing accordion root
+    const faqRoot = target.closest<HTMLElement>('.faqacc');
+    if (!faqRoot) return;
+
+    const trigger = faqRoot.querySelector<HTMLButtonElement>('.faqacc-trigger');
+    if (!trigger) return;
+
+    // Open outer drawer
+    faqRoot.setAttribute('data-open', '');
+    trigger.setAttribute('aria-expanded', 'true');
+
+    // Close all items in this accordion, then open the target item
+    faqRoot.querySelectorAll<HTMLElement>('.faqacc-item').forEach(sibling => {
+      sibling.removeAttribute('data-open');
+      sibling.querySelector<HTMLButtonElement>('.faqacc-q')?.setAttribute('aria-expanded', 'false');
+    });
+
+    const item = target.classList.contains('faqacc-item')
+      ? target
+      : target.closest<HTMLElement>('.faqacc-item');
+    if (item) {
+      item.setAttribute('data-open', '');
+      item.querySelector<HTMLButtonElement>('.faqacc-q')?.setAttribute('aria-expanded', 'true');
+    }
+
+    // Scroll after transitions complete
+    setTimeout(() => {
+      const navbar = document.querySelector<HTMLElement>('nav, header, .navbar');
+      const offset = (navbar?.offsetHeight ?? 64) + 16;
+      const top = target.getBoundingClientRect().top + window.scrollY - offset;
+      window.scrollTo({ top, behavior: 'smooth' });
+    }, 420);
+  }
+
+  // ── Document-level click delegation ───────────────────────────────────────
+  // Added once with a guard flag — survives view transitions without duplicating.
+  if (!(document as any).__faqaccClickDelegated) {
+    (document as any).__faqaccClickDelegated = true;
+    document.addEventListener('click', (e) => {
+      const anchor = (e.target as Element).closest<HTMLAnchorElement>('a[href^="#faq-"]');
+      if (!anchor) return;
+      e.preventDefault();
+      const href = anchor.getAttribute('href')!;
+      window.history.pushState(null, '', href);
+      openToAnchor(href.slice(1));
+    });
+  }
+
+  // ── Per-page setup ─────────────────────────────────────────────────────────
+  function setupFAQAccordion() {
+    document.querySelectorAll<HTMLElement>('.faqacc').forEach(faqRoot => {
+      const trigger = faqRoot.querySelector<HTMLButtonElement>('.faqacc-trigger');
+      if (!trigger) return;
+
+      // Outer drawer toggle
+      trigger.addEventListener('click', () => {
+        const isOpen = faqRoot.hasAttribute('data-open');
+        faqRoot.toggleAttribute('data-open', !isOpen);
+        trigger.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      // Individual item toggles — exclusive (one open at a time)
+      faqRoot.querySelectorAll<HTMLElement>('.faqacc-item').forEach(item => {
+        const btn = item.querySelector<HTMLButtonElement>('.faqacc-q');
+        btn?.addEventListener('click', () => {
+          const isOpen = item.hasAttribute('data-open');
+          faqRoot.querySelectorAll<HTMLElement>('.faqacc-item').forEach(sibling => {
+            sibling.removeAttribute('data-open');
+            sibling.querySelector<HTMLButtonElement>('.faqacc-q')?.setAttribute('aria-expanded', 'false');
+          });
+          if (!isOpen) {
+            item.setAttribute('data-open', '');
+            btn.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
+    });
+
+    // Handle hash present in URL on load / navigation
+    const initialHash = window.location.hash.slice(1);
+    if (initialHash) openToAnchor(initialHash);
+  }
+
+  document.addEventListener('astro:page-load', setupFAQAccordion);
+</script>

@@ -192,6 +192,30 @@ export function getBreadcrumbSchema(items: { name: string; path: string }[]) {
   };
 }
 
+/** Strip HTML tags and decode common entities so schema text is always plain text. */
+function toPlainText(html: string): string {
+  return html
+    .replace(/<[^>]+>/g, ' ')
+    // Numeric character references (decimal and hex)
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, h) => String.fromCharCode(parseInt(h, 16)))
+    // Named entities
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&ndash;/g, '-')
+    .replace(/&mdash;/g, ' - ')
+    .replace(/&times;/g, '\u00d7')
+    .replace(/&divide;/g, '\u00f7')
+    .replace(/&lsquo;/g, '\u2018')
+    .replace(/&rsquo;/g, '\u2019')
+    .replace(/&ldquo;/g, '\u201c')
+    .replace(/&rdquo;/g, '\u201d')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 export function getFAQSchema(faqs: { question: string; answer: string }[]) {
   return {
     "@context": "https://schema.org",
@@ -201,7 +225,7 @@ export function getFAQSchema(faqs: { question: string; answer: string }[]) {
       name: faq.question,
       acceptedAnswer: {
         "@type": "Answer",
-        text: faq.answer,
+        text: toPlainText(faq.answer),
       },
     })),
   };

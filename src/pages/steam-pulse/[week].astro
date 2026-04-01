@@ -1,10 +1,68 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getSEO, getArticleSchema, getBreadcrumbSchema } from '../../utils/seo';
+import { getSEO, getArticleSchema, getBreadcrumbSchema, getFAQSchema } from '../../utils/seo';
 import SteamPulseBarChart from '../../components/SteamPulseBarChart.astro';
 import SteamPulseTrendChart from '../../components/SteamPulseTrendChart.astro';
-import SteamPulseFAQ from '../../components/SteamPulseFAQ.astro';
+import FAQAccordion from '../../components/FAQAccordion.astro';
+
+const steamPulseFAQs = [
+  {
+    id: 'faq-sample-criteria',
+    question: 'How do you decide which games are included each week?',
+    answer: '<p>Each weekly report covers games that launched during the report period and meet two minimum quality signals: at least <strong>100 Steam reviews</strong> and a <strong>68% positive review score or higher</strong>. These thresholds filter out titles without enough data to be statistically meaningful, and titles that failed to connect with players on a basic level. The result is a focused sample of commercially and critically eligible releases, which keeps the signal clean and comparable week over week.</p>',
+  },
+  {
+    id: 'faq-hit-rate',
+    question: 'What is Hit Rate?',
+    answer: '<p>Hit Rate is the percentage of qualifying releases that week which cleared our minimum revenue threshold, making them commercially meaningful for an indie developer. It\'s calculated as <strong>Hits &divide; Total Qualifying Releases &times; 100</strong>. A higher Hit Rate indicates a healthier, less crowded window for launches. We track the week-over-week (WoW) delta to show whether the market is opening up or getting tighter.</p>',
+  },
+  {
+    id: 'faq-classification',
+    question: 'What do Hit, Promising, and Niche mean?',
+    answer: '<p>Every game in our dataset receives one of three outcome classifications based on its estimated revenue and review signals:</p><ul><li><strong>Hit:</strong> Cleared our revenue viability threshold. A commercially meaningful launch for an indie team.</li><li><strong>Promising:</strong> Showed strong early signals (positive review velocity, early sales) but hasn\'t yet confirmed a full hit. Often recent launches still accumulating reviews.</li><li><strong>Niche:</strong> Found a real audience but below the main revenue threshold. These games serve a dedicated community rather than a broad market.</li></ul><p>Games that haven\'t accumulated enough data to classify are excluded from Hit Rate calculations to keep the signal clean.</p>',
+  },
+  {
+    id: 'faq-composite-score',
+    question: 'What is the Composite Score?',
+    answer: '<p>The Composite Score is a 0&ndash;100 signal strength rating for each genre or tag, combining three factors:</p><code>S = (SR &times; 0.5) + (RP &times; 0.4) + (TM &times; 0.1)</code><ul><li><strong>SR (Success Rate, 50% weight):</strong> How many games in this genre/tag were Hits this week, Laplace-smoothed to avoid false confidence on small samples.</li><li><strong>RP (Revenue Potential, 40% weight):</strong> Normalized average estimated revenue of Hit-classified games carrying this tag. Only winning games count.</li><li><strong>TM (Trend Momentum, 10% weight):</strong> Week-over-week composite change, normalized 0&ndash;100. First-run weeks default to 50 (neutral).</li></ul><p>A score above 70 indicates a strong market signal. Below 50 suggests either high miss rates or declining momentum in that category.</p>',
+  },
+  {
+    id: 'faq-success-rate',
+    question: 'What is Success Rate?',
+    answer: '<p>Success Rate is the percentage of games <em>with a specific genre or tag</em> that qualified as Hits that week. A 100% success rate means every game in that category cleared the revenue threshold, a strong niche signal. Success Rate is the heaviest input into the Composite Score, weighted at 50%.</p><p>We apply <strong>Laplace smoothing</strong> to avoid false confidence from tiny samples: the formula is <code>(hits + 1) &divide; (total + 2) &times; 100</code> rather than a raw ratio. This pulls extreme values (0% or 100% on 2 games) toward the center. We also flag small samples in the Emerging Niches section so you can weight them accordingly.</p>',
+  },
+  {
+    id: 'faq-revenue-potential',
+    question: 'What is Revenue Potential?',
+    answer: '<p>Revenue Potential is a normalized score (0&ndash;100) based on the average estimated revenue of <strong>Hit-classified games</strong> carrying a given tag or genre. Only games that cleared the revenue threshold count: misses are excluded so a crowded, low-quality week doesn\'t dilute the signal. Tags where winning games earned more get a higher RP score. It\'s weighted at 40% in the Composite Score formula.</p><p>It answers the question: when games in this category succeed, <em>how much</em> do they typically earn?</p>',
+  },
+  {
+    id: 'faq-revenue-estimate',
+    question: 'How are Revenue Estimates calculated?',
+    answer: '<p>Revenue estimates are derived from Steam review counts using the <strong>Boxleiter method</strong>: a game\'s cumulative review count multiplied by its price and a conversion factor (~57&times;). This is a well-established community estimation technique, not official figures from Valve. Estimates should be treated as directional signals, not accounting data.</p><p>The figures shown (e.g. "$5.4M lifetime est.") represent estimated <em>lifetime gross revenue to date</em>, meaning total earned since launch across all time, not a single week\'s sales. Actual developer revenue is roughly 70% of this figure after Steam\'s revenue share. Figures for games in their first 1&ndash;2 weeks post-launch may be temporarily inflated due to review velocity and should be treated with extra skepticism.</p>',
+  },
+  {
+    id: 'faq-trend-momentum',
+    question: 'What is Trend Momentum?',
+    answer: '<p>Trend Momentum (TM) measures how much a genre or tag\'s composite score changed compared to the previous report period, normalized to a 0&ndash;100 scale. A rising tag gained ground; a declining tag gave it back. TM is weighted at 10% in the Composite Score, intentionally low to prevent a single noisy week from swinging the overall signal.</p><p>On a tag\'s first appearance in the dataset (no prior week to compare against), TM defaults to 50, a neutral starting baseline.</p>',
+  },
+  {
+    id: 'faq-wow',
+    question: 'What does WoW mean?',
+    answer: '<p><strong>Week-over-Week</strong>. The signed change in a metric compared to the immediately preceding report period. A "+4pts WoW" Hit Rate means the hit rate improved by 4 percentage points versus last week. Negative WoW values indicate a decline.</p>',
+  },
+  {
+    id: 'faq-rising-saturating',
+    question: 'What are Rising and Saturating tags?',
+    answer: '<p><strong>Rising</strong> tags posted a significant composite score jump week-over-week. Demand is outpacing new supply, or recent launches in that category are performing unusually well.</p><p><strong>Saturating</strong> tags showed a meaningful composite score decline, typically because more releases are competing for the same audience without a proportional increase in total spending, or because recent releases in that category underperformed.</p>',
+  },
+  {
+    id: 'faq-emerging-niches',
+    question: 'What are Emerging Niches?',
+    answer: '<p>Emerging Niches are tags where every game (or nearly every game) that carried them this week qualified as a Hit. These are micro-markets with very high recent batting averages, but the sample sizes are small (typically 2&ndash;4 games).</p><p>They\'re worth <em>watching</em> rather than betting on outright: one or two outlier hits can inflate a niche\'s success rate significantly. Consistent appearances across multiple weeks are the real signal.</p>',
+  },
+];
 
 export async function getStaticPaths() {
   const entries = await getCollection('steam-pulse');
@@ -122,7 +180,7 @@ const seo = getSEO({
   title: `Steam Pulse Week ${d.week}: ${d.period} | Wise Goose Games`,
   description: articleDescription,
   canonicalPath: `/steam-pulse/week-${d.week}`,
-  structuredData: [breadcrumbSchema, articleSchema],
+  structuredData: [breadcrumbSchema, articleSchema, getFAQSchema(steamPulseFAQs)],
 });
 ---
 
@@ -257,7 +315,7 @@ const seo = getSEO({
       </div>
 
       <!-- FAQ -->
-      <SteamPulseFAQ />
+      <FAQAccordion faqs={steamPulseFAQs} title="Frequently Asked Questions: How We Measure" />
 
       <!-- Footer Attribution -->
       <footer class="sp-attribution" data-reveal>

@@ -3,7 +3,7 @@
 import type { Game } from '../data/games';
 import StoreBadges from './StoreBadges.tsx';
 import SocialProofComponent from './SocialProof.tsx';
-import FAQDrawer from './FAQDrawer.tsx';
+import FAQAccordion from './FAQAccordion.astro';
 import ScreenshotLightbox from './ScreenshotLightbox.tsx';
 
 interface Props {
@@ -238,7 +238,9 @@ const row2Cols = screenshotRow2.length === 1 ? 'grid-cols-1'
 
   {/* ===== FAQ DRAWER: Below final CTA, unobtrusive ===== */}
   {game.faq && game.faq.length > 0 && (
-    <FAQDrawer client:visible faqs={game.faq} />
+    <div class="px-6 md:px-8">
+      <FAQAccordion faqs={game.faq} />
+    </div>
   )}
 
   {/* ===== LIGHTBOX ===== */}

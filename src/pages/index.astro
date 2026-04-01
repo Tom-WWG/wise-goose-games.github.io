@@ -1,20 +1,60 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getSEO, getOrganizationSchema } from '../utils/seo';
+import { getSEO, getOrganizationSchema, getFAQSchema } from '../utils/seo';
 import { games } from '../data/games';
 import Hero from '../components/Hero.astro';
+import FAQAccordion from '../components/FAQAccordion.astro';
 
 const game = games[0];
+
+// Studio FAQ — shown on the homepage in place of the game FAQ.
+// Edit these directly; they double as the FAQPage schema for this page.
+const studioFaqs = [
+  {
+    question: 'Who is Wise Goose Games?',
+    answer: 'Wise Goose Games is a two-person independent game studio based in California. We design and develop games from concept through launch, self-publishing on Steam, iOS, and Android. We founded the studio in 2025 with a focus on making games that reward careful thinking.',
+  },
+  {
+    question: 'What kind of games do you make?',
+    answer: 'We make premium, ad-free puzzle games built around spatial and logical reasoning. We aim for games that feel satisfying to hold and play: clear mechanics, no filler, and a difficulty curve that respects your intelligence. Our first game, Pathways &amp; Poltergeists, is a 3D polyomino puzzle game available on Steam, iOS, and Android.',
+  },
+  {
+    question: 'What does "thoughtfully crafted" mean to you?',
+    answer: 'It means every design decision has a reason behind it. We don\'t add content to inflate playtime, mechanics to complicate things unnecessarily, or monetization that gets between you and the game. Thoughtfully crafted means the game does exactly what it needs to do, and nothing it doesn\'t.',
+  },
+  {
+    question: 'Why did you start Wise Goose Games?',
+    answer: 'We wanted to make the kind of games we wanted to play: premium, focused, and free of dark patterns. The indie space makes it possible to build a small studio around a specific point of view, and that felt worth pursuing.',
+  },
+  {
+    question: 'Are you working on anything new?',
+    answer: 'Yes. We\'re currently in early development on our next title. We share updates on Instagram and Bluesky as things take shape. Follow us there if you want to see work in progress.',
+  },
+  {
+    question: 'How do I get in touch with the studio?',
+    answer: 'For press inquiries, business opportunities, or general questions, use the contact form on our <a href="/contact/">Contact page</a> or email us directly at support@wisegoosegames.com.',
+  },
+  {
+    question: 'Do you work with press or content creators?',
+    answer: 'Yes. If you cover indie games and want a key, an interview, or any assets, reach out through our Contact page. We\'re a small team so turnaround isn\'t instant, but we do respond.',
+  },
+];
 
 const seo = getSEO({
   title: 'Wise Goose Games — Thoughtfully Crafted Games',
   description: 'Wise Goose Games makes thoughtfully crafted indie games. Play Pathways & Poltergeists — a spatial puzzle adventure on Steam, iOS, and Android.',
   canonicalPath: '/',
-  structuredData: getOrganizationSchema(),
+  structuredData: [
+    getOrganizationSchema(),
+    getFAQSchema(studioFaqs),
+  ],
 });
 ---
 
 <BaseLayout {...seo}>
   <link slot="head" rel="preload" as="image" href="/pp-assets/HeroCapsule.webp" imagesrcset="/pp-assets/HeroCapsule-640w.webp 640w, /pp-assets/HeroCapsule-1232w.webp 1232w, /pp-assets/HeroCapsule-2464w.webp 2464w, /pp-assets/HeroCapsule-3696w.webp 3696w" imagesizes="100vw" />
   <Hero game={game} headerImage="/pp-assets/HeroCapsule.webp" />
+  <div class="px-6 md:px-8">
+    <FAQAccordion faqs={studioFaqs} />
+  </div>
 </BaseLayout>
