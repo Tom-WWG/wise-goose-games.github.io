@@ -41,8 +41,8 @@ const breadcrumbSchema = getBreadcrumbSchema([
 ]);
 
 const seo = getSEO({
-  title: `${entry.data.title} — Wise Goose Games Devlog`,
-  description: entry.data.subtitle ?? `${entry.data.title} — Wise Goose Games devlog`,
+  title: `${entry.data.title} | Wise Goose Games Devlog`,
+  description: entry.data.subtitle ?? `${entry.data.title} | Wise Goose Games devlog`,
   canonicalPath: `/devlog/${entry.slug}`,
   structuredData: [blogPostingSchema, breadcrumbSchema],
 });
@@ -70,7 +70,7 @@ const seo = getSEO({
       {entry.data.series && entry.data.seriesTotal && (
         <nav class="devlog-series-nav" aria-label="Series navigation">
           <span class="devlog-series-label">
-            {entry.data.seriesTitle ?? entry.data.series} — Part {entry.data.seriesPart} of {entry.data.seriesTotal}
+            {entry.data.seriesTitle ?? entry.data.series} (Part {entry.data.seriesPart} of {entry.data.seriesTotal})
           </span>
           <div class="devlog-series-links">
             {Array.from({ length: entry.data.seriesTotal }, (_, i) => i + 1).map((n) => {

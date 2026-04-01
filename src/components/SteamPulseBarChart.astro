@@ -165,11 +165,11 @@ function gamesAttr(item: BarItem): string {
         <code class="sp-tooltip-eq">S = (SR × 0.5) + (RP × 0.4) + (TM × 0.1)</code>
         <dl class="sp-tooltip-legend">
           <dt>SR</dt>
-          <dd>Success Rate — (hits + 1) ÷ (total + 2) × 100, Laplace-smoothed to reduce noise on small samples</dd>
+          <dd>Success Rate: (hits + 1) ÷ (total + 2) × 100, Laplace-smoothed to reduce noise on small samples</dd>
           <dt>RP</dt>
-          <dd>Revenue Potential — normalised avg. estimated revenue of Hit-classified games only</dd>
+          <dd>Revenue Potential: normalised avg. estimated revenue of Hit-classified games only</dd>
           <dt>TM</dt>
-          <dd>Trend Momentum — WoW delta normalised 0–100. Defaults to 50 (neutral) on first run.</dd>
+          <dd>Trend Momentum: WoW delta normalised 0–100. Defaults to 50 (neutral) on first run.</dd>
         </dl>
       </div>
     </div>
@@ -279,7 +279,7 @@ function gamesAttr(item: BarItem): string {
         const name = row.dataset.name ?? '';
         const games = JSON.parse(row.dataset.games ?? '[]');
 
-        labelEl.textContent = name.toUpperCase() + ' — TOP GAMES';
+        labelEl.textContent = name.toUpperCase() + ' | TOP GAMES';
         countEl.textContent = games.length ? `${games.length} this week` : '';
         // Replace innerHTML to retrigger CSS animations on new rows
         gamesEl.innerHTML = renderGames(games);

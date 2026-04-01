@@ -148,7 +148,7 @@ export const games: Game[] = [
     },
     audience: {
       primary: "Women aged 25–32 (validated through professional playtesting with 100% positive response)",
-      positioning: "Cozy discovery, honest difficulty — players drawn in by the aesthetic find themselves deeply engaged by the puzzle design",
+      positioning: "Cozy discovery, honest difficulty. Players drawn in by the aesthetic find themselves deeply engaged by the puzzle design.",
     },
     socialProof: {
       steamReviewSummary: "100% Positive Playtester Response",
@@ -191,7 +191,7 @@ export const games: Game[] = [
       },
       {
         question: "How much does Pathways & Poltergeists cost?",
-        answer: "Pathways & Poltergeists is $9.99 USD on Steam, the iOS App Store, and Google Play. It is a one-time purchase — there are no ads, no in-app purchases, no subscriptions, and no additional paid content. The full game is included at the base price across all platforms.",
+        answer: "Pathways & Poltergeists is $9.99 USD on Steam, the iOS App Store, and Google Play. It is a one-time purchase: there are no ads, no in-app purchases, no subscriptions, and no additional paid content. The full game is included at the base price across all platforms.",
       },
       {
         question: "Does Pathways & Poltergeists have ads or in-app purchases?",
@@ -207,7 +207,7 @@ export const games: Game[] = [
       },
       {
         question: "Does Pathways & Poltergeists have hints or a hint system?",
-        answer: "No. Pathways & Poltergeists has no hint system, no timers, and no penalties for taking your time or trying different approaches. Every puzzle is solvable through logic alone. The philosophy is to let players think as long as they need — the satisfaction comes from solving puzzles on your own terms.",
+        answer: "No. Pathways & Poltergeists has no hint system, no timers, and no penalties for taking your time or trying different approaches. Every puzzle is solvable through logic alone. The philosophy is to let players think as long as they need. The satisfaction comes from solving puzzles on your own terms.",
       },
       {
         question: "How long does it take to beat Pathways & Poltergeists?",
@@ -223,7 +223,7 @@ export const games: Game[] = [
       },
       {
         question: "What is a polyomino?",
-        answer: "A polyomino is a flat shape made by connecting unit squares edge-to-edge. Dominoes (2 squares), trominoes (3 squares), tetrominoes (4 squares, as in Tetris), and pentominoes (5 squares) are all polyomino types. In Pathways & Poltergeists, polyomino pieces are rendered in 3D and function as modular pathway segments — I-pieces form straight corridors, L-pieces form 90-degree turns, T-pieces form three-way junctions, and so on. Players rotate and place them to construct routes for ghosts to follow.",
+        answer: "A polyomino is a flat shape made by connecting unit squares edge-to-edge. Dominoes (2 squares), trominoes (3 squares), tetrominoes (4 squares, as in Tetris), and pentominoes (5 squares) are all polyomino types. In Pathways & Poltergeists, polyomino pieces are rendered in 3D and function as modular pathway segments: I-pieces form straight corridors, L-pieces form 90-degree turns, T-pieces form three-way junctions, and so on. Players rotate and place them to construct routes for ghosts to follow.",
       },
       {
         question: "What languages does Pathways & Poltergeists support?",
