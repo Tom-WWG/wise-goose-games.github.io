@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getArticleSchema, getBreadcrumbSchema } from '../../utils/seo';
+import { getSEO, getArticleSchema, getBreadcrumbSchema } from '../../utils/seo';
 import SteamPulseBarChart from '../../components/SteamPulseBarChart.astro';
 import SteamPulseTrendChart from '../../components/SteamPulseTrendChart.astro';
 import SteamPulseFAQ from '../../components/SteamPulseFAQ.astro';
@@ -109,6 +109,7 @@ const articleSchema = getArticleSchema({
   headline: `Steam Pulse Week ${d.week}: ${d.period}`,
   description: articleDescription,
   datePublished: d.date.toISOString().split('T')[0],
+  dateModified: (d.updatedAt ?? d.date).toISOString().split('T')[0],
   url: weekUrl,
 });
 const breadcrumbSchema = getBreadcrumbSchema([
@@ -116,16 +117,16 @@ const breadcrumbSchema = getBreadcrumbSchema([
   { name: 'Steam Pulse', path: '/steam-pulse/' },
   { name: `Week ${d.week}`, path: `/steam-pulse/week-${d.week}/` },
 ]);
+
+const seo = getSEO({
+  title: `Steam Pulse Week ${d.week}: ${d.period} | Wise Goose Games`,
+  description: articleDescription,
+  canonicalPath: `/steam-pulse/week-${d.week}`,
+  structuredData: [breadcrumbSchema, articleSchema],
+});
 ---
 
-<BaseLayout
-  title={`Steam Pulse Week ${d.week}: ${d.period} | Wise Goose Games`}
-  description={articleDescription}
-  canonical={weekUrl}
-  ogUrl={weekUrl}
-  ogImage={`${SITE_URL}/og-hero-logo-1200x630.png`}
-  structuredData={[breadcrumbSchema, articleSchema]}
->
+<BaseLayout {...seo}>
   <main class="sp-page">
     <div class="sp-container">
 

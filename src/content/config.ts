@@ -31,6 +31,7 @@ const steamPulse = defineCollection({
   schema: z.object({
     week: z.number().int().positive(),
     date: z.coerce.date(),
+    updatedAt: z.coerce.date().optional(),
     period: z.string(), // display string e.g. "19/03/26"
     report_file: z.string(), // e.g. "report_20260319_160929.json"
     total_releases: z.number().int().nonnegative(),
@@ -54,7 +55,9 @@ const devlog = defineCollection({
     title: z.string(),
     subtitle: z.string().optional(),
     date: z.coerce.date(),
+    updatedAt: z.coerce.date().optional(),
     game: z.string().optional(),
+    author: z.string().optional(),
     tags: z.array(z.string()).optional(),
     draft: z.boolean().default(false),
     series: z.string().optional(),

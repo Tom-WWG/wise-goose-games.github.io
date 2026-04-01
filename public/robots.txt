@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Crawl-delay: 1
 
 # Sitemap location
 Sitemap: https://wisegoosegames.com/sitemap-index.xml
@@ -54,4 +55,3 @@ User-agent: DotBot
 Disallow: /
 
 # Crawl delay for well-behaved bots
-Crawl-delay: 1

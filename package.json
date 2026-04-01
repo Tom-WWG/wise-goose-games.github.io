@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "fetch:reviews": "tsx scripts/fetch-steam-reviews.ts",
+    "build": "astro build && tsx scripts/add-image-sitemap.ts",
     "preview": "astro preview",
     "test": "vitest run",
     "test:watch": "vitest",

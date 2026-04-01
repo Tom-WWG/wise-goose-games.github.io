@@ -28,7 +28,7 @@ const seo = getSEO({
   description: game.shortDescription,
   canonicalPath: `/games/${game.id}`,
   ogImage: game.steamAssets.header,
-  ogType: 'website',
+  ogType: 'video.game',
   structuredData: [
     getVideoGameSchema(game),
     getBreadcrumbSchema([
@@ -42,7 +42,7 @@ const seo = getSEO({
 });
 ---
 
-<BaseLayout {...seo} ogVideo={muxMp4Url}>
+<BaseLayout {...seo}>
   {muxPosterUrl && (
     <link slot="head" rel="preload" as="image" href={muxPosterUrl} />
   )}
