@@ -15,5 +15,6 @@ const seo = getSEO({
 ---
 
 <BaseLayout {...seo}>
+  <link slot="head" rel="preload" as="image" href="/pp-assets/HeroCapsule.webp" imagesrcset="/pp-assets/HeroCapsule-640w.webp 640w, /pp-assets/HeroCapsule-1232w.webp 1232w, /pp-assets/HeroCapsule-2464w.webp 2464w, /pp-assets/HeroCapsule-3696w.webp 3696w" imagesizes="100vw" />
   <Hero game={game} headerImage="/pp-assets/HeroCapsule.webp" />
 </BaseLayout>

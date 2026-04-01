@@ -44,6 +44,7 @@ export interface Game {
   features: string[];
   platforms: Record<string, GamePlatform>;
   muxPlaybackId: string | null;
+  trailerDuration?: string;
   steamAssets: {
     header?: string;
     screenshots?: string[];
@@ -102,6 +103,7 @@ export const games: Game[] = [
       },
     },
     muxPlaybackId: "XCwylHGwg401azOsZJ8ry6HfdTj500zcAPoHAtsNuYCHM",
+    trailerDuration: "PT1M32S",
     steamAssets: {
       header: "/pp-assets/HeaderCapsule-card.webp",
       screenshots: [

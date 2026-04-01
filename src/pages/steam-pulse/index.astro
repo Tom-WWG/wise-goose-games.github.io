@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getBreadcrumbSchema, getItemListSchema } from '../../utils/seo';
+import { getBreadcrumbSchema, getItemListSchema, getSEO } from '../../utils/seo';
 
 const SITE_URL = 'https://wisegoosegames.com';
 
@@ -20,16 +20,16 @@ const itemListSchema = getItemListSchema(
     url: `${SITE_URL}/steam-pulse/week-${entry.data.week}/`,
   }))
 );
+
+const seo = getSEO({
+  title: 'Steam Pulse — Weekly Steam Insights | Wise Goose Games',
+  description: 'Steam Pulse is a free weekly report for indie developers: Steam release trends, hit rates, and genre performance data published every week.',
+  canonicalPath: '/steam-pulse',
+  structuredData: [breadcrumb, itemListSchema],
+});
 ---
 
-<BaseLayout
-  title="Steam Pulse — Weekly Steam Insights | Wise Goose Games"
-  description="Steam Pulse is a free weekly report for indie developers: Steam release trends, hit rates, and genre performance data published every week."
-  canonical={`${SITE_URL}/steam-pulse/`}
-  ogUrl={`${SITE_URL}/steam-pulse/`}
-  ogImage={`${SITE_URL}/og-hero-logo-1200x630.png`}
-  structuredData={[breadcrumb, itemListSchema]}
->
+<BaseLayout {...seo}>
   <main class="sp-index">
     <div class="sp-index-container">
 

@@ -6,6 +6,7 @@ export interface SEOProps {
   canonicalPath: string;
   ogImage?: string;
   ogType?: string;
+  ogVideo?: string;
   structuredData?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
 }
@@ -28,6 +29,7 @@ export function getSEO(props: SEOProps) {
     ogType,
     ogUrl: fullUrl,
     ogImage,
+    ogVideo: props.ogVideo,
     structuredData: props.structuredData,
     noindex: props.noindex ?? false,
   };
@@ -84,6 +86,7 @@ export function getVideoGameSchema(game: {
   price: string | null;
   steamAssets: { header?: string; screenshots?: string[] };
   muxPlaybackId: string | null;
+  trailerDuration?: string;
 }) {
   const platformMap: Record<string, string[]> = {
     steam: ["PC", "macOS"],
@@ -128,7 +131,7 @@ export function getVideoGameSchema(game: {
         thumbnailUrl: `https://image.mux.com/${game.muxPlaybackId}/thumbnail.jpg`,
         contentUrl: `https://stream.mux.com/${game.muxPlaybackId}/highest.mp4`,
         embedUrl: `https://player.mux.com/${game.muxPlaybackId}`,
-        duration: "PT1M32S",
+        duration: game.trailerDuration ?? "PT1M32S",
         ...(datePublished ? { uploadDate: datePublished } : {}),
       }
     : undefined;
@@ -141,7 +144,7 @@ export function getVideoGameSchema(game: {
     url: `${SITE_URL}/games/${game.id}/`,
     description: game.shortDescription,
     genre: game.genre,
-    keywords: game.tags && game.tags.length > 0 ? game.tags.join(", ") : game.genre,
+
     playMode: "https://schema.org/SinglePlayer",
     identifier: {
       "@type": "PropertyValue",
@@ -224,6 +227,7 @@ export function getCollectionPageSchema(
   return {
     "@context": "https://schema.org",
     "@type": "CollectionPage",
+    "@id": url,
     name: title,
     description,
     url,
@@ -252,6 +256,7 @@ export function getArticleSchema(params: {
   datePublished: string; // ISO 8601
   dateModified?: string; // ISO 8601, defaults to datePublished
   url: string;
+  image?: string;
 }) {
   return {
     "@context": "https://schema.org",
@@ -261,6 +266,7 @@ export function getArticleSchema(params: {
     datePublished: params.datePublished,
     dateModified: params.dateModified ?? params.datePublished,
     url: params.url,
+    image: params.image ?? DEFAULT_OG_IMAGE,
     author: {
       "@type": "Organization",
       "@id": `${SITE_URL}/#organization`,
@@ -321,8 +327,8 @@ export function getBlogSchema(params: {
     blogPost: params.posts.map((p) => ({
       "@type": "BlogPosting",
       "@id": `${SITE_URL}/devlog/${p.slug}/`,
-      headline: p.title,
       url: `${SITE_URL}/devlog/${p.slug}/`,
+      headline: p.title,
       datePublished: p.datePublished,
     })),
   };
@@ -337,6 +343,8 @@ export function getBlogPostingSchema(params: {
   tags?: string[];
   gameId?: string;       // e.g. "pathways-poltergeists" — links to VideoGame entity
   gameTitle?: string;
+  image?: string;
+  authorName?: string;
 }) {
   const url = `${SITE_URL}/devlog/${params.slug}/`;
   return {
@@ -348,6 +356,7 @@ export function getBlogPostingSchema(params: {
     datePublished: params.datePublished,
     dateModified: params.dateModified ?? params.datePublished,
     url,
+    image: params.image ?? DEFAULT_OG_IMAGE,
     inLanguage: "en",
     author: {
       "@type": "Organization",

@@ -59,13 +59,7 @@ const seo = getSEO({
 });
 ---
 
-<BaseLayout
-  title="Devlog — Wise Goose Games"
-  description="Development blog from Wise Goose Games — deep dives into the systems behind Pathway & Poltergeists."
-  canonical={`${SITE_URL}/devlog/`}
-  ogUrl={`${SITE_URL}/devlog/`}
-  ogImage={`${SITE_URL}/og-hero-logo-1200x630.png`}
->
+<BaseLayout {...seo}>
   <main class="devlog-index">
     <div class="devlog-container">
       <header class="devlog-header">

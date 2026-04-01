@@ -27,9 +27,11 @@ const blogPostingSchema = getBlogPostingSchema({
   headline: entry.data.title,
   description: entry.data.subtitle ?? entry.data.title,
   datePublished: dateISO,
+  dateModified: (entry.data.updatedAt ?? entry.data.date).toISOString().split('T')[0],
   tags: entry.data.tags,
   gameId,
   gameTitle: entry.data.game,
+  authorName: entry.data.author,
 });
 
 const breadcrumbSchema = getBreadcrumbSchema([
@@ -46,13 +48,7 @@ const seo = getSEO({
 });
 ---
 
-<BaseLayout
-  title={`${entry.data.title} — Wise Goose Games Devlog`}
-  description={entry.data.subtitle ?? `${entry.data.title} — Wise Goose Games devlog`}
-  canonical={`${SITE_URL}/devlog/${entry.slug}/`}
-  ogUrl={`${SITE_URL}/devlog/${entry.slug}/`}
-  ogImage={`${SITE_URL}/og-hero-logo-1200x630.png`}
->
+<BaseLayout {...seo}>
   <main class="devlog-article">
     <div class="devlog-article-container">
       <header class="devlog-article-header">
@@ -60,6 +56,11 @@ const seo = getSEO({
           <span class="devlog-article-date">
             {entry.data.date.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
           </span>
+          {entry.data.author && (
+            <span class="devlog-article-author text-zinc-400 italic text-[14px]">
+              By {entry.data.author}
+            </span>
+          )}
           {entry.data.game && <span class="devlog-article-game">{entry.data.game}</span>}
         </div>
         <h1>{entry.data.title}</h1>
