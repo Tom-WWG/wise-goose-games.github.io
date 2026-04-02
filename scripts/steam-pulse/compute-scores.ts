@@ -20,6 +20,7 @@ export interface TagStats {
     title: string;
     classification: 'hit' | 'promising' | 'niche' | 'miss';
     revenue_estimate: number;
+    capsule?: string;
   }>;
 }
 
@@ -61,6 +62,14 @@ export function computeScores(
   const tagById: Record<number, TagEntry> = {};
   for (const t of Object.values(report.tags)) {
     tagById[t.tag_id] = t;
+  }
+
+  // Build a lookup of capsule URLs by appid from report.games
+  const capsuleByAppId: Record<number, string> = {};
+  for (const game of report.games) {
+    if (game.capsule_231x87) {
+      capsuleByAppId[game.appid] = game.capsule_231x87;
+    }
   }
 
   // Compute hits-only average revenue per tag name (Change A)
@@ -120,6 +129,7 @@ export function computeScores(
       title,
       classification: mapHitClass(hit_class),
       revenue_estimate: Math.round(revenue),
+      ...(capsuleByAppId[appid] ? { capsule: capsuleByAppId[appid] } : {}),
     }));
 
     return {

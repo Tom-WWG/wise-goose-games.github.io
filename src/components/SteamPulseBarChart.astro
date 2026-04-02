@@ -8,6 +8,7 @@ interface TopGame {
   title: string;
   classification: 'hit' | 'promising' | 'niche' | 'miss';
   revenue_estimate: number;
+  capsule?: string;
 }
 
 interface BarItem {
@@ -206,25 +207,30 @@ function gamesAttr(item: BarItem): string {
     title: string;
     classification: string;
     revenue_estimate: number;
+    capsule?: string;
   }>): string {
     if (!games.length) return '<p class="sp-detail-empty">No game data for this week yet.</p>';
     return games.map((g, i) => {
       const isHit = g.classification === 'hit';
       const tier = revenueTier(g.revenue_estimate);
       const revText = formatRevenueApprox(g.revenue_estimate);
-      // Fallback chain: header.jpg → capsule_616x353.jpg → capsule_231x87.jpg → hide
-      const onerror = [
-        `this.src='${STEAM_CDN}/${g.app_id}/capsule_616x353.jpg';this.onerror=function(){`,
-        `this.src='${STEAM_CDN}/${g.app_id}/capsule_231x87.jpg';this.onerror=function(){`,
-        `this.style.display='none'`,
-        `}`,
-        `}`,
-      ].join('');
+      // Use stored capsule URL when available (Steam's new hashed CDN paths);
+      // fall back to guessing the old predictable CDN paths for legacy data.
+      const primarySrc = g.capsule ?? `${STEAM_CDN}/${g.app_id}/header.jpg`;
+      const onerror = g.capsule
+        ? `this.src='${STEAM_CDN}/${g.app_id}/header.jpg';this.onerror=function(){this.style.display='none'}`
+        : [
+            `this.src='${STEAM_CDN}/${g.app_id}/capsule_616x353.jpg';this.onerror=function(){`,
+            `this.src='${STEAM_CDN}/${g.app_id}/capsule_231x87.jpg';this.onerror=function(){`,
+            `this.style.display='none'`,
+            `}`,
+            `}`,
+          ].join('');
       return `
         <div class="sp-game-row" style="animation-delay:${i * 50}ms">
           <div class="sp-game-capsule">
             <img
-              src="${STEAM_CDN}/${g.app_id}/header.jpg"
+              src="${esc(primarySrc)}"
               alt="${esc(g.title)}"
               loading="lazy"
               onerror="${onerror}"

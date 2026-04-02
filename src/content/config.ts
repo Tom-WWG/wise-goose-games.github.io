@@ -5,6 +5,7 @@ const topGame = z.object({
   title: z.string(),
   classification: z.enum(['hit', 'promising', 'niche', 'miss']),
   revenue_estimate: z.number(),
+  capsule: z.string().url().optional(),
 });
 
 const scoredItem = z.object({
