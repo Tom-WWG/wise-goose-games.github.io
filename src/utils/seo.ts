@@ -12,7 +12,7 @@ export interface SEOProps {
 }
 
 export const SITE_URL = "https://wisegoosegames.com";
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-hero-logo-1200x630.png`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/og-hero-logoV2-1200x630.png`;
 
 export function getSEO(props: SEOProps) {
   // Ensure trailing slash consistency with sitemap
