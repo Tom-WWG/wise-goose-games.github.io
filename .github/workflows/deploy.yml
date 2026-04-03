@@ -35,6 +35,7 @@ jobs:
         run: npm run build
         env:
           PUBLIC_MUX_ENV_KEY: ${{ vars.PUBLIC_MUX_ENV_KEY }}
+          PUBLIC_GA_MEASUREMENT_ID: ${{ vars.PUBLIC_GA_MEASUREMENT_ID }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
