@@ -163,6 +163,168 @@ const {
     });
   </script>
 
+  <script is:inline>
+    document.addEventListener('astro:page-load', function() {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var keys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+        var utms = {};
+        var found = false;
+        for (var i = 0; i < keys.length; i++) {
+          var val = params.get(keys[i]);
+          if (val) { utms[keys[i]] = val; found = true; }
+        }
+        if (found) {
+          sessionStorage.setItem('wgg_utm', JSON.stringify(utms));
+          var cleanUrl = window.location.pathname + window.location.hash;
+          var remaining = new URLSearchParams(window.location.search);
+          for (var j = 0; j < keys.length; j++) { remaining.delete(keys[j]); }
+          var qs = remaining.toString();
+          if (qs) cleanUrl += '?' + qs;
+          window.history.replaceState(null, '', cleanUrl);
+        }
+      } catch (e) {
+        // sessionStorage unavailable: silently ignore
+      }
+    });
+  </script>
+
+  <script is:inline>
+    (function() {
+      var STORE_DOMAINS = ['store.steampowered.com', 'apps.apple.com', 'play.google.com'];
+      var SOURCE = 'wgg_website';
+
+      function getPlatform(href) {
+        if (href.indexOf('store.steampowered.com') !== -1) return 'steam';
+        if (href.indexOf('apps.apple.com') !== -1) return 'ios';
+        if (href.indexOf('play.google.com') !== -1) return 'android';
+        return null;
+      }
+
+      function isStoreLink(el) {
+        if (!el || el.tagName !== 'A') return false;
+        var href = el.href || '';
+        for (var i = 0; i < STORE_DOMAINS.length; i++) {
+          if (href.indexOf(STORE_DOMAINS[i]) !== -1) return true;
+        }
+        return false;
+      }
+
+      function getUtmContentFromHref(href, platform) {
+        try {
+          var url = new URL(href);
+          if (platform === 'steam') return url.searchParams.get('utm_content') || '';
+          if (platform === 'ios') {
+            var ct = url.searchParams.get('ct') || '';
+            var parts = ct.split('_');
+            return parts.length > 0 ? parts[parts.length - 1] : '';
+          }
+          if (platform === 'android') {
+            var ref = decodeURIComponent(url.searchParams.get('referrer') || '');
+            var match = ref.match(/utm_content=([^&]*)/);
+            return match ? match[1] : '';
+          }
+        } catch (e) {}
+        return '';
+      }
+
+      function enhanceServerRenderedLinks(campaign) {
+        var links = document.querySelectorAll('a[href]');
+        for (var i = 0; i < links.length; i++) {
+          var link = links[i];
+          if (link.hasAttribute('data-utm-enhanced')) continue;
+          var href = link.href || '';
+          var platform = getPlatform(href);
+          if (!platform) continue;
+
+          try {
+            var url = new URL(href);
+
+            if (platform === 'steam') {
+              url.searchParams.set('utm_campaign', campaign);
+              link.href = url.toString();
+            }
+
+            if (platform === 'ios') {
+              var oldCt = url.searchParams.get('ct') || '';
+              var prefix = SOURCE + '_';
+              var contentPart = oldCt.startsWith(prefix) ? oldCt.slice(prefix.length) : oldCt;
+              var newCt = (SOURCE + '_' + campaign + '_' + contentPart).slice(0, 40);
+              url.searchParams.set('ct', newCt);
+              link.href = url.toString();
+            }
+
+            if (platform === 'android') {
+              var refParam = url.searchParams.get('referrer') || '';
+              var refDecoded = decodeURIComponent(refParam);
+              if (refDecoded.indexOf('utm_campaign=') === -1) {
+                refDecoded += '&utm_campaign=' + encodeURIComponent(campaign);
+              } else {
+                refDecoded = refDecoded.replace(/utm_campaign=[^&]*/, 'utm_campaign=' + encodeURIComponent(campaign));
+              }
+              var baseHref = href.split('referrer=')[0];
+              link.href = baseHref + 'referrer=' + encodeURIComponent(refDecoded);
+            }
+
+            link.setAttribute('data-utm-enhanced', '');
+          } catch (e) {}
+        }
+      }
+
+      document.addEventListener('astro:page-load', function() {
+        try {
+          var raw = sessionStorage.getItem('wgg_utm');
+          if (raw) {
+            var utms = JSON.parse(raw);
+            if (utms && utms.utm_campaign) {
+              enhanceServerRenderedLinks(utms.utm_campaign);
+            }
+          }
+        } catch (e) {}
+      });
+
+      document.addEventListener('click', function(e) {
+        var target = e.target;
+        while (target && target !== document && target.tagName !== 'A') {
+          target = target.parentElement;
+        }
+        if (!isStoreLink(target)) return;
+
+        var href = target.href || '';
+        var platform = getPlatform(href);
+        if (!platform) return;
+
+        var placement = getUtmContentFromHref(href, platform);
+        var inboundSource = '';
+        var inboundMedium = '';
+        var inboundCampaign = '';
+
+        try {
+          var raw = sessionStorage.getItem('wgg_utm');
+          if (raw) {
+            var utms = JSON.parse(raw);
+            if (utms) {
+              inboundSource = utms.utm_source || '';
+              inboundMedium = utms.utm_medium || '';
+              inboundCampaign = utms.utm_campaign || '';
+            }
+          }
+        } catch (e) {}
+
+        if (typeof gtag !== 'undefined') {
+          gtag('event', 'store_click', {
+            store_platform: platform,
+            link_placement: placement,
+            inbound_source: inboundSource,
+            inbound_medium: inboundMedium,
+            inbound_campaign: inboundCampaign,
+            outbound_url: href
+          });
+        }
+      });
+    })();
+  </script>
+
   <!-- Page entrance and scroll reveals -->
   <script>
     function setupAnimations() {

@@ -69,6 +69,12 @@ export interface Game {
   };
   socialProof?: SocialProof;
   faq?: { question: string; answer: string }[];
+  sale?: {
+    percent: number;
+    salePrice: string;
+    platform: string;
+    endDate?: string;
+  };
 }
 
 export const games: Game[] = [
@@ -234,6 +240,11 @@ export const games: Game[] = [
         answer: "Pathways & Poltergeists was made by Wise Goose Games, a two-person independent game studio, founded in 2025. The studio focuses on thoughtfully designed puzzle experiences that balance accessible aesthetics with genuine mechanical depth.",
       },
     ],
+    sale: {
+      percent: 30,
+      salePrice: "$6.99 USD",
+      platform: "steam",
+    },
   },
 ];
 

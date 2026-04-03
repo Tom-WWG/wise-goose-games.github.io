@@ -102,20 +102,25 @@ export function getVideoGameSchema(game: {
   const operatingSystems = Object.keys(game.platforms).flatMap((p) => osMap[p] ?? [p]);
 
   // Extract numeric price from string like "$9.99 USD"
-  const priceMatch = game.price?.match(/[\d.]+/);
-  const price = priceMatch ? priceMatch[0] : "0";
+  const basePriceMatch = game.price?.match(/[\d.]+/);
+  const basePrice = basePriceMatch ? basePriceMatch[0] : "0";
 
   // Parse release date to ISO 8601
   const datePublished = game.releaseDate ? parseReleaseDate(game.releaseDate) : undefined;
 
-  // Build offers array with one per platform
-  const offers = Object.values(game.platforms).map((platform) => ({
-    "@type": "Offer" as const,
-    price,
-    priceCurrency: "USD",
-    availability: "https://schema.org/InStock",
-    url: platform.url,
-  }));
+  // Build offers array with one per platform, using sale price where applicable
+  const offers = Object.entries(game.platforms).map(([key, platform]) => {
+    const hasSale = game.sale && key === game.sale.platform;
+    const salePriceMatch = hasSale ? game.sale!.salePrice.match(/[\d.]+/) : null;
+    const price = salePriceMatch ? salePriceMatch[0] : basePrice;
+    return {
+      "@type": "Offer" as const,
+      price,
+      priceCurrency: "USD",
+      availability: "https://schema.org/InStock",
+      url: platform.url,
+    };
+  });
 
   // Build screenshot URLs (absolute)
   const screenshots = (game.steamAssets.screenshots ?? []).map((s) =>

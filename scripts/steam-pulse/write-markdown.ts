@@ -45,18 +45,24 @@ ${computed.genres.map(g => {
   // The display score (composite, which includes momentum) is shown to users.
   const base = `  - name: ${g.name}\n    score: ${g.baseComposite}\n    trend: ${g.trend}\n    game_count: ${g.total_games}`;
   if (!g.top_games?.length) return base;
-  const gamesYaml = g.top_games.map(tg =>
-    `      - { app_id: ${tg.app_id}, title: "${tg.title.replace(/"/g, '\\"')}", classification: ${tg.classification}, revenue_estimate: ${tg.revenue_estimate} }`
-  ).join('\n');
+  const gamesYaml = g.top_games.map(tg => {
+    const fields = `app_id: ${tg.app_id}, title: "${tg.title.replace(/"/g, '\\"')}", classification: ${tg.classification}, revenue_estimate: ${tg.revenue_estimate}`;
+    return tg.capsule
+      ? `      - { ${fields}, capsule: "${tg.capsule}" }`
+      : `      - { ${fields} }`;
+  }).join('\n');
   return `${base}\n    top_games:\n${gamesYaml}`;
 }).join('\n')}
 tags:
 ${computed.tags.map(t => {
   const base = `  - name: ${t.name}\n    score: ${t.baseComposite}\n    trend: ${t.trend}\n    game_count: ${t.total_games}`;
   if (!t.top_games?.length) return base;
-  const gamesYaml = t.top_games.map(tg =>
-    `      - { app_id: ${tg.app_id}, title: "${tg.title.replace(/"/g, '\\"')}", classification: ${tg.classification}, revenue_estimate: ${tg.revenue_estimate} }`
-  ).join('\n');
+  const gamesYaml = t.top_games.map(tg => {
+    const fields = `app_id: ${tg.app_id}, title: "${tg.title.replace(/"/g, '\\"')}", classification: ${tg.classification}, revenue_estimate: ${tg.revenue_estimate}`;
+    return tg.capsule
+      ? `      - { ${fields}, capsule: "${tg.capsule}" }`
+      : `      - { ${fields} }`;
+  }).join('\n');
   return `${base}\n    top_games:\n${gamesYaml}`;
 }).join('\n')}
 rising:${computed.rising.length ? '\n' + computed.rising.map(r =>
