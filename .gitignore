@@ -17,6 +17,9 @@ exports/steam-pulse/
 # Generator logs
 logs/*.log
 
+# Test files — dev only, not deployed
+__tests__/
+
 # Developer artifacts — never commit to public repo
 dev-tools/
 CLAUDE.md

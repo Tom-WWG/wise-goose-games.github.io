@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { detectPlatform } from '../utils/platform';
 import type { Game, GamePlatform } from '../data/games';
 import { buildTrackedUrl } from '../utils/utm';
+import { getStoredUtms } from '../utils/utmSession';
 
 // ── Badge definitions ────────────────────────────────────────────
 
@@ -64,6 +65,7 @@ interface Props {
 
 export default function StoreBadges({ game, utmContent, badgeHeight = 'h-[40px]', showPrice = false }: Props) {
   const [orderedBadges, setOrderedBadges] = useState<BadgeDef[]>(() => buildBadges(game));
+  const [campaign, setCampaign] = useState<string | undefined>(undefined);
 
   useEffect(() => {
     const detected = detectPlatform();
@@ -79,6 +81,11 @@ export default function StoreBadges({ game, utmContent, badgeHeight = 'h-[40px]'
     }
 
     setOrderedBadges(badges);
+
+    const utms = getStoredUtms();
+    if (utms?.utm_campaign) {
+      setCampaign(utms.utm_campaign);
+    }
   }, [game]);
 
   return (
@@ -96,9 +103,10 @@ export default function StoreBadges({ game, utmContent, badgeHeight = 'h-[40px]'
         return (
           <a
             key={badge.key}
-            href={buildTrackedUrl(badge.platform.url, { content: utmContent })}
+            href={buildTrackedUrl(badge.platform.url, { content: utmContent, campaign })}
             target="_blank"
             rel="noopener noreferrer"
+            data-utm-enhanced=""
             aria-label={badge.ariaLabel}
             className=""
           >
