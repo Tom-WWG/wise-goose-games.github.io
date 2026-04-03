@@ -88,18 +88,30 @@ export default function StoreBadges({ game, utmContent, badgeHeight = 'h-[40px]'
     }
   }, [game]);
 
+  const sale = game.sale;
+  const primaryHasSale = sale && orderedBadges.length > 0 && orderedBadges[0].key === sale.platform;
+
   return (
     <div className="store-badge-row">
       {showPrice && game.price && (
         <span
           className="font-body font-semibold text-[12px] sm:mr-1"
-          style={{ color: 'var(--text-muted)' }}
+          style={{ color: 'var(--text-muted)', whiteSpace: 'nowrap' }}
         >
-          {game.price}
+          {primaryHasSale ? (
+            <>
+              <span style={{ textDecoration: 'line-through', opacity: 0.6 }}>{game.price}</span>
+              {' '}
+              <span style={{ color: 'var(--accent)' }}>{sale.salePrice}</span>
+            </>
+          ) : (
+            game.price
+          )}
         </span>
       )}
       {orderedBadges.map((badge, i) => {
         const isPrimary = i === 0;
+        const showSaleTag = isPrimary && primaryHasSale;
         return (
           <a
             key={badge.key}
@@ -112,8 +124,13 @@ export default function StoreBadges({ game, utmContent, badgeHeight = 'h-[40px]'
           >
             <div
               className={`${isPrimary ? 'store-badge-primary' : 'store-badge-secondary'} ${isPrimary ? badgeHeight : 'h-[36px]'} px-4 flex items-center justify-center gap-2.5`}
-              style={{ borderRadius: '0' }}
+              style={{ borderRadius: '0', position: 'relative' }}
             >
+              {showSaleTag && (
+                <span className="sale-tag">
+                  -{sale.percent}%
+                </span>
+              )}
               {badge.icon}
               <div className="flex flex-col items-start leading-tight" style={{ minWidth: '108px' }}>
                 <span style={{
