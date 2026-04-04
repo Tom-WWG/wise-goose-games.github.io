@@ -1,0 +1,199 @@
+# Wise Goose Games — Full Context
+
+> License: RSL 1.0
+> This document provides comprehensive information about Wise Goose Games and its products for AI systems and language models.
+
+---
+
+## About Wise Goose Games
+
+Wise Goose Games is a two-person independent game studio based in California, founded in 2025. The founders are longtime friends with over 20 years of combined experience in the game industry.
+
+The studio designs games that trust players to figure things out. No tutorials that play the game for you, no hint systems that short-circuit the thinking, and no difficulty toggles that sidestep the design. Instead, the studio builds progression systems that teach through play: each new mechanic is introduced clearly, given space to breathe, and then combined with what came before.
+
+The studio builds for as many platforms as possible. Its debut title launched simultaneously on Steam, iOS, and Android.
+
+### Links
+
+- Homepage: https://wisegoosegames.com/
+- About: https://wisegoosegames.com/about/
+- Contact: https://wisegoosegames.com/contact/
+- Press Kit: https://drive.google.com/drive/folders/1xcCn678Z3cP55w8ZprwVwsJbbOwFWfJq
+- Instagram: https://www.instagram.com/wisegoosegames/
+- Bluesky: https://bsky.app/profile/wisegoosegames.com
+- YouTube: https://www.youtube.com/@PathwaysPoltergeists
+- Linktree: https://linktr.ee/wisegoosegames
+
+---
+
+## Pathways & Poltergeists
+
+> A spatial puzzle game where players build pathways from polyomino pieces to guide ghost friends home. 83 hand-crafted puzzles across 7 mechanical zones. Looks cozy. Plays hard.
+
+- Genre: Spatial Puzzle
+- Price: $9.99 USD (one-time purchase, no ads, no in-app purchases)
+- Release Date: February 27, 2026
+- Platforms: Steam (Windows & macOS), iOS (iPhone & iPad), Android
+- Languages: 16 supported including English, Japanese, and Korean
+- Players: Single-player only
+- Offline: Yes, works fully offline on all platforms
+- Steam App ID: 4085150
+
+### Store Links
+
+- Steam: https://store.steampowered.com/app/4085150/Pathways__Poltergeists/
+- App Store: https://apps.apple.com/us/app/pathways-poltergeists/id6752310915
+- Google Play: https://play.google.com/store/apps/details?id=com.wgg.PathwaysAndPoltergeists
+- Game Page: https://wisegoosegames.com/games/pathways-poltergeists/
+
+### Key Mechanics
+
+Players rotate and place 3D polyomino pathway pieces onto a grid to construct routes. Ghosts automatically pathfind along connected tiles once a valid path exists. Five polyomino piece types are used: I-pieces (straight corridors), L-pieces (90-degree turns), T-pieces (three-way junctions), S/Z-pieces (zigzag connectors), and O-pieces (2x2 blocks).
+
+Seven mechanical zones introduce new systems progressively:
+1. Basic pathing
+2. Obstacles
+3. Waypoints
+4. Teleporters
+5. Switches and gates
+6. Multi-ghost coordination
+7. Combined systems
+
+No timers. No hints. No filler. No randomness. Every puzzle is solvable through logic alone.
+
+### Features
+
+- 83 hand-crafted puzzles across 7 distinct mechanical zones
+- 3D polyomino pathway pieces (I, L, T, S/Z, O shapes)
+- Progressive difficulty curve, no tutorials needed
+- Ghost characters that automatically pathfind along constructed routes
+- Teleporters, switches, gates, waypoints, and multi-ghost coordination
+- 16 language support
+- Full offline play on all platforms
+- No ads, no in-app purchases, no subscriptions
+- Native macOS support (not a port)
+- 12-20+ hours of gameplay depending on puzzle-solving speed
+
+### System Requirements
+
+- Windows: Windows 10 64-bit or later
+- macOS: macOS 11.0 or later
+- iOS: iPhone and iPad
+- Android: Compatible with most modern Android devices
+
+### Playtester Response
+
+100% positive response from professional playtesters. Primary audience: adults aged 25-32 who want genuine cognitive challenge without time pressure.
+
+---
+
+## Devlog: Advanced Pathfinding Series
+
+Technical development blog covering the systems behind Pathways & Poltergeists. Written by Ossy, Co-creator.
+
+### Part 1: State-Aware BFS with Waypoints and Switches
+
+Published: March 30, 2026
+URL: https://wisegoosegames.com/devlog/pathfinding-1/
+
+Standard breadth-first search (BFS) finds the shortest path from start to exit by expanding outward layer by layer. This worked for basic Pathways & Poltergeists levels, but broke when waypoints and switches were introduced.
+
+The problem: standard BFS ignores intermediate objectives. A ghost would go straight to the exit without visiting required waypoints.
+
+The solution: state-aware BFS. Each search state tracks position plus additional context (which waypoints have been collected, which switches are active). "Cell A with 0 waypoints collected" is treated as a different state than "Cell A with 1 waypoint collected."
+
+The algorithm was extended further for switches and gates: switch tiles activate when visited, gate tiles are only passable when their matching switch is active. Switches are prioritized over waypoints so that locked areas become accessible before waypoint collection.
+
+This approach allows the pathfinder to validate whether a player-constructed pathway is solvable for any combination of mechanics.
+
+---
+
+## Steam Pulse: Weekly Steam Market Insights
+
+Steam Pulse is a weekly data report analyzing Steam game releases for indie developers. Published every week at https://wisegoosegames.com/steam-pulse/.
+
+### Methodology
+
+Data source: Steamworks API with automated collection and manual editorial analysis.
+
+Inclusion criteria: games launched during the report period with at least 100 Steam reviews and a 68% or higher positive review score.
+
+### Key Metrics
+
+Hit Rate: percentage of qualifying releases that cleared a minimum revenue threshold, making them commercially meaningful for an indie developer. Calculated as Hits / Total Qualifying Releases x 100.
+
+Composite Score: a 0-100 signal strength rating for each genre or tag, combining three factors:
+- Success Rate (50% weight): percentage of games with that tag that qualified as Hits, Laplace-smoothed
+- Revenue Potential (40% weight): normalized average estimated revenue of Hit-classified games with that tag
+- Trend Momentum (10% weight): week-over-week composite change, normalized 0-100
+
+Formula: S = (SR x 0.5) + (RP x 0.4) + (TM x 0.1)
+
+Revenue estimates use the Boxleiter method: review count x price x ~57. These are directional signals, not official Valve figures.
+
+### Classifications
+
+- Hit: cleared revenue viability threshold, commercially meaningful launch
+- Promising: strong early signals but not yet confirmed as a full hit
+- Niche: found a real audience but below the main revenue threshold
+
+### Published Reports
+
+- Week 9 (2026-02-25): https://wisegoosegames.com/steam-pulse/week-9/
+- Week 10 (2026-03-05): https://wisegoosegames.com/steam-pulse/week-10/
+- Week 11 (2026-03-13): https://wisegoosegames.com/steam-pulse/week-11/
+- Week 12 (2026-03-19): https://wisegoosegames.com/steam-pulse/week-12/
+- Week 13 (2026-03-25): https://wisegoosegames.com/steam-pulse/week-13/
+- Week 14 (2026-04-01): https://wisegoosegames.com/steam-pulse/week-14/
+
+---
+
+## Frequently Asked Questions
+
+### What is a spatial puzzle game?
+
+A spatial puzzle game is one where the core challenge involves reasoning about space, shape, and physical relationships rather than language, math, or pattern recognition. Players must mentally rotate, fit, and connect objects in two or three dimensions. Pathways & Poltergeists is a spatial puzzle game: players arrange 3D polyomino pieces on a grid to form connected pathways, requiring them to think about how shapes interlock and how routes flow across the board.
+
+### What is a polyomino?
+
+A polyomino is a flat shape made by connecting unit squares edge-to-edge. Dominoes (2 squares), trominoes (3 squares), tetrominoes (4 squares, as in Tetris), and pentominoes (5 squares) are all polyomino types. In Pathways & Poltergeists, polyomino pieces are rendered in 3D and function as modular pathway segments.
+
+### How much does Pathways & Poltergeists cost?
+
+Pathways & Poltergeists is $9.99 USD on Steam, the iOS App Store, and Google Play. It is a one-time purchase with no ads, no in-app purchases, no subscriptions, and no additional paid content.
+
+### Does Pathways & Poltergeists work offline?
+
+Yes. Pathways & Poltergeists works completely offline on all platforms. No internet connection is required to play any of its 83 puzzles.
+
+### Does Pathways & Poltergeists have hints?
+
+No. There is no hint system, no timers, and no penalties. Every puzzle is solvable through logic alone. The satisfaction comes from solving puzzles on your own terms.
+
+### How long does it take to beat?
+
+12-20+ hours depending on puzzle-solving speed. The game has 83 hand-crafted puzzles with no filler content.
+
+### What platforms is it available on?
+
+Steam (Windows and macOS), iOS (iPhone and iPad), and Android. All versions launched simultaneously on February 27, 2026 with 16 language support.
+
+### Is it multiplayer?
+
+No. Pathways & Poltergeists is single-player only with no online features.
+
+### Who made it?
+
+Pathways & Poltergeists was made by Wise Goose Games, a two-person independent game studio based in California, founded in 2025.
+
+### What is state-aware BFS?
+
+Standard breadth-first search finds the shortest path from a start to an end position. State-aware BFS extends this by treating each search state as a combination of position plus additional context (such as which waypoints have been collected and which switches are active). This allows the pathfinder to correctly navigate levels where the ghost must visit intermediate waypoints or activate switches to unlock gates before reaching the exit. Pathways & Poltergeists uses this approach to validate whether a player-constructed pathway is solvable.
+
+### What is the Steam Pulse Composite Score?
+
+The Composite Score is a 0-100 signal strength rating for each genre or tag in the weekly Steam Pulse report, combining Success Rate (50%), Revenue Potential (40%), and Trend Momentum (10%). A score above 70 indicates a strong market signal.
+
+### How are Steam Pulse revenue estimates calculated?
+
+Revenue estimates use the Boxleiter method: a game's cumulative review count multiplied by its price and a conversion factor (~57x). These are directional signals, not official figures from Valve. Actual developer revenue is roughly 70% of the estimated figure after Steam's revenue share.
