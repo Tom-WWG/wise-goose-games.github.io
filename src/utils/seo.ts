@@ -72,6 +72,15 @@ export function getOrganizationSchema() {
         inLanguage: "en",
         publisher: { "@id": `${SITE_URL}/#organization` },
       },
+      {
+        "@type": "SiteNavigationElement",
+        name: "Main Navigation",
+        hasPart: [
+          { "@type": "WebPage", name: "Games", url: `${SITE_URL}/games/` },
+          { "@type": "WebPage", name: "Steam Pulse", url: `${SITE_URL}/steam-pulse/` },
+          { "@type": "WebPage", name: "Devlog", url: `${SITE_URL}/devlog/` },
+        ],
+      },
     ],
   };
 }
@@ -289,6 +298,27 @@ export function getAboutPageSchema(title: string, description: string, url: stri
     description,
     url,
     publisher: { "@id": `${SITE_URL}/#organization` },
+  };
+}
+
+export function getDatasetSchema(params: {
+  name: string;
+  description: string;
+  url: string;
+  datePublished: string;
+  temporalCoverage: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Dataset",
+    name: params.name,
+    description: params.description,
+    url: params.url,
+    datePublished: params.datePublished,
+    temporalCoverage: params.temporalCoverage,
+    creator: { "@id": `${SITE_URL}/#organization` },
+    license: "https://creativecommons.org/licenses/by-nc/4.0/",
+    measurementTechnique: "Automated collection from Steamworks API with manual editorial analysis",
   };
 }
 

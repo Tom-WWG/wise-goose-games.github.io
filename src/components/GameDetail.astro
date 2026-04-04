@@ -55,6 +55,8 @@ const row2Cols = screenshotRow2.length === 1 ? 'grid-cols-1'
           >
             <img
               src={src}
+              srcset={`${src} 2560w`}
+              sizes={screenshotRow1.length === 1 ? '100vw' : '(min-width: 640px) 50vw, 100vw'}
               alt={game.steamAssets.screenshotAlts?.[i] ?? `${game.title} screenshot ${i + 1}`}
               width="2560"
               height="1440"
@@ -112,6 +114,8 @@ const row2Cols = screenshotRow2.length === 1 ? 'grid-cols-1'
             >
               <img
                 src={src}
+                srcset={`${src} 2560w`}
+                sizes={screenshotRow2.length === 1 ? '100vw' : screenshotRow2.length === 2 ? '(min-width: 640px) 50vw, 100vw' : '(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw'}
                 alt={game.steamAssets.screenshotAlts?.[globalIndex] ?? `${game.title} screenshot ${globalIndex + 1}`}
                 width="2560"
                 height="1440"

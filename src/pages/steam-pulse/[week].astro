@@ -1,7 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getSEO, getArticleSchema, getBreadcrumbSchema, getFAQSchema } from '../../utils/seo';
+import { getSEO, getArticleSchema, getDatasetSchema, getBreadcrumbSchema, getFAQSchema } from '../../utils/seo';
 import SteamPulseBarChart from '../../components/SteamPulseBarChart.astro';
 import SteamPulseTrendChart from '../../components/SteamPulseTrendChart.astro';
 import FAQAccordion from '../../components/FAQAccordion.astro';
@@ -175,13 +175,20 @@ const breadcrumbSchema = getBreadcrumbSchema([
   { name: 'Steam Pulse', path: '/steam-pulse/' },
   { name: `Week ${d.week}`, path: `/steam-pulse/week-${d.week}/` },
 ]);
+const datasetSchema = getDatasetSchema({
+  name: `Steam Pulse Week ${d.week}: Steam Market Data`,
+  description: `Weekly Steam release data for ${d.period}: ${d.total_releases} releases, ${d.hit_rate}% hit rate. Genre and tag performance scores, trend analysis.`,
+  url: weekUrl,
+  datePublished: d.date.toISOString().split('T')[0],
+  temporalCoverage: d.period,
+});
 
 const seo = getSEO({
   title: `Steam Pulse Week ${d.week}: ${d.period} | Wise Goose Games`,
   description: articleDescription,
   canonicalPath: `/steam-pulse/week-${d.week}`,
   ogType: 'article',
-  structuredData: [breadcrumbSchema, articleSchema, getFAQSchema(steamPulseFAQs)],
+  structuredData: [breadcrumbSchema, articleSchema, datasetSchema, getFAQSchema(steamPulseFAQs)],
 });
 ---
 
