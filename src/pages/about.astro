@@ -1,0 +1,100 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getSEO, getAboutPageSchema, getBreadcrumbSchema, SITE_URL } from '../utils/seo';
+
+const description = 'Two-person indie game studio based in California with over 20 years of combined game industry experience. We make premium games that trust players to think.';
+
+const seo = getSEO({
+  title: 'About | Wise Goose Games',
+  description,
+  canonicalPath: '/about',
+  structuredData: [
+    getAboutPageSchema('About | Wise Goose Games', description, `${SITE_URL}/about/`),
+    getBreadcrumbSchema([
+      { name: 'Home', path: '/' },
+      { name: 'About', path: '/about/' }
+    ])
+  ]
+});
+---
+
+<BaseLayout {...seo}>
+  <main class="max-w-3xl mx-auto px-4 pt-32 pb-20">
+    <h1 class="font-body font-bold text-4xl md:text-5xl text-center mb-16" data-enter>About</h1>
+
+    <section class="mb-12 pl-5 md:pl-6" style="border-left: 2px solid var(--accent);" data-enter>
+      <h2 class="font-body font-bold text-2xl md:text-3xl mb-4" style="color: var(--text-primary);">How We Make Games</h2>
+      <p class="font-body text-base md:text-lg leading-relaxed mb-4" style="color: var(--text-secondary);">
+        We design games that trust players to figure things out.
+      </p>
+      <p class="font-body text-base md:text-lg leading-relaxed mb-4" style="color: var(--text-secondary);">
+        That means no tutorials that play the game for you, no hint systems that short-circuit the thinking, and no difficulty toggles that sidestep the design. Instead, we build progression systems that teach through play. Each new mechanic is introduced clearly, given space to breathe, and then combined with what came before.
+      </p>
+      <p class="font-body text-base md:text-lg leading-relaxed" style="color: var(--text-secondary);">
+        We believe the best games create genuine discovery, and that only happens when the player earns it. Our job is to set the conditions. Your job is to think.
+      </p>
+    </section>
+
+    <section class="mb-12 pl-5 md:pl-6" style="border-left: 2px solid var(--accent);" data-enter>
+      <h2 class="font-body font-bold text-2xl md:text-3xl mb-4" style="color: var(--text-primary);">The Studio</h2>
+      <p class="font-body text-base md:text-lg leading-relaxed mb-4" style="color: var(--text-secondary);">
+        Wise Goose Games is a two-person independent studio based in California, founded in 2025. We're longtime friends with over 20 years of combined experience in the game industry.
+      </p>
+      <p class="font-body text-base md:text-lg leading-relaxed mb-4" style="color: var(--text-secondary);">
+        We started the studio to make the kind of games we wanted to play: premium, focused, and free of dark patterns. No ads, no energy timers, no monetization tricks. Just the game.
+      </p>
+      <p class="font-body text-base md:text-lg leading-relaxed" style="color: var(--text-secondary);">
+        We build for as many platforms as we can. Our debut title, Pathways &amp; Poltergeists, launched simultaneously on Steam, iOS, and Android because we believe a good game should be available wherever people want to play it.
+      </p>
+    </section>
+
+    <section class="mb-12 pl-5 md:pl-6" style="border-left: 2px solid var(--accent);" data-enter>
+      <h2 class="font-body font-bold text-2xl md:text-3xl mb-4" style="color: var(--text-primary);">What's Next</h2>
+      <p class="font-body text-base md:text-lg leading-relaxed" style="color: var(--text-secondary);">
+        We're currently in early development on our next title. We share work-in-progress updates on Instagram and Bluesky as things take shape.
+      </p>
+    </section>
+
+    <div class="flex items-center justify-center gap-5" data-enter>
+      <a
+        href="https://www.instagram.com/wisegoosegames/"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-opacity opacity-80 hover:opacity-100"
+        style="color: #E1306C;"
+        aria-label="Instagram"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+        </svg>
+      </a>
+      <a
+        href="https://bsky.app/profile/wisegoosegames.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-opacity opacity-80 hover:opacity-100"
+        style="color: #0085FF;"
+        aria-label="Bluesky"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 320 286" fill="currentColor">
+          <path d="M69.09 52.88C31.56 25.12 11.83 5.4 7.63.4 3.73-3.66 0 2.23 0 6.64c0 36.31 3.56 89.26 8.71 106.88 7.37 25.26 31.83 31.78 57.08 26.68C103.11 132.61 160 119.5 160 119.5s-46.33 34.2-61.95 44.97c-31.57 21.73-19.12 59.5 10.3 64.67 36.76 6.46 83.05 4.54-99.85-28.5L256 52.88C293.53 25.12 313.26 5.4 317.46.4c3.9-4.06 7.63 1.83 7.63 6.24 0 36.31-3.56 89.26-8.71 106.88-7.37 25.26-31.83 31.78-57.08 26.68-37.32-7.59-94.21-20.7-94.21-20.7s46.33 34.2 61.95 44.97c31.57 21.73 19.12 59.5-10.3 64.67-36.76 6.46-83.05 4.54-99.85-28.5L69.09 52.88z"/>
+        </svg>
+      </a>
+      <a
+        href="https://linktr.ee/wisegoosegames"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="transition-opacity opacity-80 hover:opacity-100"
+        style="color: #43E660;"
+        aria-label="Linktree"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+        </svg>
+      </a>
+    </div>
+  </main>
+</BaseLayout>

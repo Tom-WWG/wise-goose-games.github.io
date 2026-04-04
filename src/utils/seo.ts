@@ -279,6 +279,17 @@ export function getContactPageSchema(title: string, description: string, url: st
   };
 }
 
+export function getAboutPageSchema(title: string, description: string, url: string) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "AboutPage",
+    name: title,
+    description,
+    url,
+    publisher: { "@id": `${SITE_URL}/#organization` },
+  };
+}
+
 export function getArticleSchema(params: {
   headline: string;
   description: string;

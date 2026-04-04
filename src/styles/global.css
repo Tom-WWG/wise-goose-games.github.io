@@ -98,7 +98,14 @@ body {
   margin: 0;
   line-height: 1.6;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* Push footer to bottom on short-content pages */
+body > footer {
+  margin-top: auto;
 }
 
 /* ===== Button Styles ===== */
