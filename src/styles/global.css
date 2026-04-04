@@ -103,9 +103,8 @@ body {
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
-/* Push footer to bottom on short-content pages */
-body > footer {
-  margin-top: auto;
+.site-main {
+  flex: 1;
 }
 
 /* ===== Button Styles ===== */
