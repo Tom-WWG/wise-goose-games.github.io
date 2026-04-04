@@ -60,6 +60,7 @@ export function getOrganizationSchema() {
         sameAs: [
           "https://www.instagram.com/wisegoosegames/",
           "https://bsky.app/profile/wisegoosegames.com",
+          "https://www.youtube.com/@PathwaysPoltergeists",
           "https://linktr.ee/wisegoosegames",
         ],
       },
@@ -171,6 +172,7 @@ export function getVideoGameSchema(game: {
       : undefined,
     ...(screenshots.length > 0 ? { screenshot: screenshots } : {}),
     ...(trailer ? { video: trailer } : {}),
+    sameAs: Object.values(game.platforms).map((p) => p.url),
     publisher: {
       "@type": "Organization",
       "@id": `${SITE_URL}/#organization`,
@@ -398,11 +400,9 @@ export function getBlogPostingSchema(params: {
     url,
     image: params.image ?? DEFAULT_OG_IMAGE,
     inLanguage: "en",
-    author: {
-      "@type": "Organization",
-      "@id": `${SITE_URL}/#organization`,
-      name: "Wise Goose Games",
-    },
+    author: params.authorName
+      ? { "@type": "Person" as const, name: params.authorName }
+      : { "@type": "Organization" as const, "@id": `${SITE_URL}/#organization`, name: "Wise Goose Games" },
     publisher: {
       "@type": "Organization",
       "@id": `${SITE_URL}/#organization`,

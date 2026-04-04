@@ -44,6 +44,7 @@ const seo = getSEO({
   title: `${entry.data.title} | Wise Goose Games Devlog`,
   description: entry.data.subtitle ?? `${entry.data.title} | Wise Goose Games devlog`,
   canonicalPath: `/devlog/${entry.slug}`,
+  ogType: 'article',
   structuredData: [blogPostingSchema, breadcrumbSchema],
 });
 ---

@@ -77,13 +77,22 @@ export interface Game {
   };
 }
 
+// Pricing constants — update salePrice here when running a sale so FAQ copy stays in sync.
+const PP_BASE_PRICE = "$9.99 USD";
+const PP_SALE: Game["sale"] = {
+  percent: 30,
+  salePrice: "$6.99 USD",
+  platform: "steam",
+};
+const PP_STEAM_PRICE = PP_SALE ? PP_SALE.salePrice : PP_BASE_PRICE;
+
 export const games: Game[] = [
   {
     id: "pathways-poltergeists",
     title: "Pathways & Poltergeists",
     status: "released",
     releaseDate: "February 27, 2026",
-    price: "$9.99 USD",
+    price: PP_BASE_PRICE,
     genre: "Spatial Puzzle",
     tagline: "Build pathways from puzzle blocks.",
     shortDescription: "Guide ghost friends home by building pathways from polyomino pieces. A cozy-looking spatial puzzle game that will absolutely break your brain.",
@@ -197,11 +206,11 @@ export const games: Game[] = [
       },
       {
         question: "How much does Pathways & Poltergeists cost?",
-        answer: "Pathways & Poltergeists is $9.99 USD on Steam, the iOS App Store, and Google Play. It is a one-time purchase: there are no ads, no in-app purchases, no subscriptions, and no additional paid content. The full game is included at the base price across all platforms.",
+        answer: `Pathways & Poltergeists is ${PP_STEAM_PRICE} on Steam, ${PP_BASE_PRICE} on the iOS App Store, and ${PP_BASE_PRICE} on Google Play. It is a one-time purchase: there are no ads, no in-app purchases, no subscriptions, and no additional paid content. The full game is included at the base price across all platforms.`,
       },
       {
         question: "Does Pathways & Poltergeists have ads or in-app purchases?",
-        answer: "No. Pathways & Poltergeists has no ads and no in-app purchases on any platform. It is a premium one-time purchase at $9.99 USD. You get the complete game, all 83 puzzles, with no additional costs, no paywalls, and no interruptions.",
+        answer: `No. Pathways & Poltergeists has no ads and no in-app purchases on any platform. It is a premium one-time purchase at ${PP_BASE_PRICE}. You get the complete game, all 83 puzzles, with no additional costs, no paywalls, and no interruptions.`,
       },
       {
         question: "Does Pathways & Poltergeists work offline?",
@@ -240,11 +249,7 @@ export const games: Game[] = [
         answer: "Pathways & Poltergeists was made by Wise Goose Games, a two-person independent game studio, founded in 2025. The studio focuses on thoughtfully designed puzzle experiences that balance accessible aesthetics with genuine mechanical depth.",
       },
     ],
-    sale: {
-      percent: 30,
-      salePrice: "$6.99 USD",
-      platform: "steam",
-    },
+    sale: PP_SALE,
   },
 ];
 

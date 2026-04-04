@@ -180,6 +180,7 @@ const seo = getSEO({
   title: `Steam Pulse Week ${d.week}: ${d.period} | Wise Goose Games`,
   description: articleDescription,
   canonicalPath: `/steam-pulse/week-${d.week}`,
+  ogType: 'article',
   structuredData: [breadcrumbSchema, articleSchema, getFAQSchema(steamPulseFAQs)],
 });
 ---
