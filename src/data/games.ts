@@ -79,11 +79,7 @@ export interface Game {
 
 // Pricing constants — update salePrice here when running a sale so FAQ copy stays in sync.
 const PP_BASE_PRICE = "$9.99 USD";
-const PP_SALE: Game["sale"] = {
-  percent: 30,
-  salePrice: "$6.99 USD",
-  platform: "steam",
-};
+const PP_SALE: Game["sale"] = undefined;
 const PP_STEAM_PRICE = PP_SALE ? PP_SALE.salePrice : PP_BASE_PRICE;
 
 export const games: Game[] = [
