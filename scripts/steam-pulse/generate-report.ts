@@ -32,13 +32,7 @@ async function main() {
   }
 
   const previousScores = previous?.scores ?? {};
-  const previousHitRate = previous
-    ? (() => {
-        // We don't store hit_rate in scores map, so re-derive it if possible
-        // For now, return null — delta will be 0
-        return null;
-      })()
-    : null;
+  const previousHitRate = previous?.hit_rate ?? null;
 
   // 3. Compute composite scores
   console.log('Computing scores...');

@@ -5,7 +5,7 @@ period: "04/15/26"
 report_file: "report_20260415_133209.json"
 total_releases: 33
 hit_rate: 52
-hit_rate_delta: 0
+hit_rate_delta: -15
 hit_count: 17
 promising_count: 0
 niche_count: 2
