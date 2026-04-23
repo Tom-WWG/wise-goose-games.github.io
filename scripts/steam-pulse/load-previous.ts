@@ -6,6 +6,7 @@ const CONTENT_DIR = path.resolve('src/content/steam-pulse');
 
 export interface PreviousWeekData {
   week: number;
+  hit_rate: number | null; // overall hit rate from previous week, for WoW delta
   scores: Record<string, number>; // tag/genre name -> composite score
 }
 
@@ -49,5 +50,7 @@ export function loadPreviousWeek(): PreviousWeekData | null {
     }
   }
 
-  return { week: data.week as number, scores };
+  const hit_rate = typeof data.hit_rate === 'number' ? data.hit_rate : null;
+
+  return { week: data.week as number, hit_rate, scores };
 }
