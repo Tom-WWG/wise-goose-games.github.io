@@ -1,124 +1,124 @@
 ---
 week: 15
-date: 2026-04-15
-period: "04/15/26"
-report_file: "report_20260415_133209.json"
-total_releases: 33
-hit_rate: 52
-hit_rate_delta: -15
+date: 2026-04-08
+period: "04/08/26"
+report_file: "report_20260408_133207.json"
+total_releases: 29
+hit_rate: 59
+hit_rate_delta: -8
 hit_count: 17
 promising_count: 0
-niche_count: 2
+niche_count: 0
 genres:
   - name: Survival
-    score: 67
+    score: 57
     trend: stable
     game_count: 4
     top_games:
-      - { app_id: 3041230, title: "Windrose", classification: hit, revenue_estimate: 19304867, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3041230/6e112d27d66e13071f329e5ff68758dc18bd9a84/capsule_231x87.jpg?t=1776158614" }
-      - { app_id: 2646460, title: "Soulmask", classification: hit, revenue_estimate: 12193542, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2646460/8595c7447f607a5215d150fd233e317261ac32a7/capsule_231x87_alt_assets_29.jpg?t=1776154391" }
-      - { app_id: 3132870, title: "DarkSwitch", classification: hit, revenue_estimate: 597365, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3132870/d98b442c21eb800b6dc588ed632bd407f51f4f02/capsule_231x87.jpg?t=1775827396" }
+      - { app_id: 1963610, title: "Road to Vostok", classification: hit, revenue_estimate: 6660956, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1963610/capsule_231x87.jpg?t=1775573759" }
+      - { app_id: 4249120, title: "Resident Evil 3 Nemesis (1999)", classification: hit, revenue_estimate: 337723, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4249120/c8e9ec1d7923ec2a01b661df41ab558d9a988546/capsule_231x87.jpg?t=1775090236" }
+      - { app_id: 4249110, title: "Resident Evil 2 (1998)", classification: hit, revenue_estimate: 288921, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4249110/e93655242b20976a69ff4357d8ce50ddb1ec77ed/capsule_231x87.jpg?t=1775090214" }
+  - name: Strategy
+    score: 55
+    trend: declining
+    game_count: 2
+    top_games:
+      - { app_id: 538030, title: "Xenonauts 2", classification: hit, revenue_estimate: 4009737, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/538030/482bba7eec0556716f0d36f9dc8858b473587f5c/capsule_231x87.jpg?t=1775150101" }
+      - { app_id: 2779120, title: "Modulus: Factory Automation", classification: hit, revenue_estimate: 459696, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2779120/93ebcc62ca23f08612b96369784a39667b0a35a3/capsule_231x87.jpg?t=1775637265" }
+  - name: RPG
+    score: 53
+    trend: stable
+    game_count: 4
+    top_games:
+      - { app_id: 538030, title: "Xenonauts 2", classification: hit, revenue_estimate: 4009737, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/538030/482bba7eec0556716f0d36f9dc8858b473587f5c/capsule_231x87.jpg?t=1775150101" }
+      - { app_id: 4258390, title: "Enjoy Amoy&Sisters", classification: hit, revenue_estimate: 294813, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4258390/056d347193be5a1e57588e3d210b1f2bc7ef582f/capsule_231x87.jpg?t=1775188205" }
+      - { app_id: 4000090, title: "Stiff Neck", classification: hit, revenue_estimate: 161590, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4000090/31cb45500533e98b9122821f76b9a985165d7f04/capsule_231x87.jpg?t=1775368921" }
   - name: Simulation
-    score: 48
+    score: 51
     trend: stable
     game_count: 5
     top_games:
-      - { app_id: 1369700, title: "Solar Expanse - Space Exploration Manager", classification: hit, revenue_estimate: 410255, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1369700/888e8b703ef2ecec588f35082ee6c98620fdfc81/capsule_231x87.jpg?t=1776162741" }
-      - { app_id: 2698420, title: "Restore Your Island", classification: hit, revenue_estimate: 340805, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2698420/789e8082c3dc1f5cbb0dc5abe8d46fd3deb1b8c0/capsule_231x87.jpg?t=1775795873" }
-      - { app_id: 2413950, title: "Final Sentence", classification: hit, revenue_estimate: 324719, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2413950/2e9b2db7d1e543232b3b19d2aee2deeb4eae1a9f/capsule_231x87.jpg?t=1775850262" }
-  - name: Puzzle
-    score: 44
+      - { app_id: 2706020, title: "ALL WILL FALL", classification: hit, revenue_estimate: 1013359, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2706020/e92418f9e13e0def8c74e386f07f1fef6d08972a/capsule_231x87.jpg?t=1775261438" }
+      - { app_id: 1198970, title: "I Am Jesus Christ", classification: hit, revenue_estimate: 634570, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1198970/11ec2a907d05269fa690a363e287871286bb45dc/capsule_231x87.jpg?t=1775229225" }
+      - { app_id: 2569670, title: "Farmer's Dynasty 2", classification: hit, revenue_estimate: 614293, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2569670/ece424c06bfb1083bdba34de8022f97a68f13674/capsule_231x87.jpg?t=1775212039" }
+  - name: Adventure
+    score: 50
     trend: stable
-    game_count: 2
+    game_count: 6
     top_games:
-      - { app_id: 2738490, title: "Sol Cesto", classification: hit, revenue_estimate: 915374, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2738490/f929d4a2d019729b24525bb4650320248b0977f4/capsule_231x87_alt_assets_1.jpg?t=1775840460" }
-      - { app_id: 3181650, title: "MINOS", classification: hit, revenue_estimate: 312306, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3181650/dd35c74294be47efc5068caab13d8e38338fc3a0/capsule_231x87.jpg?t=1775747654" }
-  - name: Horror
-    score: 43
-    trend: stable
-    game_count: 2
-    top_games:
-      - { app_id: 2413950, title: "Final Sentence", classification: hit, revenue_estimate: 324719, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2413950/2e9b2db7d1e543232b3b19d2aee2deeb4eae1a9f/capsule_231x87.jpg?t=1775850262" }
-      - { app_id: 4450800, title: "Idols of Ash", classification: hit, revenue_estimate: 84487, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4450800/7092397a582a3fb53657a1f77ec15202793a69f6/capsule_231x87.jpg?t=1776141201" }
-  - name: Roguelike
-    score: 44
-    trend: declining
-    game_count: 2
-    top_games:
-      - { app_id: 2738490, title: "Sol Cesto", classification: hit, revenue_estimate: 915374, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2738490/f929d4a2d019729b24525bb4650320248b0977f4/capsule_231x87_alt_assets_1.jpg?t=1775840460" }
-      - { app_id: 3199360, title: "Skull Horde", classification: hit, revenue_estimate: 352627, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3199360/587761c3903be0b4059ee72251a9466dd9ff8165/capsule_231x87.jpg?t=1775835694" }
+      - { app_id: 1198970, title: "I Am Jesus Christ", classification: hit, revenue_estimate: 634570, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1198970/11ec2a907d05269fa690a363e287871286bb45dc/capsule_231x87.jpg?t=1775229225" }
+      - { app_id: 2989180, title: "Darwin's Paradox!", classification: hit, revenue_estimate: 395342, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2989180/85e634c779471ff86f90a844bca712f488a7b13c/capsule_231x87.jpg?t=1775420854" }
+      - { app_id: 4249120, title: "Resident Evil 3 Nemesis (1999)", classification: hit, revenue_estimate: 337723, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4249120/c8e9ec1d7923ec2a01b661df41ab558d9a988546/capsule_231x87.jpg?t=1775090236" }
 tags:
-  - name: Open World Survival Craft
-    score: 83
+  - name: Realistic
+    score: 70
     trend: stable
     game_count: 2
     top_games:
-      - { app_id: 3041230, title: "Windrose", classification: hit, revenue_estimate: 19304867, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3041230/6e112d27d66e13071f329e5ff68758dc18bd9a84/capsule_231x87.jpg?t=1776158614" }
-      - { app_id: 2646460, title: "Soulmask", classification: hit, revenue_estimate: 12193542, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2646460/8595c7447f607a5215d150fd233e317261ac32a7/capsule_231x87_alt_assets_29.jpg?t=1776154391" }
-  - name: Exploration
-    score: 62
-    trend: declining
-    game_count: 3
+      - { app_id: 1963610, title: "Road to Vostok", classification: hit, revenue_estimate: 6660956, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1963610/capsule_231x87.jpg?t=1775573759" }
+      - { app_id: 4172530, title: "Legend of YMIR", classification: niche, revenue_estimate: 0 }
+  - name: Story Rich
+    score: 66
+    trend: stable
+    game_count: 2
     top_games:
-      - { app_id: 3041230, title: "Windrose", classification: hit, revenue_estimate: 19304867, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3041230/6e112d27d66e13071f329e5ff68758dc18bd9a84/capsule_231x87.jpg?t=1776158614" }
-      - { app_id: 2776090, title: "Lay of the Land", classification: hit, revenue_estimate: 709166, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2776090/75ed7c5e5b14af80c4790c935b5cf37ec156ae4d/capsule_231x87.jpg?t=1775660418" }
-      - { app_id: 2698420, title: "Restore Your Island", classification: hit, revenue_estimate: 340805, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2698420/789e8082c3dc1f5cbb0dc5abe8d46fd3deb1b8c0/capsule_231x87.jpg?t=1775795873" }
-  - name: Colony Sim
+      - { app_id: 538030, title: "Xenonauts 2", classification: hit, revenue_estimate: 4009737, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/538030/482bba7eec0556716f0d36f9dc8858b473587f5c/capsule_231x87.jpg?t=1775150101" }
+      - { app_id: 3220060, title: "The Weeping Swan: Ten Days of the City's Fall", classification: hit, revenue_estimate: 2711967 }
+  - name: Post-apocalyptic
+    score: 65
+    trend: stable
+    game_count: 2
+    top_games:
+      - { app_id: 1963610, title: "Road to Vostok", classification: hit, revenue_estimate: 6660956, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1963610/capsule_231x87.jpg?t=1775573759" }
+      - { app_id: 2706020, title: "ALL WILL FALL", classification: hit, revenue_estimate: 1013359, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2706020/e92418f9e13e0def8c74e386f07f1fef6d08972a/capsule_231x87.jpg?t=1775261438" }
+  - name: FPS
+    score: 63
+    trend: stable
+    game_count: 2
+    top_games:
+      - { app_id: 1963610, title: "Road to Vostok", classification: hit, revenue_estimate: 6660956, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1963610/capsule_231x87.jpg?t=1775573759" }
+      - { app_id: 3818000, title: "Guns and Nuns: Storming Hell", classification: hit, revenue_estimate: 201331, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3818000/3a78a566ebeec5c1952c491d2ecc4d1107256243/capsule_231x87.jpg?t=1775239668" }
+  - name: Singleplayer
     score: 59
     trend: stable
-    game_count: 2
-    top_games:
-      - { app_id: 2646460, title: "Soulmask", classification: hit, revenue_estimate: 12193542, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2646460/8595c7447f607a5215d150fd233e317261ac32a7/capsule_231x87_alt_assets_29.jpg?t=1776154391" }
-      - { app_id: 3132870, title: "DarkSwitch", classification: hit, revenue_estimate: 597365, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3132870/d98b442c21eb800b6dc588ed632bd407f51f4f02/capsule_231x87.jpg?t=1775827396" }
-  - name: Building
-    score: 59
-    trend: stable
-    game_count: 2
-    top_games:
-      - { app_id: 2646460, title: "Soulmask", classification: hit, revenue_estimate: 12193542, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2646460/8595c7447f607a5215d150fd233e317261ac32a7/capsule_231x87_alt_assets_29.jpg?t=1776154391" }
-      - { app_id: 3132870, title: "DarkSwitch", classification: hit, revenue_estimate: 597365, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3132870/d98b442c21eb800b6dc588ed632bd407f51f4f02/capsule_231x87.jpg?t=1775827396" }
-  - name: Base Building
-    score: 56
-    trend: stable
     game_count: 3
     top_games:
-      - { app_id: 2646460, title: "Soulmask", classification: hit, revenue_estimate: 12193542, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2646460/8595c7447f607a5215d150fd233e317261ac32a7/capsule_231x87_alt_assets_29.jpg?t=1776154391" }
-      - { app_id: 3132870, title: "DarkSwitch", classification: hit, revenue_estimate: 597365, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3132870/d98b442c21eb800b6dc588ed632bd407f51f4f02/capsule_231x87.jpg?t=1775827396" }
-      - { app_id: 3181650, title: "MINOS", classification: hit, revenue_estimate: 312306, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3181650/dd35c74294be47efc5068caab13d8e38338fc3a0/capsule_231x87.jpg?t=1775747654" }
+      - { app_id: 1963610, title: "Road to Vostok", classification: hit, revenue_estimate: 6660956, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1963610/capsule_231x87.jpg?t=1775573759" }
+      - { app_id: 2989180, title: "Darwin's Paradox!", classification: hit, revenue_estimate: 395342, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2989180/85e634c779471ff86f90a844bca712f488a7b13c/capsule_231x87.jpg?t=1775420854" }
+      - { app_id: 2506530, title: "It Has My Face", classification: hit, revenue_estimate: 316788, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2506530/3de095f94901337c54254c7a597873d610618dc0/capsule_231x87.jpg?t=1775224648" }
 rising: []
 saturating:
-  - { tag: Strategy, delta: -26 }
-  - { tag: Action, delta: -25 }
-  - { tag: Exploration, delta: -9 }
+  - { tag: Sandbox, delta: -27 }
+  - { tag: Action, delta: -24 }
 niches:
-  - { tag: Open World Survival Craft, success_rate: 100, game_count: 2 }
-  - { tag: Survival, success_rate: 100, game_count: 4 }
-  - { tag: Exploration, success_rate: 100, game_count: 3 }
+  - { tag: Realistic, success_rate: 50, game_count: 2 }
+  - { tag: Story Rich, success_rate: 100, game_count: 2 }
+  - { tag: Post-apocalyptic, success_rate: 100, game_count: 2 }
 ---
 ## WEEKLY TAKE
 
-Survival owned this week: open world survival craft topped the composite scoreboard at 83, and the survival genre posted a perfect success rate across four titles. The broader hit rate cooled to 52% on 33 releases, with action and strategy pulling back sharply after last week's strong showing. Base building and colony sim tags filled in behind survival, pointing to a clear player appetite for systems-driven sandboxes.
+The hit rate eased back 8 points to 59% across 29 releases as the mix shifted toward gritty, serious tones. Survival held the top genre slot with four converting titles, and realistic, story rich, and post-apocalyptic all crossed 65 on the tag composite. Sandbox and action both gave back more than 20 points from last week, pointing to a natural rotation rather than broad weakness.
 
 ## TREND TAKE
 
-Exploration is the tag to watch: 100% success rate yet composite score slipped, meaning the hits are landing but revenue distribution is softening. Strategy and action's double-digit pullback suggests last week's AAA-driven highs were outliers, not trend. Survival's stability across weeks keeps looking like the most bankable genre bet for indie scoping right now.
+Two weeks in a row the same pattern is emerging: last week's headline categories cool while adjacent niches absorb the attention. Survival tags continue to perform, story rich keeps quietly converting, and the realism cluster is worth watching across the next few reports. Strategy is now in declining trend territory, so scope strategy projects against multi-week data, not single-release noise.
 
 ## SITE SUBTITLE
 
-Survival dominates. Strategy cools. Exploration holds a perfect success rate.
+Survival steadies. Story rich quietly converts. Sandbox cools off.
 
 ## SOCIAL CAPTION (Instagram / Threads / Bluesky)
 
-Week 15: 33 releases, 52% hit rate. Survival dominates with a perfect success rate across 4 titles. Open world survival craft tops the board. Full breakdown: wisegoosegames.com/steam-pulse/week-15
+Week 15: 29 releases, 59% hit rate. Survival holds top genre, realistic and story rich tags lead. Sandbox and action both give back 20+ points. wisegoosegames.com/steam-pulse/week-15
 
 ## REDDIT TITLE
 
-Steam Pulse Week 15: Survival sweeps with 100% success rate, hit rate cools to 52%
+Steam Pulse Week 15: Survival holds top, realistic tag leads, sandbox cools 27 points
 
 ## REDDIT HOOK
 
-Week 15 covered 33 releases with a 52% hit rate, down from last week's 67%. Survival dominated the scoreboard with a perfect success rate across four titles, while action and strategy both saw double-digit composite score declines.
+Week 15 covered 29 releases at a 59% hit rate, down 8 points week over week. Survival held its position at the top of the genre board while realistic, story rich, and post-apocalyptic tags led on the composite. Sandbox and action both pulled back more than 20 points from last week's highs.
 
 ## YOUTUBE SHORT HOOK
 
-Survival games just swept the Steam charts with a perfect hit rate this week.
+Survival games quietly outperformed everything else on Steam again this week.

@@ -1,128 +1,128 @@
 ---
 week: 18
-date: 2026-05-13
-period: "05/13/26"
-report_file: "report_20260513_133209.json"
-total_releases: 28
-hit_rate: 43
-hit_rate_delta: -14
-hit_count: 12
+date: 2026-04-29
+period: "04/29/26"
+report_file: "report_20260429_133237.json"
+total_releases: 42
+hit_rate: 57
+hit_rate_delta: 5
+hit_count: 24
 promising_count: 0
-niche_count: 1
+niche_count: 0
 genres:
-  - name: RPG
-    score: 85
-    trend: stable
-    game_count: 3
+  - name: Simulation
+    score: 65
+    trend: rising
+    game_count: 8
     top_games:
-      - { app_id: 2525510, title: "NITRO GEN OMEGA", classification: hit, revenue_estimate: 3208031, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2525510/0356e58528fc09e6fecbdd0ce90ff6e07889188c/capsule_231x87_alt_assets_5.jpg?t=1778572166" }
-      - { app_id: 3672400, title: "Farever", classification: hit, revenue_estimate: 2842060 }
-      - { app_id: 3110760, title: "Alabaster Dawn", classification: hit, revenue_estimate: 1700899, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3110760/6d0608220ab5a84b3c7659756416e65e8811a33e/capsule_231x87.jpg?t=1778168918" }
-  - name: Sandbox
-    score: 79
+      - { app_id: 2162800, title: "shapez 2 - Factory", classification: hit, revenue_estimate: 13488138, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2162800/382b67a9096e2f30d6538f3514f97689ad8b49b4/capsule_231x87_alt_assets_7.jpg?t=1776956035" }
+      - { app_id: 3562120, title: "Magical Princess", classification: hit, revenue_estimate: 2427256, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3562120/1ffbf0704551c1585a73d56599f6da08a8e227c6/capsule_231x87.jpg?t=1777348229" }
+      - { app_id: 2873660, title: "Global Rescue", classification: hit, revenue_estimate: 1385307, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2873660/65a0a5d82f0549f011a564df01dd0c74cef44902/capsule_231x87.jpg?t=1777303115" }
+  - name: Action
+    score: 63
+    trend: declining
+    game_count: 6
+    top_games:
+      - { app_id: 3124540, title: "Far Far West", classification: hit, revenue_estimate: 15323162, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3124540/ffc2ffae5774ee943e6c0e3e6e26ed801e781f29/capsule_231x87_alt_assets_3.jpg?t=1777406197" }
+      - { app_id: 590830, title: "s&box", classification: niche, revenue_estimate: 14919337 }
+      - { app_id: 1059220, title: "'83", classification: hit, revenue_estimate: 1326289 }
+  - name: Strategy
+    score: 59
+    trend: rising
+    game_count: 9
+    top_games:
+      - { app_id: 2162800, title: "shapez 2 - Factory", classification: hit, revenue_estimate: 13488138, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2162800/382b67a9096e2f30d6538f3514f97689ad8b49b4/capsule_231x87_alt_assets_7.jpg?t=1776956035" }
+      - { app_id: 3332600, title: "Cubic Cosmos", classification: hit, revenue_estimate: 2663111, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3332600/07cee2754a11bbf8e2cfbb87e60f33cefc7e6367/capsule_231x87_alt_assets_4.jpg?t=1777459972" }
+      - { app_id: 2873660, title: "Global Rescue", classification: hit, revenue_estimate: 1385307, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2873660/65a0a5d82f0549f011a564df01dd0c74cef44902/capsule_231x87.jpg?t=1777303115" }
+  - name: Anime
+    score: 52
     trend: stable
     game_count: 2
     top_games:
-      - { app_id: 2525510, title: "NITRO GEN OMEGA", classification: hit, revenue_estimate: 3208031, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2525510/0356e58528fc09e6fecbdd0ce90ff6e07889188c/capsule_231x87_alt_assets_5.jpg?t=1778572166" }
-      - { app_id: 2570210, title: "Eden Crafters", classification: hit, revenue_estimate: 1227872, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2570210/ccc5be077ecf2a2645de4106c80f74ae15b1cd7c/capsule_231x87.jpg?t=1778176464" }
+      - { app_id: 3562120, title: "Magical Princess", classification: hit, revenue_estimate: 2427256, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3562120/1ffbf0704551c1585a73d56599f6da08a8e227c6/capsule_231x87.jpg?t=1777348229" }
+      - { app_id: 2914150, title: "Yunyun Syndrome!? Rhythm Psychosis", classification: hit, revenue_estimate: 1680371, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2914150/28b42dfbb26fe6437e647e6acaf0b5f522eaff25/capsule_231x87.jpg?t=1777264751" }
   - name: Adventure
-    score: 75
-    trend: rising
-    game_count: 6
+    score: 51
+    trend: declining
+    game_count: 5
     top_games:
-      - { app_id: 2255370, title: "Directive 8020", classification: niche, revenue_estimate: 5080984 }
-      - { app_id: 2525510, title: "NITRO GEN OMEGA", classification: hit, revenue_estimate: 3208031, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2525510/0356e58528fc09e6fecbdd0ce90ff6e07889188c/capsule_231x87_alt_assets_5.jpg?t=1778572166" }
-      - { app_id: 2582320, title: "Mixtape", classification: hit, revenue_estimate: 2851055, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2582320/49a74db3ec8f153734bf6480ad0e5cf2db29a240/capsule_231x87.jpg?t=1778541597" }
-  - name: Strategy
-    score: 57
+      - { app_id: 2914150, title: "Yunyun Syndrome!? Rhythm Psychosis", classification: hit, revenue_estimate: 1680371, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2914150/28b42dfbb26fe6437e647e6acaf0b5f522eaff25/capsule_231x87.jpg?t=1777264751" }
+      - { app_id: 3856280, title: "holoVillage: Our Cozy Days", classification: hit, revenue_estimate: 699020, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3856280/4a161fabd1c1c02b2388738b7c1551e42bb974ce/capsule_231x87.jpg?t=1777017146" }
+      - { app_id: 4104120, title: "Undercover", classification: hit, revenue_estimate: 518687, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4104120/f4e1989f081c38f17b314c3f3161f0e05ed99f1b/capsule_231x87.jpg?t=1777358085" }
+tags:
+  - name: FPS
+    score: 87
     trend: stable
     game_count: 4
     top_games:
-      - { app_id: 2525510, title: "NITRO GEN OMEGA", classification: hit, revenue_estimate: 3208031, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2525510/0356e58528fc09e6fecbdd0ce90ff6e07889188c/capsule_231x87_alt_assets_5.jpg?t=1778572166" }
-      - { app_id: 3802470, title: "Turnbound", classification: hit, revenue_estimate: 217978, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3802470/4c29052262f463d668eeca6279791a8c211b73d7/capsule_231x87_alt_assets_3.jpg?t=1778234727" }
-      - { app_id: 2056200, title: "Summa Expeditionis", classification: hit, revenue_estimate: 146853, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2056200/5ef4090d48d5e4225f7acc01fc0fc6ef389ff69b/capsule_231x87_alt_assets_1.jpg?t=1778073708" }
-  - name: Action
-    score: 51
-    trend: declining
-    game_count: 6
-    top_games:
-      - { app_id: 3672400, title: "Farever", classification: hit, revenue_estimate: 2842060 }
-      - { app_id: 3110760, title: "Alabaster Dawn", classification: hit, revenue_estimate: 1700899, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3110760/6d0608220ab5a84b3c7659756416e65e8811a33e/capsule_231x87.jpg?t=1778168918" }
-      - { app_id: 3526710, title: "Everything is Crab: The Animal Evolution Roguelite", classification: hit, revenue_estimate: 823880, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3526710/c2d4ec993a1958fcbeae3a1b8bd71c0bab7f941b/capsule_231x87.jpg?t=1778230287" }
-tags:
-  - name: Open World
-    score: 82
-    trend: stable
-    game_count: 3
-    top_games:
-      - { app_id: 2525510, title: "NITRO GEN OMEGA", classification: hit, revenue_estimate: 3208031, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2525510/0356e58528fc09e6fecbdd0ce90ff6e07889188c/capsule_231x87_alt_assets_5.jpg?t=1778572166" }
-      - { app_id: 2681030, title: "Outbound", classification: hit, revenue_estimate: 2361450, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2681030/bd08ddcd2a4ab45d6bec5192f2122aaddee188aa/capsule_231x87.jpg?t=1778658908" }
-      - { app_id: 2570210, title: "Eden Crafters", classification: hit, revenue_estimate: 1227872, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2570210/ccc5be077ecf2a2645de4106c80f74ae15b1cd7c/capsule_231x87.jpg?t=1778176464" }
+      - { app_id: 3124540, title: "Far Far West", classification: hit, revenue_estimate: 15323162, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3124540/ffc2ffae5774ee943e6c0e3e6e26ed801e781f29/capsule_231x87_alt_assets_3.jpg?t=1777406197" }
+      - { app_id: 2307350, title: "Into the Radius 2", classification: hit, revenue_estimate: 6083473, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2307350/ca0b598cac4ca59e2ce30ea12eb26d2f4e5a3978/capsule_231x87.jpg?t=1777459908" }
+      - { app_id: 2981220, title: "Forefront", classification: hit, revenue_estimate: 2962462, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2981220/56debeb3451e74dddd84fd9d8a44f34b3bae0e66/capsule_231x87.jpg?t=1777363039" }
   - name: Online Co-Op
-    score: 73
-    trend: declining
-    game_count: 3
-    top_games:
-      - { app_id: 3672400, title: "Farever", classification: hit, revenue_estimate: 2842060 }
-      - { app_id: 2681030, title: "Outbound", classification: hit, revenue_estimate: 2361450, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2681030/bd08ddcd2a4ab45d6bec5192f2122aaddee188aa/capsule_231x87.jpg?t=1778658908" }
-      - { app_id: 3894440, title: "NO BACKUP", classification: promising, revenue_estimate: 284129 }
-  - name: Action RPG
-    score: 70
+    score: 81
     trend: stable
     game_count: 2
     top_games:
-      - { app_id: 3672400, title: "Farever", classification: hit, revenue_estimate: 2842060 }
-      - { app_id: 3110760, title: "Alabaster Dawn", classification: hit, revenue_estimate: 1700899, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3110760/6d0608220ab5a84b3c7659756416e65e8811a33e/capsule_231x87.jpg?t=1778168918" }
-  - name: Action-Adventure
-    score: 70
+      - { app_id: 3124540, title: "Far Far West", classification: hit, revenue_estimate: 15323162, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3124540/ffc2ffae5774ee943e6c0e3e6e26ed801e781f29/capsule_231x87_alt_assets_3.jpg?t=1777406197" }
+      - { app_id: 3618030, title: "Flock Around", classification: hit, revenue_estimate: 213850, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3618030/bcf8b4d7a14a016dfd2e549be4ec4b29ff0f3019/capsule_231x87.jpg?t=1777049893" }
+  - name: Early Access
+    score: 81
     trend: stable
     game_count: 2
     top_games:
-      - { app_id: 3672400, title: "Farever", classification: hit, revenue_estimate: 2842060 }
-      - { app_id: 3110760, title: "Alabaster Dawn", classification: hit, revenue_estimate: 1700899, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3110760/6d0608220ab5a84b3c7659756416e65e8811a33e/capsule_231x87.jpg?t=1778168918" }
-  - name: Base Building
-    score: 65
+      - { app_id: 3124540, title: "Far Far West", classification: hit, revenue_estimate: 15323162, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3124540/ffc2ffae5774ee943e6c0e3e6e26ed801e781f29/capsule_231x87_alt_assets_3.jpg?t=1777406197" }
+      - { app_id: 2840470, title: "SimplePlanes 2", classification: hit, revenue_estimate: 517572, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2840470/8a4336669ec7d8510a092777573353c69f7d1152/capsule_231x87.jpg?t=1777062499" }
+  - name: Realistic
+    score: 72
+    trend: stable
+    game_count: 2
+    top_games:
+      - { app_id: 2307350, title: "Into the Radius 2", classification: hit, revenue_estimate: 6083473, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2307350/ca0b598cac4ca59e2ce30ea12eb26d2f4e5a3978/capsule_231x87.jpg?t=1777459908" }
+      - { app_id: 1059220, title: "'83", classification: hit, revenue_estimate: 1326289 }
+  - name: Multiplayer
+    score: 71
     trend: stable
     game_count: 3
     top_games:
-      - { app_id: 2681030, title: "Outbound", classification: hit, revenue_estimate: 2361450, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2681030/bd08ddcd2a4ab45d6bec5192f2122aaddee188aa/capsule_231x87.jpg?t=1778658908" }
-      - { app_id: 2570210, title: "Eden Crafters", classification: hit, revenue_estimate: 1227872, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2570210/ccc5be077ecf2a2645de4106c80f74ae15b1cd7c/capsule_231x87.jpg?t=1778176464" }
-      - { app_id: 2056200, title: "Summa Expeditionis", classification: hit, revenue_estimate: 146853, capsule: "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2056200/5ef4090d48d5e4225f7acc01fc0fc6ef389ff69b/capsule_231x87_alt_assets_1.jpg?t=1778073708" }
+      - { app_id: 3124540, title: "Far Far West", classification: hit, revenue_estimate: 15323162, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3124540/ffc2ffae5774ee943e6c0e3e6e26ed801e781f29/capsule_231x87_alt_assets_3.jpg?t=1777406197" }
+      - { app_id: 2840470, title: "SimplePlanes 2", classification: hit, revenue_estimate: 517572, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2840470/8a4336669ec7d8510a092777573353c69f7d1152/capsule_231x87.jpg?t=1777062499" }
+      - { app_id: 3618030, title: "Flock Around", classification: hit, revenue_estimate: 213850, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3618030/bcf8b4d7a14a016dfd2e549be4ec4b29ff0f3019/capsule_231x87.jpg?t=1777049893" }
 rising:
-  - { tag: Adventure, delta: 24 }
+  - { tag: Simulation, delta: 22 }
+  - { tag: Strategy, delta: 7 }
 saturating:
-  - { tag: Simulation, delta: -28 }
-  - { tag: Early Access, delta: -24 }
-  - { tag: Action, delta: -12 }
+  - { tag: Adventure, delta: -16 }
+  - { tag: Resource Management, delta: -10 }
+  - { tag: Action, delta: -9 }
 niches:
-  - { tag: RPG, success_rate: 100, game_count: 3 }
-  - { tag: Open World, success_rate: 100, game_count: 3 }
-  - { tag: Sandbox, success_rate: 100, game_count: 2 }
+  - { tag: FPS, success_rate: 100, game_count: 4 }
+  - { tag: Online Co-Op, success_rate: 100, game_count: 2 }
+  - { tag: Early Access, success_rate: 100, game_count: 2 }
 ---
 ## WEEKLY TAKE
 
-Hit rate cooled 14 points to 43% across 28 releases as the genre mix shifted toward narrative-driven and world-driven experiences. RPG topped the composite board at 85 with a perfect success rate, and open world plus sandbox tags both held at 100% conversion. Adventure broke out with a +24 jump after slipping for two weeks, the largest single move on the board.
+A heavy release calendar (42 games, the biggest sample in months) lifted the hit rate to 57%, with multiplayer-flavored tags running the board. FPS topped composite scores at 87, and online co-op plus early access both posted perfect success rates. Simulation surged back to lead the genres while action and adventure cooled after recent peaks.
 
 ## TREND TAKE
 
-Last week's multiplayer surge fully reversed: simulation gave back 28 points, early access dropped 24, and online co-op slipped into declining trend. The pattern suggests the multiplayer cluster was driven by a few outsized weeks rather than a sustained shift. RPG and open world have been quietly bankable across the season: low release counts, high conversion, real revenue, the kind of niche worth scoping into.
+Simulation's +22 jump is the standout signal: after a quiet stretch, factory-style and management loops are converting at scale again. The multiplayer cluster (FPS, co-op, multiplayer) all clearing 70+ on the composite suggests team-based experiences are absorbing player attention. Adventure's slow week-over-week slide continues, worth tracking before scoping anything narrative-only.
 
 ## SITE SUBTITLE
 
-RPG dominates. Adventure rebounds. Multiplayer hype unwinds.
+Simulation surges. FPS dominates. Multiplayer is back on the menu.
 
 ## SOCIAL CAPTION (Instagram / Threads / Bluesky)
 
-Week 18: 28 releases, 43% hit rate. RPG tops the board at 85 with a perfect success rate. Adventure jumps +24, multiplayer cools fast. Full breakdown: wisegoosegames.com/steam-pulse/week-18
+Week 18: 42 releases, 57% hit rate. Simulation jumps +22, FPS leads tags at 87, online co-op posts a perfect success rate. Multiplayer week. Full breakdown: wisegoosegames.com/steam-pulse/week-18
 
 ## REDDIT TITLE
 
-Steam Pulse Week 18: RPG sweeps at 100% success, hit rate drops 14 points to 43%
+Steam Pulse Week 18: 42 releases, simulation surges +22, FPS and co-op sweep tags
 
 ## REDDIT HOOK
 
-Week 18 covered 28 releases at a 43% hit rate, down 14 points from last week. RPG, open world, and sandbox all posted perfect success rates, while last week's multiplayer momentum reversed sharply with simulation and early access both giving back 20-plus composite points.
+Week 18 covered 42 releases at a 57% hit rate, up 5 points week over week. Simulation jumped 22 composite points to lead the genre board, and the FPS/online co-op/multiplayer cluster all posted scores above 70 with multiple perfect success rates underneath.
 
 ## YOUTUBE SHORT HOOK
 
-RPGs just swept the Steam charts with a perfect hit rate this week.
+Multiplayer shooters just dominated every other genre on Steam this week.

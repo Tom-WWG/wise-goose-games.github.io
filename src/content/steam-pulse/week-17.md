@@ -1,128 +1,124 @@
 ---
 week: 17
-date: 2026-04-29
-period: "04/29/26"
-report_file: "report_20260429_133237.json"
-total_releases: 42
-hit_rate: 57
-hit_rate_delta: 5
-hit_count: 24
+date: 2026-04-22
+period: "04/22/26"
+report_file: "report_20260422_133214.json"
+total_releases: 23
+hit_rate: 52
+hit_rate_delta: 0
+hit_count: 12
 promising_count: 0
 niche_count: 0
 genres:
-  - name: Simulation
-    score: 65
-    trend: rising
-    game_count: 8
-    top_games:
-      - { app_id: 2162800, title: "shapez 2 - Factory", classification: hit, revenue_estimate: 13488138, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2162800/382b67a9096e2f30d6538f3514f97689ad8b49b4/capsule_231x87_alt_assets_7.jpg?t=1776956035" }
-      - { app_id: 3562120, title: "Magical Princess", classification: hit, revenue_estimate: 2427256, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3562120/1ffbf0704551c1585a73d56599f6da08a8e227c6/capsule_231x87.jpg?t=1777348229" }
-      - { app_id: 2873660, title: "Global Rescue", classification: hit, revenue_estimate: 1385307, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2873660/65a0a5d82f0549f011a564df01dd0c74cef44902/capsule_231x87.jpg?t=1777303115" }
   - name: Action
-    score: 63
-    trend: declining
-    game_count: 6
-    top_games:
-      - { app_id: 3124540, title: "Far Far West", classification: hit, revenue_estimate: 15323162, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3124540/ffc2ffae5774ee943e6c0e3e6e26ed801e781f29/capsule_231x87_alt_assets_3.jpg?t=1777406197" }
-      - { app_id: 590830, title: "s&box", classification: niche, revenue_estimate: 14919337 }
-      - { app_id: 1059220, title: "'83", classification: hit, revenue_estimate: 1326289 }
-  - name: Strategy
-    score: 59
-    trend: rising
-    game_count: 9
-    top_games:
-      - { app_id: 2162800, title: "shapez 2 - Factory", classification: hit, revenue_estimate: 13488138, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2162800/382b67a9096e2f30d6538f3514f97689ad8b49b4/capsule_231x87_alt_assets_7.jpg?t=1776956035" }
-      - { app_id: 3332600, title: "Cubic Cosmos", classification: hit, revenue_estimate: 2663111, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3332600/07cee2754a11bbf8e2cfbb87e60f33cefc7e6367/capsule_231x87_alt_assets_4.jpg?t=1777459972" }
-      - { app_id: 2873660, title: "Global Rescue", classification: hit, revenue_estimate: 1385307, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2873660/65a0a5d82f0549f011a564df01dd0c74cef44902/capsule_231x87.jpg?t=1777303115" }
-  - name: Anime
-    score: 52
+    score: 72
     trend: stable
-    game_count: 2
-    top_games:
-      - { app_id: 3562120, title: "Magical Princess", classification: hit, revenue_estimate: 2427256, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3562120/1ffbf0704551c1585a73d56599f6da08a8e227c6/capsule_231x87.jpg?t=1777348229" }
-      - { app_id: 2914150, title: "Yunyun Syndrome!? Rhythm Psychosis", classification: hit, revenue_estimate: 1680371, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2914150/28b42dfbb26fe6437e647e6acaf0b5f522eaff25/capsule_231x87.jpg?t=1777264751" }
-  - name: Adventure
-    score: 51
-    trend: declining
     game_count: 5
     top_games:
-      - { app_id: 2914150, title: "Yunyun Syndrome!? Rhythm Psychosis", classification: hit, revenue_estimate: 1680371, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2914150/28b42dfbb26fe6437e647e6acaf0b5f522eaff25/capsule_231x87.jpg?t=1777264751" }
-      - { app_id: 3856280, title: "holoVillage: Our Cozy Days", classification: hit, revenue_estimate: 699020, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3856280/4a161fabd1c1c02b2388738b7c1551e42bb974ce/capsule_231x87.jpg?t=1777017146" }
-      - { app_id: 4104120, title: "Undercover", classification: hit, revenue_estimate: 518687, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4104120/f4e1989f081c38f17b314c3f3161f0e05ed99f1b/capsule_231x87.jpg?t=1777358085" }
-tags:
-  - name: FPS
-    score: 87
+      - { app_id: 3357650, title: "PRAGMATA", classification: hit, revenue_estimate: 25199999, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3357650/3e7cf55cf72a980ac94cf45d4212e8f0cb566f7f/capsule_231x87.jpg?t=1776398844" }
+      - { app_id: 3265700, title: "Vampire Crawlers: The Turbo Wildcard from Vampire Survivors", classification: hit, revenue_estimate: 7309084, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3265700/7e1d03c69fe971343ba08977b7478882b90e0432/capsule_231x87.jpg?t=1776789234" }
+      - { app_id: 2416450, title: "MOUSE: P.I. For Hire", classification: hit, revenue_estimate: 6486837, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2416450/772ae02fc6ab5734887bc6621ed5cf7bcc739050/capsule_231x87.jpg?t=1776827803" }
+  - name: Adventure
+    score: 67
     trend: stable
     game_count: 4
     top_games:
-      - { app_id: 3124540, title: "Far Far West", classification: hit, revenue_estimate: 15323162, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3124540/ffc2ffae5774ee943e6c0e3e6e26ed801e781f29/capsule_231x87_alt_assets_3.jpg?t=1777406197" }
-      - { app_id: 2307350, title: "Into the Radius 2", classification: hit, revenue_estimate: 6083473, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2307350/ca0b598cac4ca59e2ce30ea12eb26d2f4e5a3978/capsule_231x87.jpg?t=1777459908" }
-      - { app_id: 2981220, title: "Forefront", classification: hit, revenue_estimate: 2962462, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2981220/56debeb3451e74dddd84fd9d8a44f34b3bae0e66/capsule_231x87.jpg?t=1777363039" }
-  - name: Online Co-Op
-    score: 81
+      - { app_id: 3357650, title: "PRAGMATA", classification: hit, revenue_estimate: 25199999, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3357650/3e7cf55cf72a980ac94cf45d4212e8f0cb566f7f/capsule_231x87.jpg?t=1776398844" }
+      - { app_id: 1700270, title: "Lucky Tower Ultimate", classification: hit, revenue_estimate: 1408345, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1700270/dc51ce0fc95b0fe52d314eaf356ce56aad9c18bf/capsule_231x87.jpg?t=1776354865" }
+      - { app_id: 1947910, title: "OPUS: Prism Peak", classification: hit, revenue_estimate: 677399, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1947910/9968e9a036b0b4223e181685ca407f9e2bac8ea7/capsule_231x87.jpg?t=1776777206" }
+  - name: Strategy
+    score: 52
+    trend: stable
+    game_count: 4
+    top_games:
+      - { app_id: 3265700, title: "Vampire Crawlers: The Turbo Wildcard from Vampire Survivors", classification: hit, revenue_estimate: 7309084, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3265700/7e1d03c69fe971343ba08977b7478882b90e0432/capsule_231x87.jpg?t=1776789234" }
+      - { app_id: 4128580, title: "BidKing", classification: niche, revenue_estimate: 873499 }
+      - { app_id: 3907940, title: "MMO98", classification: hit, revenue_estimate: 287956 }
+  - name: Casual
+    score: 43
+    trend: stable
+    game_count: 6
+    top_games:
+      - { app_id: 4128580, title: "BidKing", classification: niche, revenue_estimate: 873499 }
+      - { app_id: 2438680, title: "Airborne Empire", classification: hit, revenue_estimate: 867561, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2438680/4bf1a6bf236cb58c4f0794852831e880c6edabd4/capsule_231x87_alt_assets_0.jpg?t=1776438327" }
+      - { app_id: 3119540, title: "Scriptorium: Master of Manuscripts", classification: hit, revenue_estimate: 339917, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3119540/b096bb7412dee4d8939e97f609d438684d16ffcc/capsule_231x87.jpg?t=1776445731" }
+  - name: Simulation
+    score: 43
+    trend: stable
+    game_count: 6
+    top_games:
+      - { app_id: 4128580, title: "BidKing", classification: niche, revenue_estimate: 873499 }
+      - { app_id: 2213700, title: "Sintopia", classification: hit, revenue_estimate: 736957, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2213700/d8f02609d2e05344677c51241e971acff1d32a52/capsule_231x87.jpg?t=1776855172" }
+      - { app_id: 3119540, title: "Scriptorium: Master of Manuscripts", classification: hit, revenue_estimate: 339917, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3119540/b096bb7412dee4d8939e97f609d438684d16ffcc/capsule_231x87.jpg?t=1776445731" }
+tags:
+  - name: Funny
+    score: 83
     trend: stable
     game_count: 2
     top_games:
-      - { app_id: 3124540, title: "Far Far West", classification: hit, revenue_estimate: 15323162, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3124540/ffc2ffae5774ee943e6c0e3e6e26ed801e781f29/capsule_231x87_alt_assets_3.jpg?t=1777406197" }
-      - { app_id: 3618030, title: "Flock Around", classification: hit, revenue_estimate: 213850, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3618030/bcf8b4d7a14a016dfd2e549be4ec4b29ff0f3019/capsule_231x87.jpg?t=1777049893" }
-  - name: Early Access
-    score: 81
+      - { app_id: 3357650, title: "PRAGMATA", classification: hit, revenue_estimate: 25199999, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3357650/3e7cf55cf72a980ac94cf45d4212e8f0cb566f7f/capsule_231x87.jpg?t=1776398844" }
+      - { app_id: 4384120, title: "Worthy or Not", classification: hit, revenue_estimate: 287296, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4384120/c32ce58d511bd7440bad642bcc5de97b0294c071/capsule_231x87.jpg?t=1776751332" }
+  - name: Pixel Graphics
+    score: 54
     trend: stable
     game_count: 2
     top_games:
-      - { app_id: 3124540, title: "Far Far West", classification: hit, revenue_estimate: 15323162, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3124540/ffc2ffae5774ee943e6c0e3e6e26ed801e781f29/capsule_231x87_alt_assets_3.jpg?t=1777406197" }
-      - { app_id: 2840470, title: "SimplePlanes 2", classification: hit, revenue_estimate: 517572, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2840470/8a4336669ec7d8510a092777573353c69f7d1152/capsule_231x87.jpg?t=1777062499" }
-  - name: Realistic
-    score: 72
-    trend: stable
-    game_count: 2
-    top_games:
-      - { app_id: 2307350, title: "Into the Radius 2", classification: hit, revenue_estimate: 6083473, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2307350/ca0b598cac4ca59e2ce30ea12eb26d2f4e5a3978/capsule_231x87.jpg?t=1777459908" }
-      - { app_id: 1059220, title: "'83", classification: hit, revenue_estimate: 1326289 }
-  - name: Multiplayer
-    score: 71
+      - { app_id: 3265700, title: "Vampire Crawlers: The Turbo Wildcard from Vampire Survivors", classification: hit, revenue_estimate: 7309084, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3265700/7e1d03c69fe971343ba08977b7478882b90e0432/capsule_231x87.jpg?t=1776789234" }
+      - { app_id: 3946110, title: "Fracture Field", classification: hit, revenue_estimate: 283160, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3946110/3fbbdcfbaee3a23a0ca2aafb0816a7d81d0d8d91/capsule_231x87.jpg?t=1776845902" }
+  - name: Resource Management
+    score: 46
     trend: stable
     game_count: 3
     top_games:
-      - { app_id: 3124540, title: "Far Far West", classification: hit, revenue_estimate: 15323162, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3124540/ffc2ffae5774ee943e6c0e3e6e26ed801e781f29/capsule_231x87_alt_assets_3.jpg?t=1777406197" }
-      - { app_id: 2840470, title: "SimplePlanes 2", classification: hit, revenue_estimate: 517572, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2840470/8a4336669ec7d8510a092777573353c69f7d1152/capsule_231x87.jpg?t=1777062499" }
-      - { app_id: 3618030, title: "Flock Around", classification: hit, revenue_estimate: 213850, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3618030/bcf8b4d7a14a016dfd2e549be4ec4b29ff0f3019/capsule_231x87.jpg?t=1777049893" }
-rising:
-  - { tag: Simulation, delta: 22 }
-  - { tag: Strategy, delta: 7 }
+      - { app_id: 2438680, title: "Airborne Empire", classification: hit, revenue_estimate: 867561, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2438680/4bf1a6bf236cb58c4f0794852831e880c6edabd4/capsule_231x87_alt_assets_0.jpg?t=1776438327" }
+      - { app_id: 2213700, title: "Sintopia", classification: hit, revenue_estimate: 736957, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2213700/d8f02609d2e05344677c51241e971acff1d32a52/capsule_231x87.jpg?t=1776855172" }
+      - { app_id: 3946110, title: "Fracture Field", classification: hit, revenue_estimate: 283160, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3946110/3fbbdcfbaee3a23a0ca2aafb0816a7d81d0d8d91/capsule_231x87.jpg?t=1776845902" }
+  - name: 2D
+    score: 46
+    trend: stable
+    game_count: 2
+    top_games:
+      - { app_id: 1700270, title: "Lucky Tower Ultimate", classification: hit, revenue_estimate: 1408345, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1700270/dc51ce0fc95b0fe52d314eaf356ce56aad9c18bf/capsule_231x87.jpg?t=1776354865" }
+      - { app_id: 3907940, title: "MMO98", classification: hit, revenue_estimate: 287956 }
+  - name: City Builder
+    score: 44
+    trend: stable
+    game_count: 2
+    top_games:
+      - { app_id: 2438680, title: "Airborne Empire", classification: hit, revenue_estimate: 867561, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2438680/4bf1a6bf236cb58c4f0794852831e880c6edabd4/capsule_231x87_alt_assets_0.jpg?t=1776438327" }
+      - { app_id: 2086680, title: "Castle Craft", classification: hit, revenue_estimate: 539860, capsule: "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2086680/31962f50e7733512c12ee50210840ca34ee17411/capsule_231x87.jpg?t=1776640303" }
+rising: []
 saturating:
-  - { tag: Adventure, delta: -16 }
-  - { tag: Resource Management, delta: -10 }
-  - { tag: Action, delta: -9 }
+  - { tag: Exploration, delta: -25 }
 niches:
-  - { tag: FPS, success_rate: 100, game_count: 4 }
-  - { tag: Online Co-Op, success_rate: 100, game_count: 2 }
-  - { tag: Early Access, success_rate: 100, game_count: 2 }
+  - { tag: Funny, success_rate: 100, game_count: 2 }
+  - { tag: Action, success_rate: 80, game_count: 5 }
+  - { tag: Adventure, success_rate: 100, game_count: 4 }
 ---
 ## WEEKLY TAKE
 
-A heavy release calendar (42 games, the biggest sample in months) lifted the hit rate to 57%, with multiplayer-flavored tags running the board. FPS topped composite scores at 87, and online co-op plus early access both posted perfect success rates. Simulation surged back to lead the genres while action and adventure cooled after recent peaks.
+Action and adventure reclaimed the top slots this week as narrative-driven releases drove results across 23 games at a 52% hit rate. Survival dropped off the top five entirely after last week's sweep, replaced by casual and simulation holding steady in the middle tier. The funny tag spiked to 83 on the composite, a reminder that comedy-forward positioning can punch well above its release-count weight.
 
 ## TREND TAKE
 
-Simulation's +22 jump is the standout signal: after a quiet stretch, factory-style and management loops are converting at scale again. The multiplayer cluster (FPS, co-op, multiplayer) all clearing 70+ on the composite suggests team-based experiences are absorbing player attention. Adventure's slow week-over-week slide continues, worth tracking before scoping anything narrative-only.
+Exploration corrected hard this week with a 25-point composite drop, confirming last week's softening revenue signal. Action keeps bouncing between peaks and valleys week to week, which suggests picking action scope based on this data alone is unreliable. Funny and adventure tags quietly continue to deliver consistent hits: worth a second look for devs scoping next-up projects.
 
 ## SITE SUBTITLE
 
-Simulation surges. FPS dominates. Multiplayer is back on the menu.
+Action rebounds. Exploration crashes. Comedy quietly overperforms.
 
 ## SOCIAL CAPTION (Instagram / Threads / Bluesky)
 
-Week 17: 42 releases, 57% hit rate. Simulation jumps +22, FPS leads tags at 87, online co-op posts a perfect success rate. Multiplayer week. Full breakdown: wisegoosegames.com/steam-pulse/week-17
+Week 17: 23 releases, 52% hit rate. Action and adventure rebound to the top. Funny tag quietly overperforms at 83. Exploration drops 25 points. Full breakdown: wisegoosegames.com/steam-pulse/week-17
 
 ## REDDIT TITLE
 
-Steam Pulse Week 17: 42 releases, simulation surges +22, FPS and co-op sweep tags
+Steam Pulse Week 17: Action rebounds, exploration drops 25 points, funny tag leads
 
 ## REDDIT HOOK
 
-Week 17 covered 42 releases at a 57% hit rate, up 5 points week over week. Simulation jumped 22 composite points to lead the genre board, and the FPS/online co-op/multiplayer cluster all posted scores above 70 with multiple perfect success rates underneath.
+Week 17 covered 23 releases at a 52% hit rate, flat week-over-week. Action and adventure rebounded to the top of the genre board after last week's survival sweep, while exploration corrected 25 composite points on softening revenue.
 
 ## YOUTUBE SHORT HOOK
 
-Multiplayer shooters just dominated every other genre on Steam this week.
+Comedy games just outperformed every other tag on Steam this week.
